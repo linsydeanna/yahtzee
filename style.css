@@ -5,3 +5,7 @@ html {
 .dice-image {
   width: 40px;
 }
+
+.dice {
+  display:flex;
+}
