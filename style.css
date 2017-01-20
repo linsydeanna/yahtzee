@@ -2,10 +2,14 @@ html {
   background-color: #FBF5F3;
 }
 
-.dice-image {
+.die {
   width: 40px;
 }
 
 .dice {
   display: flex;
+}
+
+.die-kept {
+  border: 2px green solid;
 }
