@@ -4,44 +4,38 @@ $(document).ready(function() {
   var $rolls = 0;
 
   $( "#roll-button" ).click(function() {
-      if ($rolls === 3) {
-        console.log("No more rolls!")
-      } else if ($rolls === 2) {
-        for (var i = 1; i < 6; i++) {
-          var $die = document.getElementById("die-" + i + "");
+    if ($rolls >= 3) {
+      console.log("You have no rolls left!");
+    } else {
+      for (var i = 1; i < 6; i++) {
+        var $die = document.getElementById("die-" + i + "");
+        if (!$($die).hasClass( "die-kept" )) {
+          var $dieNumber = Math.floor( Math.random() * 6 ) + 1;
+          $die.setAttribute("dievalue", $dieNumber);
+          $die.src = "images/" + $dieNumber + ".svg";
+          $(".die-" + i + "").append($die);
+        };
+        if ($rolls === 2) {
           var $attribute = $die.getAttribute("dievalue");
           $diceValue.push(parseInt($attribute));
-          console.log($diceValue);
-        }
-      } else {
-        for (var i = 1; i < 6; i++) {
-          var $die = document.getElementById("die-" + i + "");
-          if (!$($die).hasClass( "die-kept" )) {
-            var $dieNumber = Math.floor( Math.random() * 6 ) + 1;
-            $die.setAttribute("dievalue", $dieNumber);
-            $die.src = "images/" + $dieNumber + ".svg";
-            $(".die-" + i + "").append($die);
-          };
         };
-      }
-      $rolls += 1;
-      console.log($rolls)
-    });
+      };
+    };
+    $rolls += 1;
+  });
 
   $( ".die" ).click(function() {
     if ($(event.target).hasClass( "die-kept" )) {
       $(event.target).removeClass( "die-kept" );
     } else {
       $(event.target).addClass( "die-kept" );
-      console.log(event.target)
     };
   });
 
-    $( "#score" ).click(function() {
-      $diceValue = [];
-      $rolls = 0;
-      $('img').removeClass( "die-kept" );
-      console.log($diceValue)
-    });
+  $( "#score" ).click(function() {
+    $diceValue = [];
+    $rolls = 0;
+    $('img').removeClass( "die-kept" );
+  });
 
 });
