@@ -10,7 +10,7 @@ $(document).ready(function() {
         for (var i = 1; i < 6; i++) {
           var $die = document.getElementById("die-" + i + "");
           var $attribute = $die.getAttribute("dievalue");
-          $diceValue.push($attribute);
+          $diceValue.push(parseInt($attribute));
           console.log($diceValue);
         }
       } else {
@@ -33,7 +33,15 @@ $(document).ready(function() {
       $(event.target).removeClass( "die-kept" );
     } else {
       $(event.target).addClass( "die-kept" );
+      console.log(event.target)
     };
   });
+
+    $( "#score" ).click(function() {
+      $diceValue = [];
+      $rolls = 0;
+      $('img').removeClass( "die-kept" );
+      console.log($diceValue)
+    });
 
 });
