@@ -38,4 +38,21 @@ $(document).ready(function() {
     $('img').removeClass( "die-kept" );
   });
 
+  $( ".upper" ).click(function() {
+    var $upper = document.getElementsByClassName('upper');
+    for (i = 0; i < 6; i++) {
+      if (event.target === $upper[i]) {
+        function matchNumber(die) {
+          return die === (i + 1);
+        }
+        var $score = $diceValue.filter(matchNumber)
+      }
+    }
+    function add(a, b) {
+      return a + b;
+    }
+    var $totalScore = $score.reduce(add, 0);
+    event.target.innerHTML = $totalScore
+  })
+
 });
