@@ -1,11 +1,115 @@
+.html {
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 .die {
-  width: 40px;
+  width: 70px;
 }
 
 .dice {
   display: flex;
+  justify-content: center;
+  justify-content: space-between;
+  padding: 10px 10px 0px 10px;
+  height: 12vh;
 }
 
 .die-kept {
   border: 2px green solid;
+}
+
+h1, .upper {
+  text-align: center;
+}
+
+.score-sheet {
+  height: 51vh;
+}
+
+#table-left {
+  width: 45%;
+  font-size: 16px;
+  border-right: 1px solid #ddd;
+  margin-bottom: 0px;
+}
+
+#table-right {
+  width: 55%;
+  font-size: 16px;
+  margin-bottom: 0px;
+}
+
+#header {
+  margin: 0px;
+  font-size: 30px;
+}
+
+.header {
+  background-color: #8DAA9D;
+  height: 12vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #7B0828;
+  font-family: 'Pacifico', cursive;
+}
+
+.main {
+  background-color: #FBF5F3;
+  height: 80vh;
+}
+
+.score-sheet {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  height: 8vh;
+}
+
+button {
+  width: 47%;
+  height: 40px;
+}
+
+#btn button {
+  font-size: 18px;
+}
+
+#turns {
+  margin: 0px;
+  font-size: 17px;
+}
+
+.turns {
+  text-align: center;
+  padding: 10px 10px 0px 10px;
+  height: 5vh;
+  color: #7B0828;
+}
+
+#current-score {
+  font-size: 17px;
+  margin: 0px;
+}
+
+#current-score p {
+  font-size: 22px;
+  margin-bottom: 0px;
+}
+
+.current-score {
+  text-align: center;
+  color: #7B0828;
+  padding: 10px;
+  height: 10vh;
 }

@@ -6,50 +6,107 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link type="text/css" rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
   <title>Yahtzee</title>
 </head>
 <body>
   <div>
-    <h1>Yahtzee</h1>
-    <div>
-      <table class="score-sheet table">
-        <tbody>
-          <tr>
-            <th scope="row">Ones</th>
-            <td class="upper">4</td>
-          </tr>
-          <tr>
-            <th scope="row">Twos</th>
-            <td class="upper">8</td>
-          </tr>
-          <tr>
-            <th scope="row">Threes</th>
-            <td class="upper">12</td>
-          </tr>
-          <tr>
-            <th scope="row">Fours</th>
-            <td class="upper">16</td>
-          </tr>
-          <tr>
-            <th scope="row">Fives</th>
-            <td class="upper">20</td>
-          </tr>
-          <tr>
-            <th scope="row">Sixes</th>
-            <td class="upper">24</td>
-          </tr>
-        </tbody>
-      </table>
-      <button type="button" class="btn btn-default" id="score">Score</button>
+    <div class="header">
+      <h1 id="header">Yahtzee</h1>
     </div>
-    <div class="dice">
-      <div class="die die-1"><img src="images/2.svg" id="die-1" alt="die"></div>
-      <div class="die die-2"><img src="images/4.svg" id="die-2" alt="die"></div>
-      <div class="die die-3"><img src="images/6.svg" id="die-3" alt="die"></div>
-      <div class="die die-4"><img src="images/1.svg" id="die-4" alt="die"></div>
-      <div class="die die-5"><img src="images/5.svg" id="die-5" alt="die"></div>
+    <div class="main">
+      <div class="current-score">
+        <h3 id="current-score"><p id="score">0</p>Current Score</h3>
+      </div>
+      <div class="score-sheet">
+        <table id="table-left" class="table">
+          <tbody>
+            <tr>
+              <th scope="row">Ones</th>
+              <td class="upper"></td>
+            </tr>
+            <tr>
+              <th scope="row">Twos</th>
+              <td class="upper"></td>
+            </tr>
+            <tr>
+              <th scope="row">Threes</th>
+              <td class="upper"></td>
+            </tr>
+            <tr>
+              <th scope="row">Fours</th>
+              <td class="upper"></td>
+            </tr>
+            <tr>
+              <th scope="row">Fives</th>
+              <td class="upper"></td>
+            </tr>
+            <tr>
+              <th scope="row">Sixes</th>
+              <td class="upper"></td>
+            </tr>
+            <tr>
+              <th scope="row">Bonus</th>
+              <td class="upper">0</td>
+            </tr>
+            <tr>
+              <th scope="row">Upper Total</th>
+              <td class="upper">0</td>
+            </tr>
+          </tbody>
+        </table>
+        <table id="table-right" class="table">
+          <tbody>
+            <tr>
+              <th scope="row">3 of a Kind</th>
+              <td class="upper"></td>
+            </tr>
+            <tr>
+              <th scope="row">4 of a Kind</th>
+              <td class="upper"></td>
+            </tr>
+            <tr>
+              <th scope="row">Full House</th>
+              <td class="upper"></td>
+            </tr>
+            <tr>
+              <th scope="row">Small Straight</th>
+              <td class="upper"></td>
+            </tr>
+            <tr>
+              <th scope="row">Large Straight</th>
+              <td class="upper"></td>
+            </tr>
+            <tr>
+              <th scope="row">YAHTZEE</th>
+              <td class="upper"></td>
+            </tr>
+            <tr>
+              <th scope="row">Chance</th>
+              <td class="upper"></td>
+            </tr>
+            <tr>
+              <th scope="row">Lower Total</th>
+              <td class="upper">0</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="turns">
+        <h3 id="turns"><span class="turns">13</span>Turns Left</h3>
+      </div>
+      <div class="dice">
+        <div class="die die-1"><img src="images/2.svg" id="die-1" alt="die"></div>
+        <div class="die die-2"><img src="images/4.svg" id="die-2" alt="die"></div>
+        <div class="die die-3"><img src="images/6.svg" id="die-3" alt="die"></div>
+        <div class="die die-4"><img src="images/1.svg" id="die-4" alt="die"></div>
+        <div class="die die-5"><img src="images/5.svg" id="die-5" alt="die"></div>
+      </div>
+      <div id="btn" class="buttons">
+        <button type="button" class="btn btn-default" id="roll-button">Roll</button>
+        <button type="button" class="btn btn-default" id="score">Score</button>
     </div>
-    <button type="button" class="btn btn-default" id="roll-button">Roll</button>
+    </div>
   </div>
   <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>

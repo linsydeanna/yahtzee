@@ -44,15 +44,15 @@ $(document).ready(function() {
       if (event.target === $upper[i]) {
         function matchNumber(die) {
           return die === (i + 1);
-        }
-        var $score = $diceValue.filter(matchNumber)
-      }
-    }
+        };
+        var $score = $diceValue.filter(matchNumber);
+      };
+    };
     function add(a, b) {
       return a + b;
-    }
+    };
     var $totalScore = $score.reduce(add, 0);
-    event.target.innerHTML = $totalScore
-  })
+    event.target.innerHTML = $totalScore;
+  });
 
 });
