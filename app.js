@@ -1,11 +1,23 @@
 $(document).ready(function() {
 
+  var $scoreButton = document.getElementById("score");
+  $($scoreButton).hide();
+  var $rollButton = document.getElementById("roll-button");
+
   var $diceValue = [];
   var $rolls = 0;
+  var $upperTotal = 0;
+  var $lowerTotal = 0;
 
   $( "#roll-button" ).click(function() {
+    $($scoreButton).show();
+    $($scoreButton).removeClass( "button-wide" );
+    $($rollButton).removeClass( "button-wide" );
     if ($rolls >= 3) {
       console.log("You have no rolls left!");
+    } else if ($rolls > 1) {
+      $($scoreButton).addClass( "button-wide" );
+      $($rollButton).hide();
     } else {
       for (var i = 1; i < 6; i++) {
         var $die = document.getElementById("die-" + i + "");
@@ -28,15 +40,8 @@ $(document).ready(function() {
     };
   });
 
-  $( "#score" ).click(function() {
-    $diceValue = [];
-    $rolls = 0;
-    $('img').removeClass( "die-kept" );
-  });
-
   $( ".total-number" ).click(function() {
     var $totalNumber = document.getElementsByClassName('total-number');
-    console.log($totalNumber)
     for (var i = 1; i < 6; i++) {
       var $die = document.getElementById("die-" + i + "");
       var $attribute = $die.getAttribute("dievalue");
@@ -48,33 +53,25 @@ $(document).ready(function() {
           return die === (i + 1);
         };
         var $score = $diceValue.filter(matchNumber);
-        console.log($score)
       };
-      console.log($score)
     };
     function add(a, b) {
       return a + b;
     };
-    console.log($score)
     var $totalScore = $score.reduce(add, 0);
     event.target.innerHTML = $totalScore;
   });
-
   $( ".specified" ).click(function() {
     var $itemScore = event.target.getAttribute("data-score");
-    console.log($itemScore);
     event.target.innerHTML = $itemScore;
   });
 
   $( ".total" ).click(function() {
-    console.log("diceValue is ", $diceValue);
     for (var i = 1; i < 6; i++) {
       var $die = document.getElementById("die-" + i + "");
       var $attribute = $die.getAttribute("dievalue");
       $diceValue.push(parseInt($attribute));
-      console.log("$diceValue in loop is ", $diceValue)
-    }
-    console.log("diceValue after is ", $diceValue);
+    };
     function add(a, b) {
       return a + b;
     };
@@ -82,5 +79,13 @@ $(document).ready(function() {
     event.target.innerHTML = $totalScore;
   });
 
+  $( "#score" ).click(function() {
+    $diceValue = [];
+    $rolls = 0;
+    $('img').removeClass( "die-kept" );
+    $($scoreButton).hide();
+    $($rollButton).show();
+    $($rollButton).addClass( "button-wide" );
+  });
 
 });

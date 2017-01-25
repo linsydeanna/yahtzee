@@ -85,6 +85,11 @@ button {
   font-size: 18px;
 }
 
+.button-wide {
+  width: 90%;
+  margin: 0 auto;
+}
+
 #turns {
   margin: 0px;
   font-size: 17px;
@@ -112,4 +117,13 @@ button {
   color: #7B0828;
   padding: 10px;
   height: 10vh;
+}
+
+td {
+  border-left: 1px solid #ddd;
+}
+
+.score-area:hover {
+  cursor: pointer;
+  background-color: #8DAA9D;
 }
