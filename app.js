@@ -8,6 +8,7 @@ $(document).ready(function() {
   var $rolls = 0;
   var $upperTotal = 0;
   var $lowerTotal = 0;
+  var $scoredItem;
 
   $( "#roll-button" ).click(function() {
     $($scoreButton).show();
@@ -41,6 +42,7 @@ $(document).ready(function() {
   });
 
   $( ".total-number" ).click(function() {
+    $scoredItem = event.target;
     var $totalNumber = document.getElementsByClassName('total-number');
     for (var i = 1; i < 6; i++) {
       var $die = document.getElementById("die-" + i + "");
@@ -62,11 +64,13 @@ $(document).ready(function() {
     event.target.innerHTML = $totalScore;
   });
   $( ".specified" ).click(function() {
+    $scoredItem = event.target;
     var $itemScore = event.target.getAttribute("data-score");
     event.target.innerHTML = $itemScore;
   });
 
   $( ".total" ).click(function() {
+    $scoredItem = event.target;
     for (var i = 1; i < 6; i++) {
       var $die = document.getElementById("die-" + i + "");
       var $attribute = $die.getAttribute("dievalue");
@@ -86,6 +90,23 @@ $(document).ready(function() {
     $($scoreButton).hide();
     $($rollButton).show();
     $($rollButton).addClass( "button-wide" );
+    $scoredItem.setAttribute("status", "scored");
   });
 
+  var $score = document.getElementsByClassName( "score" )
+  for (var i = 0; i < 6; i++) {
+    $score[i].setAttribute("status", "inactive");
+  }
+  console.log($score)
+
+  $( ".score" ).click(function() {
+      event.target.setAttribute("status", "active");
+      for (var i = 0; i < 13; i++) {
+        var $status = $score[i].getAttribute("status");
+        if ($score[i] !== event.target && $status !== 'scored') {
+          $score[i].setAttribute("status", "inactive");
+          $score[i].innerHTML = ''
+        }
+      }
+  });
 });
