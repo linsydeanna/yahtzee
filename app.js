@@ -9,6 +9,7 @@ $(document).ready(function() {
   var $upperTotal = 0;
   var $lowerTotal = 0;
   var $scoredItem;
+  var $turnCount = 13;
 
   $( "#roll-button" ).click(function() {
     $rolls += 1;
@@ -84,6 +85,8 @@ $(document).ready(function() {
     event.target.innerHTML = $totalScore;
   });
 
+  var $turns = document.getElementById("turns");
+
   $( "#score" ).click(function() {
     $diceValue = [];
     $rolls = 0;
@@ -92,6 +95,10 @@ $(document).ready(function() {
     $($rollButton).show();
     $($rollButton).addClass( "button-wide" );
     $scoredItem.setAttribute("status", "scored");
+    $turnCount -= 1;
+    console.log("$turnCount is ", $turnCount)
+    $turns.innerHTML = $turnCount;
+
   });
 
   var $score = document.getElementsByClassName( "score" )
