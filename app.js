@@ -11,15 +11,17 @@ $(document).ready(function() {
   var $scoredItem;
 
   $( "#roll-button" ).click(function() {
+    $rolls += 1;
     $($scoreButton).show();
     $($scoreButton).removeClass( "button-wide" );
     $($rollButton).removeClass( "button-wide" );
-    if ($rolls >= 3) {
+    if ($rolls >= 4) {
       console.log("You have no rolls left!");
-    } else if ($rolls > 1) {
-      $($scoreButton).addClass( "button-wide" );
-      $($rollButton).hide();
     } else {
+      if ($rolls >= 3) {
+        $($scoreButton).addClass( "button-wide" );
+        $($rollButton).hide();
+      }
       for (var i = 1; i < 6; i++) {
         var $die = document.getElementById("die-" + i + "");
         if (!$($die).hasClass( "die-kept" )) {
@@ -30,7 +32,6 @@ $(document).ready(function() {
         };
       };
     };
-    $rolls += 1;
   });
 
   $( ".die" ).click(function() {
