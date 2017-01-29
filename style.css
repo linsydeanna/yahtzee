@@ -85,6 +85,11 @@ button {
   font-size: 18px;
 }
 
+#rolls-remaining {
+  border-radius: 3px;
+  margin-left: 10px;
+}
+
 .button-wide {
   width: 90%;
   margin: 0 auto;

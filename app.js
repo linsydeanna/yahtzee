@@ -3,6 +3,7 @@ $(document).ready(function() {
   var $scoreButton = document.getElementById("score");
   $($scoreButton).hide();
   var $rollButton = document.getElementById("roll-button");
+  var $buttonRollCount = document.getElementById("rolls-remaining");
 
   var $diceValue = [];
   var $rolls = 0;
@@ -10,9 +11,12 @@ $(document).ready(function() {
   var $lowerTotal = 0;
   var $scoredItem;
   var $turnCount = 13;
+  var $rollsRemaining = 3;
 
   $( "#roll-button" ).click(function() {
     $rolls += 1;
+    $rollsRemaining -= 1;
+    $buttonRollCount.innerHTML = $rollsRemaining
     $($scoreButton).show();
     $($scoreButton).removeClass( "button-wide" );
     $($rollButton).removeClass( "button-wide" );
@@ -90,22 +94,21 @@ $(document).ready(function() {
   $( "#score" ).click(function() {
     $diceValue = [];
     $rolls = 0;
+    $rollsRemaining = 3;
+    $buttonRollCount.innerHTML = 3;
     $('img').removeClass( "die-kept" );
     $($scoreButton).hide();
     $($rollButton).show();
     $($rollButton).addClass( "button-wide" );
     $scoredItem.setAttribute("status", "scored");
     $turnCount -= 1;
-    console.log("$turnCount is ", $turnCount)
     $turns.innerHTML = $turnCount;
-
   });
 
   var $score = document.getElementsByClassName( "score" )
   for (var i = 0; i < 6; i++) {
     $score[i].setAttribute("status", "inactive");
   }
-  console.log($score)
 
   $( ".score" ).click(function() {
       event.target.setAttribute("status", "active");
