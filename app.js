@@ -68,6 +68,7 @@ $(document).ready(function() {
     };
     var $totalScore = $score.reduce(add, 0);
     event.target.innerHTML = $totalScore;
+    $diceValue = [];
   });
   $( ".specified" ).click(function() {
     $scoredItem = event.target;
@@ -87,6 +88,7 @@ $(document).ready(function() {
     };
     var $totalScore = $diceValue.reduce(add, 0);
     event.target.innerHTML = $totalScore;
+    $diceValue = [];
   });
 
   var $turns = document.getElementById("turns");
