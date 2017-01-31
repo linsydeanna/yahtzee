@@ -12,11 +12,12 @@
   var lowerTotal = 0;
   var scoredItem;
   var turnCount = 13;
+  var scoreForTotal;
 
   $( "#roll-button" ).click(function() {
     rolls += 1;
     rollsRemaining -= 1;
-    buttonRollCount.innerHTML = rollsRemaining
+    buttonRollCount.innerHTML = rollsRemaining;
     $(scoreButton).show();
     $(scoreButton).removeClass( "button-wide" );
     $(rollButton).removeClass( "button-wide" );
@@ -26,7 +27,7 @@
       if (rolls >= 3) {
         $(scoreButton).addClass( "button-wide" );
         $(rollButton).hide();
-      }
+      };
       for (var i = 1; i < 6; i++) {
         var die = document.getElementById("die-" + i + "");
         if (!$(die).hasClass( "die-kept" )) {
@@ -69,8 +70,9 @@
       };
       var totalScore = score.reduce(add, 0);
       event.target.innerHTML = totalScore;
+      scoreForTotal = totalScore;
       diceValue = [];
-    }
+    };
   });
 
   $( ".specified" ).click(function() {
@@ -78,7 +80,7 @@
       scoredItem = event.target;
       var itemScore = event.target.getAttribute("data-score");
       event.target.innerHTML = itemScore;
-    }
+    };
   });
 
   $( ".total" ).click(function() {
@@ -95,10 +97,13 @@
       var totalScore = diceValue.reduce(add, 0);
       event.target.innerHTML = totalScore;
       diceValue = [];
-    }
+    };
   });
 
   $( "#score" ).click(function() {
+    upperTotal += scoreForTotal;
+    var upperTotalScore = document.getElementById('upper-total');
+    upperTotalScore.innerHTML = upperTotal;
     rolls = 0;
     rollsRemaining = 3;
     buttonRollCount.innerHTML = 3;
@@ -127,6 +132,6 @@
           score[i].innerHTML = '';
         };
       };
-    }
+    };
   });
 // });
