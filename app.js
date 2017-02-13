@@ -71,6 +71,7 @@
       var totalScore = score.reduce(add, 0);
       event.target.innerHTML = totalScore;
       scoreForTotal = totalScore;
+      console.log("scoreForTotal is ", scoreForTotal);
       diceValue = [];
     };
   });
@@ -80,6 +81,22 @@
       scoredItem = event.target;
       var itemScore = event.target.getAttribute("data-score");
       event.target.innerHTML = itemScore;
+      for (var i = 1; i < 6; i++) {
+        var die = document.getElementById("die-" + i + "");
+        var attribute = die.getAttribute("dievalue");
+        diceValue.push(parseInt(attribute));
+      };
+      if ($(event.target).hasClass( "yahtzee" )) {
+        var yahtzee = function checkForYahtzee(dice) {
+         return dice.every(die => die === dice[0]);
+        }
+        if (yahtzee(diceValue)) {
+          event.target.innerHTML = itemScore;
+        } else {
+          event.target.innerHTML = 0;
+        }
+      }
+      diceValue = [];
     };
   });
 
@@ -100,8 +117,11 @@
     };
   });
 
+  //the function below is impure!! because it relies on outside state/shared state
+
   $( "#score" ).click(function() {
     upperTotal += scoreForTotal;
+    console.log("upperTotal is ", upperTotal);
     var upperTotalScore = document.getElementById('upper-total');
     upperTotalScore.innerHTML = upperTotal;
     rolls = 0;
