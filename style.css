@@ -10,6 +10,10 @@
   width: 70px;
 }
 
+img {
+  border-radius: 10px;
+}
+
 .die-start {
   transform: translateX(-600%);
 }
@@ -23,7 +27,7 @@
 }
 
 .die-kept {
-  border: 2px green solid;
+  border: 3px #7B0828 solid;
 }
 
 .die-animate {

@@ -130,7 +130,6 @@
       bonusArea.innerHTML = 35;
       upperTotal += 35
     }
-    console.log("upperTotal is ", upperTotal);
     var upperTotalScore = document.getElementById('upper-total');
     upperTotalScore.innerHTML = upperTotal;
     rolls = 0;
@@ -155,10 +154,6 @@
   };
 
   $( ".score" ).click(function() {
-    console.log("scoreForUpperTotal ", scoreForUpperTotal);
-    if ($(event.target).hasClass( "total-number" )) {
-      console.log("event.target is ", event.target);
-    }
     if (rolls >= 1) {
       event.target.setAttribute("status", "active");
       for (var i = 0; i < 13; i++) {
