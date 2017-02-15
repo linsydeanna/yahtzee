@@ -4,6 +4,7 @@
   $(scoreButton).hide();
   var rollButton = document.getElementById("roll-button");
   var buttonRollCount = document.getElementById("rolls-remaining");
+  var dice = document.getElementsByClassName('die');
 
   var diceValue = [];
   var rolls = 0;
@@ -15,6 +16,11 @@
   var scoreForTotal;
 
   $( "#roll-button" ).click(function() {
+    if (rolls < 1) {
+      $(dice).removeClass( "die-animate-two" );
+      $(dice).addClass( "die-animate" );
+      $(dice).removeClass( "die-start" );
+    }
     rolls += 1;
     rollsRemaining -= 1;
     buttonRollCount.innerHTML = rollsRemaining;
@@ -22,7 +28,6 @@
     $(scoreButton).removeClass( "button-wide" );
     $(rollButton).removeClass( "button-wide" );
     if (rolls >= 4) {
-      console.log("You have no rolls left!");
     } else {
       if (rolls >= 3) {
         $(scoreButton).addClass( "button-wide" );
@@ -71,7 +76,6 @@
       var totalScore = score.reduce(add, 0);
       event.target.innerHTML = totalScore;
       scoreForTotal = totalScore;
-      console.log("scoreForTotal is ", scoreForTotal);
       diceValue = [];
     };
   });
@@ -117,11 +121,7 @@
     };
   });
 
-  //the function below is impure!! because it relies on outside state/shared state
-
   $( "#score" ).click(function() {
-    upperTotal += scoreForTotal;
-    console.log("upperTotal is ", upperTotal);
     var upperTotalScore = document.getElementById('upper-total');
     upperTotalScore.innerHTML = upperTotal;
     rolls = 0;
@@ -135,6 +135,9 @@
     turnCount -= 1;
     var turns = document.getElementById("turns");
     turns.innerHTML = turnCount;
+    $(dice).removeClass( "die-animate" );
+    $(dice).addClass( "die-animate-two" );
+    $(dice).addClass( "die-start" );
   });
 
   var score = document.getElementsByClassName( "score" );

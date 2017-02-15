@@ -10,6 +10,10 @@
   width: 70px;
 }
 
+.die-start {
+  transform: translateX(-600%);
+}
+
 .dice {
   display: flex;
   justify-content: center;
@@ -20,6 +24,32 @@
 
 .die-kept {
   border: 2px green solid;
+}
+
+.die-animate {
+  animation: roll-in 2s;
+}
+
+@keyframes roll-in {
+  0% {
+    transform: translateX(-600%) scale(.7) rotate(0deg);
+  }
+  100% {
+    transform: translateX(0) scale(1) rotate(360deg);
+  }
+}
+
+.die-animate-two {
+  animation: roll-out 2s;
+}
+
+@keyframes roll-out {
+  0% {
+    transform: translateX(0) scale(1);
+  }
+  100% {
+    transform: translateX(600%) scale(.5);
+  }
 }
 
 h1, .upper {
