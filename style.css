@@ -156,6 +156,11 @@ button {
 
 td {
   border-left: 1px solid #ddd;
+  text-align: center;
+}
+
+.score-area {
+  width: 40px;
 }
 
 .score-area:hover {

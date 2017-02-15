@@ -14,7 +14,6 @@
   var scoredItem;
   var turnCount = 13;
   var scoreForUpperTotal;
-  var bonus = 0;
 
   $( "#roll-button" ).click(function() {
     if (rolls < 1) {
@@ -126,6 +125,11 @@
 
   $( "#score" ).click(function() {
     upperTotal += scoreForUpperTotal;
+    if (upperTotal > 62) {
+      var bonusArea = document.getElementById('bonus');
+      bonusArea.innerHTML = 35;
+      upperTotal += 35
+    }
     console.log("upperTotal is ", upperTotal);
     var upperTotalScore = document.getElementById('upper-total');
     upperTotalScore.innerHTML = upperTotal;
