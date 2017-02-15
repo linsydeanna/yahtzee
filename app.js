@@ -13,7 +13,8 @@
   var lowerTotal = 0;
   var scoredItem;
   var turnCount = 13;
-  var scoreForTotal;
+  var scoreForUpperTotal;
+  var bonus = 0;
 
   $( "#roll-button" ).click(function() {
     if (rolls < 1) {
@@ -75,7 +76,7 @@
       };
       var totalScore = score.reduce(add, 0);
       event.target.innerHTML = totalScore;
-      scoreForTotal = totalScore;
+      scoreForUpperTotal = totalScore;
       diceValue = [];
     };
   });
@@ -101,6 +102,7 @@
         }
       }
       diceValue = [];
+      scoreForUpperTotal = 0;
     };
   });
 
@@ -118,10 +120,13 @@
       var totalScore = diceValue.reduce(add, 0);
       event.target.innerHTML = totalScore;
       diceValue = [];
+      scoreForUpperTotal = 0;
     };
   });
 
   $( "#score" ).click(function() {
+    upperTotal += scoreForUpperTotal;
+    console.log("upperTotal is ", upperTotal);
     var upperTotalScore = document.getElementById('upper-total');
     upperTotalScore.innerHTML = upperTotal;
     rolls = 0;
@@ -146,6 +151,10 @@
   };
 
   $( ".score" ).click(function() {
+    console.log("scoreForUpperTotal ", scoreForUpperTotal);
+    if ($(event.target).hasClass( "total-number" )) {
+      console.log("event.target is ", event.target);
+    }
     if (rolls >= 1) {
       event.target.setAttribute("status", "active");
       for (var i = 0; i < 13; i++) {
