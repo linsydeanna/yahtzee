@@ -1,9 +1,22 @@
 .html {
   margin: 0;
+  padding: 0;
 }
 
 * {
   box-sizing: border-box;
+}
+
+.game-container {
+  height: 100vh;
+  margin: 0 auto;
+  width: 54vh;
+}
+
+@media (max-width: 400px) {
+  .game-container {
+    width: 100%;
+  }
 }
 
 .die {
