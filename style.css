@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  font-family: 'Work Sans', sans-serif;
 }
 
 html, body {
@@ -11,21 +12,26 @@ body {
   display: flex;
 }
 
+p {
+  margin: 0;
+}
+
 .game-container {
   height: 95vh;
   margin: 0 auto;
   position: relative;
   width: 55vh;
-  z-index: 3;
 }
 
 @media (max-width: 400px) {
   .game-container {
-    width: 100%;
+    height: 100vh;
+    margin: 0;
+    width: 100vw;
   }
 }
 
-.main {
+main {
   background-color: #F0EDEE;
   overflow: hidden;
 }
@@ -34,25 +40,13 @@ body {
 
 /* header section */
 
-#header {
-  margin: 0px;
-  font-size: 40px;
-}
-
-.header {
+header {
+  align-items: center;
   background-color: #191923;
-  height: 12vh;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   color: #FFFFFF;
-  font-family: 'Work Sans', sans-serif;
-}
-
-#turns-counter {
-  margin: 0px;
-  font-size: 17px;
+  display: flex;
+  height: 12vh;
+  justify-content: center;
 }
 
 
@@ -69,7 +63,6 @@ body {
 .current-score-section p {
   color: #191923;
   text-align: center;
-  /* margin-bottom: 0px; */
 }
 
 .current-score {
@@ -82,10 +75,22 @@ body {
 
 
 
+/* turns remaining section */
+
+.turns-section {
+  align-items: center;
+  color: #191923;
+  display: flex;
+  font-size: 20px;
+  height: 5vh;
+  justify-content: center;
+}
+
+
+
 /* score sheet section */
 
 .score-sheet {
-  background-color: #AFADAE;
   border-top: 1px solid #AFADAE;
   border-bottom: 1px solid #AFADAE;
   display: grid;
@@ -109,12 +114,22 @@ body {
   align-items: center;
   background-color: #F0EDEE;
   border-right: 1px solid #AFADAE;
+  border-bottom: 1px solid #AFADAE;
   display: flex;
-  padding: 10px;
+  padding-left: 10px;
+}
+
+.total {
+  align-items: center;
+  background-color: #AFADAE;
+  border-right: 1px solid #FFFFFF;
+  display: flex;
+  padding-left: 10px;
 }
 
 .score-area {
   background-color: #F0EDEE;
+  border-bottom: 1px solid #AFADAE;
 }
 
 .score-area:hover {
@@ -128,8 +143,9 @@ body {
 /* dice section */
 
 .die {
-  width: 70px;
+  width: 15%;
   position: relative;
+  cursor: pointer;
   z-index: 1;
 }
 
@@ -146,10 +162,12 @@ img {
   justify-content: center;
   justify-content: space-between;
   height: 12vh;
+  margin: 0 auto;
+  width: 95%;
 }
 
 .die-kept {
-  border: 3px #191923 solid;
+  border: 5px solid #BF1363;
 }
 
 .die-animate {
@@ -180,29 +198,18 @@ img {
 
 
 
-/* turns remaining section */
-
-.turns-section {
-  align-items: center;
-  color: #191923;
-  display: flex;
-  font-size: 20px;
-  height: 5vh;
-  justify-content: center;
-}
-
-
-
 /* buttons section */
 
 .buttons {
   display: flex;
   justify-content: space-between;
   height: 8vh;
+  margin: 0 auto;
+  width: 95%;
 }
 
 button {
-  width: 47%;
+  width: 45%;
   height: 40px;
 }
 

@@ -14,10 +14,10 @@
 
 <body>
   <div class="game-container">
-    <header class="header">
-      <h1 id="header">YAHTZEE</h1>
+    <header>
+      <h1>YAHTZEE</h1>
     </header>
-    <section class="main">
+    <main>
       <section class="current-score-section">
         <div>
           <p class="current-score">
@@ -30,10 +30,10 @@
       </section>
       <section class="score-sheet">
         <div class="score-sheet-half score-sheet-left">
-          <div class="combination t">Ones</div>
-          <div class="score-area ones t"></div>
-          <div class="combination t">Twos</div>
-          <div class="score-area twos t"></div>
+          <div class="combination">Ones</div>
+          <div class="score-area ones"></div>
+          <div class="combination">Twos</div>
+          <div class="score-area twos"></div>
           <div class="combination">Threes</div>
           <div class="score-area threes"></div>
           <div class="combination">Fours</div>
@@ -43,27 +43,27 @@
           <div class="combination">Sixes</div>
           <div class="score-area sixes"></div>
           <div class="combination">Bonus</div>
-          <div class="score-area sixes"></div>
-          <div class="combination">Total</div>
-          <div class="score-area sixes"></div>
+          <div class="score-area bonus"></div>
+          <div class="total">Total</div>
+          <div class="left-total total"></div>
         </div>
         <div class="score-sheet-half">
-          <div class="combination t">Three of a Kind</div>
-          <div class="score-area ones t"></div>
-          <div class="combination t">Four of a Kind</div>
-          <div class="score-area twos t"></div>
+          <div class="combination">Three of a Kind</div>
+          <div class="score-area"></div>
+          <div class="combination">Four of a Kind</div>
+          <div class="score-area"></div>
           <div class="combination">Full House</div>
-          <div class="score-area threes"></div>
+          <div class="score-area"></div>
           <div class="combination">Small Straight</div>
-          <div class="score-area fours"></div>
+          <div class="score-area"></div>
           <div class="combination">Large Straight</div>
-          <div class="score-area fives"></div>
+          <div class="score-area"></div>
           <div class="combination">Yahtzee</div>
-          <div class="score-area sixes"></div>
+          <div class="score-area"></div>
           <div class="combination">Chance</div>
-          <div class="score-area sixes"></div>
-          <div class="combination">Total</div>
-          <div class="score-area sixes"></div>
+          <div class="score-area"></div>
+          <div class="total">Total</div>
+          <div class="right-total total"></div>
         </div>
       </section>
       <section class="turns-section">
@@ -97,7 +97,7 @@
         </button>
         <button type="button" class="btn btn-default" id="score">Score</button>
       </section>
-    </section>
+    </main>
   </div>
   <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
