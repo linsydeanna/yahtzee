@@ -1,16 +1,24 @@
-.html {
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-* {
-  box-sizing: border-box;
+p {
+  margin: 0;
+}
+
+.background {
+  position: relative;
+  z-index: 2;
 }
 
 .game-container {
-  height: 100vh;
+  height: 95vh;
   margin: 0 auto;
-  width: 54vh;
+  position: relative;
+  width: 55vh;
+  z-index: 3;
 }
 
 @media (max-width: 400px) {
@@ -21,6 +29,8 @@
 
 .die {
   width: 70px;
+  position: relative;
+  z-index: 1;
 }
 
 img {
@@ -28,7 +38,7 @@ img {
 }
 
 .die-start {
-  transform: translateX(-600%);
+  transform: translateX(-700%);
 }
 
 .dice {
@@ -40,7 +50,7 @@ img {
 }
 
 .die-kept {
-  border: 3px #7B0828 solid;
+  border: 3px #191923 solid;
 }
 
 .die-animate {
@@ -49,7 +59,7 @@ img {
 
 @keyframes roll-in {
   0% {
-    transform: translateX(-600%) scale(.7) rotate(0deg);
+    transform: translateX(-700%) scale(.7) rotate(0deg);
   }
   100% {
     transform: translateX(0) scale(1) rotate(360deg);
@@ -74,7 +84,7 @@ h1, .upper {
 }
 
 .score-sheet {
-  height: 51vh;
+  height: 55vh;
 }
 
 #table-left {
@@ -90,25 +100,33 @@ h1, .upper {
   margin-bottom: 0px;
 }
 
+
+
+/* header section */
+
 #header {
   margin: 0px;
-  font-size: 30px;
+  font-size: 40px;
 }
 
 .header {
-  background-color: #8DAA9D;
+  background-color: #191923;
   height: 12vh;
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  color: #7B0828;
-  font-family: 'Pacifico', cursive;
+  color: #FFFFFF;
+  font-family: 'Work Sans', sans-serif;
 }
+
+
+
+
 
 .main {
   background-color: #FBF5F3;
-  height: 80vh;
+  overflow: hidden;
 }
 
 .score-sheet {
@@ -154,22 +172,32 @@ button {
   color: #7B0828;
 }
 
-#current-score {
-  font-size: 17px;
-  margin: 0px;
+
+
+/* current score section */
+
+.current-score-section {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 10vh;
 }
 
-#current-score p {
-  font-size: 22px;
-  margin-bottom: 0px;
+.current-score-section p {
+  color: #191923;
+  text-align: center;
+  /* margin-bottom: 0px; */
 }
 
 .current-score {
-  text-align: center;
-  color: #7B0828;
-  padding: 10px;
-  height: 10vh;
+  font-size: 30px;
 }
+
+.current-score-text {
+  font-size: 20px;
+}
+
+
 
 td {
   border-left: 1px solid #ddd;
