@@ -209,15 +209,12 @@ img {
 }
 
 button {
-  width: 45%;
-  height: 40px;
-}
-
-#btn button {
   font-size: 18px;
+  height: 50%;
+  width: 45%;
 }
 
-#rolls-remaining {
+.rolls-remaining {
   border-radius: 3px;
   margin-left: 10px;
 }
@@ -225,4 +222,8 @@ button {
 .button-wide {
   width: 90%;
   margin: 0 auto;
+}
+
+.button-invisible {
+  display: none;
 }
