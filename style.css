@@ -148,13 +148,6 @@ button {
   font-size: 17px;
 }
 
-.turns {
-  text-align: center;
-  padding: 10px 10px 0px 10px;
-  height: 5vh;
-  color: #7B0828;
-}
-
 
 
 /* current score section */
@@ -221,4 +214,17 @@ button {
   cursor: pointer;
   color: #FFFFFF;
   background-color: #191923;  
+}
+
+
+
+/* turns section */
+
+.turns-section {
+  align-items: center;
+  color: #191923;
+  display: flex;
+  font-size: 20px;
+  height: 5vh;
+  justify-content: center;
 }
