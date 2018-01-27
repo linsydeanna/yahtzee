@@ -83,23 +83,6 @@ h1, .upper {
   text-align: center;
 }
 
-.score-sheet {
-  height: 55vh;
-}
-
-#table-left {
-  width: 45%;
-  font-size: 16px;
-  border-right: 1px solid #ddd;
-  margin-bottom: 0px;
-}
-
-#table-right {
-  width: 55%;
-  font-size: 16px;
-  margin-bottom: 0px;
-}
-
 
 
 /* header section */
@@ -125,7 +108,7 @@ h1, .upper {
 
 
 .main {
-  background-color: #FBF5F3;
+  background-color: #F0EDEE;
   overflow: hidden;
 }
 
@@ -199,16 +182,43 @@ button {
 
 
 
-td {
-  border-left: 1px solid #ddd;
-  text-align: center;
+/* score sheet section */
+
+.score-sheet {
+  background-color: #AFADAE;
+  border-top: 1px solid #AFADAE;
+  border-bottom: 1px solid #AFADAE;
+  display: grid;
+  height: 55vh;
+  font-size: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 2px;
+}
+
+.score-sheet-left {
+  border-right: 1px solid #AFADAE;
+}
+
+.score-sheet-half {
+  display: grid;
+  grid-template-columns: 5fr 1fr;
+  grid-gap: 2px;
+}
+
+.combination {
+  align-items: center;
+  background-color: #F0EDEE;
+  border-right: 1px solid #AFADAE;
+  display: flex;
+  padding: 10px;
 }
 
 .score-area {
-  width: 40px;
+  background-color: #F0EDEE;
 }
 
 .score-area:hover {
   cursor: pointer;
-  background-color: #8DAA9D;
+  color: #FFFFFF;
+  background-color: #191923;  
 }

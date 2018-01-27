@@ -29,78 +29,42 @@
         </div>
       </div>
       <div class="score-sheet">
-        <table id="table-left" class="table">
-          <tbody>
-            <tr>
-              <th scope="row">Ones</th>
-              <td class="score-area score total-number one"></td>
-            </tr>
-            <tr>
-              <th scope="row">Twos</th>
-              <td class="score-area score total-number two"></td>
-            </tr>
-            <tr>
-              <th scope="row">Threes</th>
-              <td class="score-area score total-number three"></td>
-            </tr>
-            <tr>
-              <th scope="row">Fours</th>
-              <td class="score-area score total-number four"></td>
-            </tr>
-            <tr>
-              <th scope="row">Fives</th>
-              <td class="score-area score total-number five"></td>
-            </tr>
-            <tr>
-              <th scope="row">Sixes</th>
-              <td class="score-area score total-number six"></td>
-            </tr>
-            <tr>
-              <th scope="row">Bonus</th>
-              <td id="bonus">0</td>
-            </tr>
-            <tr>
-              <th scope="row">Upper Total</th>
-              <td id="upper-total">0</td>
-            </tr>
-          </tbody>
-        </table>
-        <table id="table-right" class="table">
-          <tbody>
-            <tr>
-              <th scope="row">3 of a Kind</th>
-              <td class="score-area score total"></td>
-            </tr>
-            <tr>
-              <th scope="row">4 of a Kind</th>
-              <td class="score-area score total"></td>
-            </tr>
-            <tr>
-              <th scope="row">Full House</th>
-              <td class="score-area score specified" data-score="25"></td>
-            </tr>
-            <tr>
-              <th scope="row">Small Straight</th>
-              <td class="score-area score specified" data-score="30"></td>
-            </tr>
-            <tr>
-              <th scope="row">Large Straight</th>
-              <td class="score-area score specified" data-score="40"></td>
-            </tr>
-            <tr>
-              <th scope="row">YAHTZEE</th>
-              <td class="score-area score specified yahtzee" data-score="50"></td>
-            </tr>
-            <tr>
-              <th scope="row">Chance</th>
-              <td class="score-area score total"></td>
-            </tr>
-            <tr>
-              <th scope="row">Lower Total</th>
-              <td class="lower-total">0</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="score-sheet-half score-sheet-left">
+          <div class="combination t">Ones</div>
+          <div class="score-area ones t"></div>
+          <div class="combination t">Twos</div>
+          <div class="score-area twos t"></div>
+          <div class="combination">Threes</div>
+          <div class="score-area threes"></div>
+          <div class="combination">Fours</div>
+          <div class="score-area fours"></div>
+          <div class="combination">Fives</div>
+          <div class="score-area fives"></div>
+          <div class="combination">Sixes</div>
+          <div class="score-area sixes"></div>
+          <div class="combination">Bonus</div>
+          <div class="score-area sixes"></div>
+          <div class="combination">Total</div>
+          <div class="score-area sixes"></div>
+        </div>
+        <div class="score-sheet-half">
+          <div class="combination t">Three of a Kind</div>
+          <div class="score-area ones t"></div>
+          <div class="combination t">Four of a Kind</div>
+          <div class="score-area twos t"></div>
+          <div class="combination">Full House</div>
+          <div class="score-area threes"></div>
+          <div class="combination">Small Straight</div>
+          <div class="score-area fours"></div>
+          <div class="combination">Large Straight</div>
+          <div class="score-area fives"></div>
+          <div class="combination">Yahtzee</div>
+          <div class="score-area sixes"></div>
+          <div class="combination">Chance</div>
+          <div class="score-area sixes"></div>
+          <div class="combination">Total</div>
+          <div class="score-area sixes"></div>
+        </div>
       </div>
       <div class="turns">
         <h3 id="turns-counter">
