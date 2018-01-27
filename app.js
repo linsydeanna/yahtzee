@@ -53,12 +53,17 @@ function newGameValues(prevState, action) {
   console.log('prevState ', prevState);
   console.log('action ', action);
   switch (action.type) {
+
     case ('decrementRolls'):
-      return {
-        ...prevState,
+      return Object.assign({}, prevState, {
         rollsRemaining: prevState.rollsRemaining--
-      }
-      return prevState
+      })
+
+    case ('resetRolls'):
+      return Object.assign(prevState, {
+        rollsRemaining: 3
+      })
+
     default:
       return prevState
   }
@@ -72,6 +77,10 @@ var decrementRolls = {
   type: 'decrementRolls'
 }
 
+var resetRolls = {
+  type: 'resetRolls'
+}
+
 
 
 // UI elements
@@ -83,9 +92,35 @@ var dice = document.getElementsByClassName('die');
 
 
 
+// update UI
+
+function updateUI() { // add switch statement
+  buttonRollCount.innerHTML = gameValues.rollsRemaining;
+
+  if (gameValues.rollsRemaining < 3) scoreButton.classList.remove('button-invisible');
+
+  if (gameValues.rollsRemaining == 0) {
+    rollButton.classList.add('button-invisible');
+    scoreButton.classList.add('button-wide');
+  }
+
+  if (gameValues.rollsRemaining == 3) {
+    rollButton.classList.remove('button-invisible');
+    scoreButton.classList.add('button-invisible');
+  }
+
+}
+
+
+
 // click handlers
 
 rollButton.addEventListener('click', function() {
   gamesValues = newGameValues(gameValues, decrementRolls)
-  if (gameValues.rollsRemaining < 3) scoreButton.classList.remove('button-invisible');
+  updateUI();
+})
+
+scoreButton.addEventListener('click', function() {
+  gamesValues = newGameValues(gameValues, resetRolls);
+  updateUI();
 })
