@@ -31,16 +31,16 @@ var defaultGameValues = {
 
 // game state
 
-var gameValues = defaultGameValues;
-var scoreSheet = defaultScoreSheet;
+var gameValues = defaultGameValues
+var scoreSheet = defaultScoreSheet
 
 
 
 // reducers
 
 var newScoreSheet = (prevState, action) => {
-  console.log('prevState ', prevState);
-  console.log('action ', action);
+  console.log('prevState ', prevState)
+  console.log('action ', action)
   switch (action.type) {
     case ('addTotalNumber'):
       return prevState
@@ -50,8 +50,8 @@ var newScoreSheet = (prevState, action) => {
 }
 
 function newGameValues(prevState, action) {
-  console.log('prevState ', prevState);
-  console.log('action ', action);
+  console.log('prevState ', prevState)
+  console.log('action ', action)
   switch (action.type) {
 
     case ('decrementRolls'):
@@ -85,30 +85,46 @@ var resetRolls = {
 
 // UI elements
 
-var scoreButton = document.getElementById("score-button");
-var rollButton = document.getElementById("roll-button");
-var buttonRollCount = document.getElementById("rolls-remaining");
-var dice = document.getElementsByClassName('die');
+var scoreButton = document.getElementById("score-button")
+var rollButton = document.getElementById("roll-button")
+var buttonRollCount = document.getElementById("rolls-remaining")
+var dice = document.getElementsByClassName('die')
 
 
 
 // update UI
 
 function updateUI() { // add switch statement
-  buttonRollCount.innerHTML = gameValues.rollsRemaining;
+  buttonRollCount.innerHTML = gameValues.rollsRemaining
 
-  if (gameValues.rollsRemaining < 3) scoreButton.classList.remove('button-invisible');
+  if (gameValues.rollsRemaining < 3) scoreButton.classList.remove('button-invisible')
 
   if (gameValues.rollsRemaining == 0) {
-    rollButton.classList.add('button-invisible');
-    scoreButton.classList.add('button-wide');
+    rollButton.classList.add('button-invisible')
+    scoreButton.classList.add('button-wide')
   }
 
   if (gameValues.rollsRemaining == 3) {
-    rollButton.classList.remove('button-invisible');
-    scoreButton.classList.add('button-invisible');
+    rollButton.classList.remove('button-invisible')
+    scoreButton.classList.add('button-invisible')
   }
 
+}
+
+function rollDiceIn() {
+  for (i = 0; i < dice.length; i++) {
+    dice[i].classList.add("die-animate")
+    dice[i].classList.remove("die-start")
+    dice[i].classList.remove("die-animate-two")
+  }
+}
+
+function rollDiceOut() {
+  for (i = 0; i < dice.length; i++) {
+    dice[i].classList.remove("die-animate")
+    dice[i].classList.add("die-start")
+    dice[i].classList.add("die-animate-two")
+  }
 }
 
 
@@ -116,11 +132,20 @@ function updateUI() { // add switch statement
 // click handlers
 
 rollButton.addEventListener('click', function() {
+
   gamesValues = newGameValues(gameValues, decrementRolls)
-  updateUI();
+
+  if (gamesValues.rollsRemaining == 3) rollDiceIn()
+
+  updateUI()
+
 })
 
 scoreButton.addEventListener('click', function() {
-  gamesValues = newGameValues(gameValues, resetRolls);
-  updateUI();
+
+  gamesValues = newGameValues(gameValues, resetRolls)
+
+  rollDiceOut()
+
+  updateUI()
 })
