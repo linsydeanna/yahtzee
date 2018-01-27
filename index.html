@@ -14,11 +14,11 @@
 
 <body>
   <div class="game-container">
-    <div class="header">
+    <header class="header">
       <h1 id="header">YAHTZEE</h1>
-    </div>
-    <div class="main">
-      <div class="current-score-section">
+    </header>
+    <section class="main">
+      <section class="current-score-section">
         <div>
           <p class="current-score">
             0
@@ -27,8 +27,8 @@
             Current Score
           </p>
         </div>
-      </div>
-      <div class="score-sheet">
+      </section>
+      <section class="score-sheet">
         <div class="score-sheet-half score-sheet-left">
           <div class="combination t">Ones</div>
           <div class="score-area ones t"></div>
@@ -65,16 +65,16 @@
           <div class="combination">Total</div>
           <div class="score-area sixes"></div>
         </div>
-      </div>
-      <div class="turns-section">
+      </section>
+      <section class="turns-section">
         <p id="turns" class="turns">
           <span id="turns-count">
             0
           </span>
           Turns Left
         </p>
-      </div>
-      <div class="dice">
+      </section>
+      <section class="dice">
         <div class="die die-start die-1">
           <img src="images/2.svg" id="die-1" alt="die">
         </div>
@@ -90,14 +90,14 @@
         <div class="die die-start die-5">
           <img src="images/5.svg" id="die-5" alt="die">
         </div>
-      </div>
-      <div id="btn" class="buttons">
+      </section>
+      <section id="btn" class="buttons">
         <button type="button" class="btn btn-default button-wide" id="roll-button">Roll
           <span id="rolls-remaining">3</span>
         </button>
         <button type="button" class="btn btn-default" id="score">Score</button>
-      </div>
-    </div>
+      </section>
+    </section>
   </div>
   <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>

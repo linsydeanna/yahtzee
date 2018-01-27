@@ -1,16 +1,14 @@
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
-p {
-  margin: 0;
+html, body {
+  height: 100%;
 }
 
-.background {
-  position: relative;
-  z-index: 2;
+body {
+  align-items: center;
+  display: flex;
 }
 
 .game-container {
@@ -27,60 +25,9 @@ p {
   }
 }
 
-.die {
-  width: 70px;
-  position: relative;
-  z-index: 1;
-}
-
-img {
-  border-radius: 10px;
-}
-
-.die-start {
-  transform: translateX(-700%);
-}
-
-.dice {
-  display: flex;
-  justify-content: center;
-  justify-content: space-between;
-  padding: 10px 10px 0px 10px;
-  height: 12vh;
-}
-
-.die-kept {
-  border: 3px #191923 solid;
-}
-
-.die-animate {
-  animation: roll-in 2s;
-}
-
-@keyframes roll-in {
-  0% {
-    transform: translateX(-700%) scale(.7) rotate(0deg);
-  }
-  100% {
-    transform: translateX(0) scale(1) rotate(360deg);
-  }
-}
-
-.die-animate-two {
-  animation: roll-out 2s;
-}
-
-@keyframes roll-out {
-  0% {
-    transform: translateX(0) scale(1);
-  }
-  100% {
-    transform: translateX(600%) scale(.5);
-  }
-}
-
-h1, .upper {
-  text-align: center;
+.main {
+  background-color: #F0EDEE;
+  overflow: hidden;
 }
 
 
@@ -101,46 +48,6 @@ h1, .upper {
   justify-content: center;
   color: #FFFFFF;
   font-family: 'Work Sans', sans-serif;
-}
-
-
-
-
-
-.main {
-  background-color: #F0EDEE;
-  overflow: hidden;
-}
-
-.score-sheet {
-  display: flex;
-  border-bottom: 1px solid #ddd;
-}
-
-.buttons {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  height: 8vh;
-}
-
-button {
-  width: 47%;
-  height: 40px;
-}
-
-#btn button {
-  font-size: 18px;
-}
-
-#rolls-remaining {
-  border-radius: 3px;
-  margin-left: 10px;
-}
-
-.button-wide {
-  width: 90%;
-  margin: 0 auto;
 }
 
 #turns-counter {
@@ -182,7 +89,7 @@ button {
   border-top: 1px solid #AFADAE;
   border-bottom: 1px solid #AFADAE;
   display: grid;
-  height: 55vh;
+  height: 48vh;
   font-size: 20px;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 2px;
@@ -218,7 +125,62 @@ button {
 
 
 
-/* turns section */
+/* dice section */
+
+.die {
+  width: 70px;
+  position: relative;
+  z-index: 1;
+}
+
+img {
+  border-radius: 10px;
+}
+
+.die-start {
+  transform: translateX(-700%);
+}
+
+.dice {
+  display: flex;
+  justify-content: center;
+  justify-content: space-between;
+  height: 12vh;
+}
+
+.die-kept {
+  border: 3px #191923 solid;
+}
+
+.die-animate {
+  animation: roll-in 2s;
+}
+
+@keyframes roll-in {
+  0% {
+    transform: translateX(-700%) scale(.7) rotate(0deg);
+  }
+  100% {
+    transform: translateX(0) scale(1) rotate(360deg);
+  }
+}
+
+.die-animate-two {
+  animation: roll-out 2s;
+}
+
+@keyframes roll-out {
+  0% {
+    transform: translateX(0) scale(1);
+  }
+  100% {
+    transform: translateX(600%) scale(.5);
+  }
+}
+
+
+
+/* turns remaining section */
 
 .turns-section {
   align-items: center;
@@ -227,4 +189,33 @@ button {
   font-size: 20px;
   height: 5vh;
   justify-content: center;
+}
+
+
+
+/* buttons section */
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  height: 8vh;
+}
+
+button {
+  width: 47%;
+  height: 40px;
+}
+
+#btn button {
+  font-size: 18px;
+}
+
+#rolls-remaining {
+  border-radius: 3px;
+  margin-left: 10px;
+}
+
+.button-wide {
+  width: 90%;
+  margin: 0 auto;
 }
