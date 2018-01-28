@@ -19,7 +19,7 @@ var defaultScoreSheet = {
 
 var defaultGameValues = {
   canScore: false,
-  diceValue: [],
+  diceValues: [],
   rollsRemaining: 3,
   turnCount: 13,
   scoredItem: 0,
@@ -56,12 +56,17 @@ function newGameValues(prevState, action) {
 
     case ('decrementRolls'):
       return Object.assign({}, prevState, {
-        rollsRemaining: prevState.rollsRemaining--
+        rollsRemaining: prevState.rollsRemaining - 1
       })
 
     case ('resetRolls'):
-      return Object.assign(prevState, {
+      return Object.assign({}, prevState, {
         rollsRemaining: 3
+      })
+
+    case ('updateDiceValues'):
+      return Object.assign({}, prevState, {
+        diceValues: action.newValues
       })
 
     default:
@@ -73,12 +78,23 @@ function newGameValues(prevState, action) {
 
 // actions
 
-var decrementRolls = {
-  type: 'decrementRolls'
+function decrementRolls() {
+  return {
+    type: 'decrementRolls'
+  }
 }
 
-var resetRolls = {
-  type: 'resetRolls'
+function resetRolls() {
+  return {
+    type: 'resetRolls'
+  }
+}
+
+function updateDiceValues(newValues) {
+  return {
+    type: 'updateDiceValues',
+    newValues: newValues
+  }
 }
 
 
@@ -92,9 +108,26 @@ var dice = document.getElementsByClassName('die')
 
 
 
+// helpers
+
+function getNewDiceValues() {
+  var diceValues = gameValues.diceValues.slice()
+  for (var i = 1; i < 6; i++) {
+    var die = document.getElementById("die-position-" + i + "")
+    if (die.className !== 'die-kept') {
+      var newDieNumber = Math.floor(Math.random() * 6) + 1
+      var index = i - 1
+      diceValues[index] = newDieNumber
+    }
+  }
+  return diceValues
+}
+
+
+
 // update UI
 
-function updateUI() { // add switch statement
+function updateUIButtons() {
   buttonRollCount.innerHTML = gameValues.rollsRemaining
 
   if (gameValues.rollsRemaining < 3) scoreButton.classList.remove('button-invisible')
@@ -113,17 +146,25 @@ function updateUI() { // add switch statement
 
 function rollDiceIn() {
   for (i = 0; i < dice.length; i++) {
-    dice[i].classList.add("die-animate")
+    dice[i].classList.remove("die-animate-roll-out")
+    dice[i].classList.add("die-animate-roll-in")
     dice[i].classList.remove("die-start")
-    dice[i].classList.remove("die-animate-two")
   }
 }
 
 function rollDiceOut() {
   for (i = 0; i < dice.length; i++) {
-    dice[i].classList.remove("die-animate")
+    dice[i].classList.remove("die-animate-roll-in")
+    dice[i].classList.add("die-animate-roll-out")
     dice[i].classList.add("die-start")
-    dice[i].classList.add("die-animate-two")
+  }
+}
+
+function updateUIDice() {
+  for (var i = 1; i < 6; i++) {
+    var die = document.getElementById("die-position-" + i + "")
+    var index = i - 1
+    die.src = "images/" + gameValues.diceValues[index] + ".svg"
   }
 }
 
@@ -133,19 +174,21 @@ function rollDiceOut() {
 
 rollButton.addEventListener('click', function() {
 
-  gamesValues = newGameValues(gameValues, decrementRolls)
+  gameValues = newGameValues(gameValues, updateDiceValues(getNewDiceValues()));
+  updateUIDice()
+  if (gameValues.rollsRemaining == 3) rollDiceIn()
 
-  if (gamesValues.rollsRemaining == 3) rollDiceIn()
+  gameValues = newGameValues(gameValues, decrementRolls())
 
-  updateUI()
+  updateUIButtons()
 
 })
 
 scoreButton.addEventListener('click', function() {
 
-  gamesValues = newGameValues(gameValues, resetRolls)
+  gameValues = newGameValues(gameValues, resetRolls())
 
   rollDiceOut()
 
-  updateUI()
+  updateUIButtons()
 })
