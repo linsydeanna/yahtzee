@@ -168,6 +168,25 @@ function updateUIDice() {
   }
 }
 
+function unselectAllDice() {
+  for (var i = 1; i < 6; i++) {
+    var die = document.getElementById("die-position-" + i + "")
+    die.classList.remove('die-kept')
+  }
+}
+
+function listenForDieSelection() {
+  for (var i = 1; i < 6; i++) {
+    var die = document.getElementById("die-position-" + i + "")
+    die.addEventListener('click', function() {
+      console.log('!event.target.className.includes(die - kept ', !event.target.className.includes('die-kept'));
+      console.log('klashjdfjahf')
+      event.target.classList.toggle('die-kept', !event.target.className.includes('die-kept'))
+      console.log('gameValues.diceValues ', gameValues.diceValues);
+    })
+  }
+}
+
 
 
 // click handlers
@@ -176,7 +195,13 @@ rollButton.addEventListener('click', function() {
 
   gameValues = newGameValues(gameValues, updateDiceValues(getNewDiceValues()));
   updateUIDice()
-  if (gameValues.rollsRemaining == 3) rollDiceIn()
+
+  var firstRoll = gameValues.rollsRemaining == 3
+
+  if (firstRoll) {
+    rollDiceIn()
+    listenForDieSelection()
+  }
 
   gameValues = newGameValues(gameValues, decrementRolls())
 
@@ -190,5 +215,8 @@ scoreButton.addEventListener('click', function() {
 
   rollDiceOut()
 
+  unselectAllDice()
+
   updateUIButtons()
+
 })
