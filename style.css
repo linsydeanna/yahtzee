@@ -143,9 +143,9 @@ header {
 /* dice section */
 
 .die {
-  width: 15%;
-  position: relative;
   cursor: pointer;
+  position: relative;
+  width: 15%;
   z-index: 1;
 }
 
@@ -170,7 +170,7 @@ img {
   border: 5px solid #BF1363;
 }
 
-.die-animate {
+.die-animate-roll-in {
   animation: roll-in 2s;
 }
 
@@ -183,7 +183,7 @@ img {
   }
 }
 
-.die-animate-two {
+.die-animate-roll-out {
   animation: roll-out 1500ms;
 }
 
