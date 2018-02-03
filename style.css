@@ -128,8 +128,12 @@ header {
 }
 
 .score-area {
+  align-items: center;
   background-color: #F0EDEE;
   border-bottom: 1px solid #AFADAE;
+  color: #191923;
+  display: flex;
+  justify-content: center;
 }
 
 .score-area:hover {
