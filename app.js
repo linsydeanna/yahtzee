@@ -258,6 +258,7 @@ function unselectAllDice() {
 }
 
 function updateUIScoreSheet(combination) {
+  console.log('combination ', combination);
   for (i = 0; i < elements.length; i++) {
     if (combination === elements[i].combination) {
       elements[i].element.innerHTML = gameState.currentScoreSelection.value
@@ -280,41 +281,23 @@ function listenForDieSelection() {
   }
 }
 
-ones.addEventListener('click', function() {
-  gameState = updateGameValues(gameState, updateCurrentScoreSelection('ones', getSumOfNumber(gameState.diceValues, 1)))
-  console.log('gameState.currentScoreSelection ', gameState.currentScoreSelection);
-  updateUIScoreSheet("ones")
-})
-
-twos.addEventListener('click', function() {
-  gameState = updateGameValues(gameState, updateCurrentScoreSelection('twos', getSumOfNumber(gameState.diceValues, 2)))
-  console.log('gameState.currentScoreSelection ', gameState.currentScoreSelection);
-  updateUIScoreSheet("twos")
-})
-
-threes.addEventListener('click', function() {
-  gameState = updateGameValues(gameState, updateCurrentScoreSelection('threes', getSumOfNumber(gameState.diceValues, 3)))
-  console.log('gameState.currentScoreSelection ', gameState.currentScoreSelection);
-  updateUIScoreSheet("threes")
-})
-
-fours.addEventListener('click', function() {
-  gameState = updateGameValues(gameState, updateCurrentScoreSelection('fours', getSumOfNumber(gameState.diceValues, 4)))
-  console.log('gameState.currentScoreSelection ', gameState.currentScoreSelection);
-  updateUIScoreSheet("fours")
-})
-
-fives.addEventListener('click', function() {
-  gameState = updateGameValues(gameState, updateCurrentScoreSelection('fives', getSumOfNumber(gameState.diceValues, 5)))
-  console.log('gameState.currentScoreSelection ', gameState.currentScoreSelection);
-  updateUIScoreSheet("fives")
-})
-
-sixes.addEventListener('click', function() {
-  gameState = updateGameValues(gameState, updateCurrentScoreSelection('sixes', getSumOfNumber(gameState.diceValues, 6)))
-  console.log('gameState.currentScoreSelection ', gameState.currentScoreSelection);
-  updateUIScoreSheet("sixes")
-})
+function listenForScoreSelection() {
+  function updateScoreStateAndUI(combination, numberToSum) {
+    return function() {
+      gameState = updateGameValues(
+        gameState,
+        updateCurrentScoreSelection(combination, getSumOfNumber(gameState.diceValues, numberToSum))
+      )
+      updateUIScoreSheet(combination)
+    }
+  }
+  for (var i = 0; i < elements.length; i++) {
+    var element = elements[i].element
+    var combination = elements[i].combination
+    var numberToSum = i + 1
+    element.addEventListener('click', updateScoreStateAndUI(combination, numberToSum))
+  }
+}
 
 rollButton.addEventListener('click', function() {
   gameState = updateGameValues(gameState, updateDiceValues(getNewDiceValues()));
@@ -323,6 +306,7 @@ rollButton.addEventListener('click', function() {
   if (firstRoll) {
     rollDiceIn()
     listenForDieSelection()
+    listenForScoreSelection()
   }
   gameState = updateGameValues(gameState, decrementRolls())
   updateUIButtons()
