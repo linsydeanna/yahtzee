@@ -214,6 +214,16 @@ function removeListeners() {
   }
 }
 
+function removeDiceListeners() {
+  for (var i = 1; i < 6; i++) {
+    var die = document.getElementById("die-position-" + i + "")
+    var oldElement = die
+    var newElement = oldElement.cloneNode(true)
+    oldElement.parentNode.replaceChild(newElement, oldElement)
+    die = newElement // mutated
+  }
+}
+
 
 
 // update UI
@@ -327,11 +337,12 @@ rollButton.addEventListener('click', function() {
 
 scoreButton.addEventListener('click', function() {
   gameState = updateGameValues(gameState, { type: 'markScore' })
-  console.log('gameState AFTER marking score', gameState)
+  // console.log('gameState AFTER marking score', gameState)
 
   gameState = updateGameValues(gameState, resetRolls())
   rollDiceOut()
   unselectAllDice()
   updateUIButtons()
   removeListeners()
+  removeDiceListeners()
 })
