@@ -70,7 +70,7 @@ function updateScoreSheetValues(prevState, action) {
 }
 
 function updateGameValues(prevState, action) {
-  console.log('prevState ', prevState)
+  // console.log('prevState ', prevState)
   console.log('action ', action)
   switch (action.type) {
 
@@ -205,6 +205,15 @@ function getSumOfAllDice(diceValues) {
   return diceValues.reduce(function(a, b) { return a + b }, 0)
 }
 
+function removeListeners() {
+  for (var i = 0; i < elements.length; i++) {
+    console.log('remove listeners loop runs! ');
+    var oldElement = elements[i].element
+    var newElement = oldElement.cloneNode(true)
+    oldElement.parentNode.replaceChild(newElement, oldElement)
+  }
+}
+
 
 
 // update UI
@@ -258,7 +267,6 @@ function unselectAllDice() {
 }
 
 function updateUIScoreSheet(combination) {
-  console.log('combination ', combination);
   for (i = 0; i < elements.length; i++) {
     if (combination === elements[i].combination) {
       elements[i].element.innerHTML = gameState.currentScoreSelection.value
@@ -273,6 +281,7 @@ function updateUIScoreSheet(combination) {
 // click handlers
 
 function listenForDieSelection() {
+  console.log("listenForDieSelection runs")
   for (var i = 1; i < 6; i++) {
     var die = document.getElementById("die-position-" + i + "")
     die.addEventListener('click', function() {
@@ -282,8 +291,11 @@ function listenForDieSelection() {
 }
 
 function listenForScoreSelection() {
+  console.log("listenForScoreSelection runs")
   function updateScoreStateAndUI(combination, numberToSum) {
+    console.log('outer closure function runs')
     return function() {
+      console.log('inner closure function runs')
       gameState = updateGameValues(
         gameState,
         updateCurrentScoreSelection(combination, getSumOfNumber(gameState.diceValues, numberToSum))
@@ -295,15 +307,20 @@ function listenForScoreSelection() {
     var element = elements[i].element
     var combination = elements[i].combination
     var numberToSum = i + 1
-    element.addEventListener('click', updateScoreStateAndUI(combination, numberToSum))
+    var scored = gameState[combination]
+    if (!scored) {
+      element.addEventListener('click', updateScoreStateAndUI(combination, numberToSum))
+    }
+
   }
 }
 
 rollButton.addEventListener('click', function() {
-  gameState = updateGameValues(gameState, updateDiceValues(getNewDiceValues()));
+  gameState = updateGameValues(gameState, updateDiceValues(getNewDiceValues()))
   updateUIDice()
   var firstRoll = gameState.rollsRemaining == 3
   if (firstRoll) {
+    console.log('first roll! ');
     rollDiceIn()
     listenForDieSelection()
     listenForScoreSelection()
@@ -314,10 +331,11 @@ rollButton.addEventListener('click', function() {
 
 scoreButton.addEventListener('click', function() {
   gameState = updateGameValues(gameState, { type: 'markScore' })
-  console.log('gameState AFTER marking score', gameState)
+  // console.log('gameState AFTER marking score', gameState)
 
   gameState = updateGameValues(gameState, resetRolls())
   rollDiceOut()
   unselectAllDice()
   updateUIButtons()
+  removeListeners()
 })
