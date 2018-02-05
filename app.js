@@ -1,6 +1,10 @@
 // default game state
 
 var defaultGameState = {
+  currentScoreSelection: {
+    combinationName: '',
+    value: null
+  },
   ones: null,
   twos: null,
   threes: null,
@@ -18,10 +22,6 @@ var defaultGameState = {
   diceValues: [],
   rollsRemaining: 3,
   turnCount: 13,
-  currentScoreSelection: {
-    combinationName: '',
-    value: null
-  },
   leftScore: 0,
   rightScore: 0
 }
@@ -34,35 +34,101 @@ var gameState = defaultGameState
 
 
 
-// reducers
+// reducer
 
-function updateScoreSheetValues(prevState, action) {
-  console.log('prevState ', prevState)
-  console.log('action ', action)
+function updateCurrentScoreSelection(prevState, action) {
+  console.log('action ', action);
   switch (action.type) {
-    case ('ones'):
+    case ('selectOnes'):
       return Object.assign({}, prevState, {
-        ones: getSumOfNumber(prevState.diceValues, action.numberToSum)
+        currentScoreSelection: {
+          combinationName: action.combinationName,
+          value: getSumOfNumber(prevState.diceValues, 1)
+        }
       })
-    case ('twos'):
+    case ('selectTwos'):
       return Object.assign({}, prevState, {
-        twos: getSumOfNumber(prevState.diceValues, action.numberToSum)
+        currentScoreSelection: {
+          combinationName: action.combinationName,
+          value: getSumOfNumber(prevState.diceValues, 2)
+        }
       })
-    case ('threes'):
+    case ('selectThrees'):
       return Object.assign({}, prevState, {
-        threes: getSumOfNumber(prevState.diceValues, action.numberToSum)
+        currentScoreSelection: {
+          combinationName: action.combinationName,
+          value: getSumOfNumber(prevState.diceValues, 3)
+        }
       })
-    case ('fours'):
+    case ('selectFours'):
       return Object.assign({}, prevState, {
-        fours: getSumOfNumber(prevState.diceValues, action.numberToSum)
+        currentScoreSelection: {
+          combinationName: action.combinationName,
+          value: getSumOfNumber(prevState.diceValues, 4)
+        }
       })
-    case ('fives'):
+    case ('selectFives'):
       return Object.assign({}, prevState, {
-        fives: getSumOfNumber(prevState.diceValues, action.numberToSum)
+        currentScoreSelection: {
+          combinationName: action.combinationName,
+          value: getSumOfNumber(prevState.diceValues, 5)
+        }
       })
-    case ('sixes'):
+    case ('selectSixes'):
       return Object.assign({}, prevState, {
-        sixes: getSumOfNumber(prevState.diceValues, action.numberToSum)
+        currentScoreSelection: {
+          combinationName: action.combinationName,
+          value: getSumOfNumber(prevState.diceValues, 6)
+        }
+      })
+    case ('selectThreeOfAKind'):
+      return Object.assign({}, prevState, {
+        currentScoreSelection: {
+          combinationName: action.combinationName,
+          value: getSumOfAllDice(prevState.diceValues)
+        }
+      })
+    case ('selectFourOfAKind'):
+      return Object.assign({}, prevState, {
+        currentScoreSelection: {
+          combinationName: action.combinationName,
+          value: getSumOfAllDice(prevState.diceValues)
+        }
+      })
+    case ('selectChance'):
+      return Object.assign({}, prevState, {
+        currentScoreSelection: {
+          combinationName: action.combinationName,
+          value: getSumOfAllDice(prevState.diceValues)
+        }
+      })
+    case ('selectFullHouse'):
+      return Object.assign({}, prevState, {
+        currentScoreSelection: {
+          combinationName: action.combinationName,
+          value: 25
+        }
+      })
+    case ('selectSmallStraight'):
+      return Object.assign({}, prevState, {
+        currentScoreSelection: {
+          combinationName: action.combinationName,
+          value: 30
+        }
+      })
+    case ('selectLargeStraight'):
+      return Object.assign({}, prevState, {
+        currentScoreSelection: {
+          combinationName: action.combinationName,
+          value: 40
+        }
+      })
+    case ('selectYahtzee'):
+      return Object.assign({}, prevState, {
+        currentScoreSelection: {
+          combinationName: action.combinationName,
+          value: 50
+        }
       })
     default:
       return prevState
@@ -73,32 +139,22 @@ function updateGameValues(prevState, action) {
   // console.log('prevState ', prevState)
   // console.log('action ', action)
   switch (action.type) {
-
     case ('decrementRolls'):
       return Object.assign({}, prevState, {
         rollsRemaining: prevState.rollsRemaining - 1
       })
-
     case ('resetRolls'):
       return Object.assign({}, prevState, {
         rollsRemaining: 3
       })
-
     case ('updateDiceValues'):
       return Object.assign({}, prevState, {
         diceValues: action.newValues
       })
-
-    case ('updateCurrentScoreSelection'):
-      return Object.assign({}, prevState, {
-        currentScoreSelection: action.currentScoreSelection
-      })
-
     case ('markScore'):
       return Object.assign({}, prevState, {
         [`${prevState.currentScoreSelection.combinationName}`]: prevState.currentScoreSelection.value
       })
-
     default:
       return prevState
   }
@@ -106,7 +162,7 @@ function updateGameValues(prevState, action) {
 
 
 
-// actions
+// action creators
 
 function decrementRolls() {
   return {
@@ -127,13 +183,11 @@ function updateDiceValues(newValues) {
   }
 }
 
-function updateCurrentScoreSelection(combinationName, value) {
+function selectScoreArea(combinationName) {
+  var type = "select" + combinationName.charAt(0).toUpperCase() + combinationName.slice(1)
   return {
-    type: 'updateCurrentScoreSelection',
-    currentScoreSelection: {
-      combinationName: combinationName,
-      value: value
-    }
+    type: type,
+    combinationName: combinationName
   }
 }
 
@@ -145,36 +199,59 @@ var scoreButton = document.getElementById("score-button")
 var rollButton = document.getElementById("roll-button")
 var buttonRollCount = document.getElementById("rolls-remaining")
 var dice = document.getElementsByClassName('die')
-var ones = document.getElementById('ones-score')
-var twos = document.getElementById('twos-score')
-var threes = document.getElementById('threes-score')
-var fours = document.getElementById('fours-score')
-var fives = document.getElementById('fives-score')
-var sixes = document.getElementById('sixes-score')
-var elements = [
+
+var combinations = [
   {
-    combination: 'ones',
-    element: ones
+    name: 'ones',
+    id: 'ones-score'
   },
   {
-    combination: 'twos',
-    element: twos
+    name: 'twos',
+    id: 'twos-score'
   },
   {
-    combination: 'threes',
-    element: threes
+    name: 'threes',
+    id: 'threes-score'
   },
   {
-    combination: 'fours',
-    element: fours
+    name: 'fours',
+    id: 'fours-score'
   },
   {
-    combination: 'fives',
-    element: fives
+    name: 'fives',
+    id: 'fives-score'
   },
   {
-    combination: 'sixes',
-    element: sixes
+    name: 'sixes',
+    id: 'sixes-score'
+  },
+  {
+    name: 'threeOfAKind',
+    id: 'three-of-a-kind-score'
+  },
+  {
+    name: 'fourOfAKind',
+    id: 'four-of-a-kind-score'
+  },
+  {
+    name: 'chance',
+    id: 'chance-score'
+  },
+  {
+    name: 'fullHouse',
+    id: 'full-house-score'
+  },
+  {
+    name: 'smallStraight',
+    id: 'small-straight-score'
+  },
+  {
+    name: 'largeStraight',
+    id: 'large-straight-score'
+  },
+  {
+    name: 'yahtzee',
+    id: 'yahtzee-score'
   },
 ]
 
@@ -206,11 +283,10 @@ function getSumOfAllDice(diceValues) {
 }
 
 function removeListeners() {
-  for (var i = 0; i < elements.length; i++) {
-    var oldElement = elements[i].element
+  for (var i = 0; i < combinations.length; i++) {
+    var oldElement = document.getElementById(combinations[i].id)
     var newElement = oldElement.cloneNode(true)
     oldElement.parentNode.replaceChild(newElement, oldElement)
-    elements[i].element = newElement // mutated
   }
 }
 
@@ -277,12 +353,13 @@ function unselectAllDice() {
 }
 
 function updateUIScoreSheet(combination) {
-  for (i = 0; i < elements.length; i++) {
-    var scored = gameState[elements[i].combination]
-    if (combination === elements[i].combination) {
-      elements[i].element.innerHTML = gameState.currentScoreSelection.value // add value to score area
+  for (i = 0; i < combinations.length; i++) {
+    var element = document.getElementById(combinations[i].id)
+    var scored = gameState[combinations[i].name]
+    if (combination === combinations[i].name) {
+      element.innerHTML = gameState.currentScoreSelection.value // add value to score area
     } else if (!scored) {
-      elements[i].element.innerHTML = "" // clear previously selected score area
+      element.innerHTML = "" // clear previously selected score area
     }
   }
 }
@@ -301,24 +378,22 @@ function listenForDieSelection() {
 }
 
 function listenForScoreSelection() {
-  function updateScoreStateAndUI(combination, numberToSum) {
+  function updateScoreSelectionAndUI(combinationName) {
     return function() {
-      gameState = updateGameValues(
+      gameState = updateCurrentScoreSelection(
         gameState,
-        updateCurrentScoreSelection(combination, getSumOfNumber(gameState.diceValues, numberToSum))
+        selectScoreArea(combinationName)
       )
-      updateUIScoreSheet(combination)
+      updateUIScoreSheet(combinationName)
     }
   }
-  for (var i = 0; i < elements.length; i++) {
-    var element = elements[i].element
-    var combination = elements[i].combination
-    var numberToSum = i + 1
-    var scored = gameState[combination]
+  for (var i = 0; i < combinations.length; i++) {
+    var element = document.getElementById(combinations[i].id)
+    var combinationName = combinations[i].name
+    var scored = gameState[combinationName]
     if (!scored) {
-      element.addEventListener('click', updateScoreStateAndUI(combination, numberToSum))
+      element.addEventListener('click', updateScoreSelectionAndUI(combinationName))
     }
-
   }
 }
 
@@ -337,8 +412,6 @@ rollButton.addEventListener('click', function() {
 
 scoreButton.addEventListener('click', function() {
   gameState = updateGameValues(gameState, { type: 'markScore' })
-  // console.log('gameState AFTER marking score', gameState)
-
   gameState = updateGameValues(gameState, resetRolls())
   rollDiceOut()
   unselectAllDice()
