@@ -147,6 +147,10 @@ function updateGameValues(prevState, action) {
       return Object.assign({}, prevState, {
         rollsRemaining: 3
       })
+    case ('decrementTurnCount'):
+      return Object.assign({}, prevState, {
+        turnCount: prevState.turnCount - 1
+      })
     case ('updateDiceValues'):
       return Object.assign({}, prevState, {
         diceValues: action.newValues
@@ -176,6 +180,12 @@ function resetRolls() {
   }
 }
 
+function decrementTurnCount() {
+  return {
+    type: 'decrementTurnCount'
+  }
+}
+
 function updateDiceValues(newValues) {
   return {
     type: 'updateDiceValues',
@@ -198,6 +208,7 @@ function selectScoreArea(combinationName) {
 var scoreButton = document.getElementById("score-button")
 var rollButton = document.getElementById("roll-button")
 var buttonRollCount = document.getElementById("rolls-remaining")
+var turnCount = document.getElementById("turn-count")
 var dice = document.getElementsByClassName('die')
 
 var combinations = [
@@ -282,7 +293,7 @@ function getSumOfAllDice(diceValues) {
   return diceValues.reduce(function(a, b) { return a + b }, 0)
 }
 
-function removeListeners() {
+function removeScoreSelectionListeners() {
   for (var i = 0; i < combinations.length; i++) {
     var oldElement = document.getElementById(combinations[i].id)
     var newElement = oldElement.cloneNode(true)
@@ -352,6 +363,10 @@ function unselectAllDice() {
   }
 }
 
+function updateUITurnCount() {
+  turnCount.innerHTML = gameState.turnCount
+}
+
 function updateUIScoreSheet(combination) {
   for (i = 0; i < combinations.length; i++) {
     var element = document.getElementById(combinations[i].id)
@@ -413,9 +428,11 @@ rollButton.addEventListener('click', function() {
 scoreButton.addEventListener('click', function() {
   gameState = updateGameValues(gameState, { type: 'markScore' })
   gameState = updateGameValues(gameState, resetRolls())
+  gameState = updateGameValues(gameState, decrementTurnCount())
   rollDiceOut()
   unselectAllDice()
   updateUIButtons()
-  removeListeners()
+  updateUITurnCount()
+  removeScoreSelectionListeners()
   removeDiceListeners()
 })
