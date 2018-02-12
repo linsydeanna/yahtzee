@@ -5,6 +5,7 @@ var defaultGameState = {
     combinationName: '',
     value: null
   },
+  diceValues: [],
   ones: null,
   twos: null,
   threes: null,
@@ -19,7 +20,6 @@ var defaultGameState = {
   largeStraight: null,
   yahtzee: null,
   chance: null,
-  diceValues: [],
   rollsRemaining: 3,
   turnCount: 13,
   leftScore: 0,
@@ -34,7 +34,7 @@ var gameState = defaultGameState
 
 
 
-// reducer
+// reducers
 
 function updateCurrentScoreSelection(prevState, action) {
   console.log('action ', action);
@@ -85,14 +85,18 @@ function updateCurrentScoreSelection(prevState, action) {
       return Object.assign({}, prevState, {
         currentScoreSelection: {
           combinationName: action.combinationName,
-          value: getSumOfAllDice(prevState.diceValues)
+          value: isNumberOfAKind(prevState.diceValues, 3) ?
+            getSumOfAllDice(prevState.diceValues) :
+            0
         }
       })
     case ('selectFourOfAKind'):
       return Object.assign({}, prevState, {
         currentScoreSelection: {
           combinationName: action.combinationName,
-          value: getSumOfAllDice(prevState.diceValues)
+          value: isNumberOfAKind(prevState.diceValues, 4) ?
+            getSumOfAllDice(prevState.diceValues) :
+            0
         }
       })
     case ('selectChance'):
@@ -106,28 +110,32 @@ function updateCurrentScoreSelection(prevState, action) {
       return Object.assign({}, prevState, {
         currentScoreSelection: {
           combinationName: action.combinationName,
-          value: 25
+          value: isFullHouse(prevState.diceValues) ? 25 : 0
         }
       })
     case ('selectSmallStraight'):
       return Object.assign({}, prevState, {
         currentScoreSelection: {
           combinationName: action.combinationName,
-          value: 30
+          value: isSmallStraight(prevState.diceValues) ?
+            30 :
+            0
         }
       })
     case ('selectLargeStraight'):
       return Object.assign({}, prevState, {
         currentScoreSelection: {
           combinationName: action.combinationName,
-          value: 40
+          value: prevState.diceValues.join('') === '12345' || prevState.diceValues.join('') === '23456' ?
+            40 :
+            0
         }
       })
     case ('selectYahtzee'):
       return Object.assign({}, prevState, {
         currentScoreSelection: {
           combinationName: action.combinationName,
-          value: 50
+          value: prevState.diceValues.every(die => die === dice[0]) ? 50 : 0 // ES6
         }
       })
     default:
@@ -137,7 +145,7 @@ function updateCurrentScoreSelection(prevState, action) {
 
 function updateGameValues(prevState, action) {
   // console.log('prevState ', prevState)
-  // console.log('action ', action)
+  console.log('action ', action)
   switch (action.type) {
     case ('decrementRolls'):
       return Object.assign({}, prevState, {
@@ -183,6 +191,12 @@ function resetRolls() {
 function decrementTurnCount() {
   return {
     type: 'decrementTurnCount'
+  }
+}
+
+function markScore() {
+  return {
+    type: 'markScore'
   }
 }
 
@@ -281,6 +295,31 @@ function getNewDiceValues() {
     }
   }
   return diceValues
+}
+
+function isNumberOfAKind(diceValues, number) {
+  var isCombination
+  for (var i = 0; i < 4; i++) {
+    if (diceValues.filter(function(die) { return die == diceValues[i] }).length >= number) {
+      isCombination = true
+    }
+  }
+  return !!isCombination
+}
+
+function isFullHouse(diceValues) {
+  count = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 }
+  for (var i = 0; i < diceValues.length; i++) {
+    count[diceValues[i]]++
+  }
+  return Object.values(count).filter(function(c) { return c != 0 }).sort().join('').toString() === '23'
+}
+
+function isSmallStraight(diceValues) {
+  var values = diceValues.filter(function(die, index) { // remove duplicates, sort, and convert to string
+    return diceValues.indexOf(die) == index;
+  }).sort().join('').toString()
+  return values.includes('1234') || values.includes('2345') || values.includes('3456')
 }
 
 function getSumOfNumber(diceValues, n) {
@@ -426,7 +465,7 @@ rollButton.addEventListener('click', function() {
 })
 
 scoreButton.addEventListener('click', function() {
-  gameState = updateGameValues(gameState, { type: 'markScore' })
+  gameState = updateGameValues(gameState, markScore())
   gameState = updateGameValues(gameState, resetRolls())
   gameState = updateGameValues(gameState, decrementTurnCount())
   rollDiceOut()

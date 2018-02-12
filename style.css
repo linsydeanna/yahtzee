@@ -95,7 +95,7 @@ header {
   border-bottom: 1px solid #AFADAE;
   display: grid;
   height: 48vh;
-  font-size: 20px;
+  font-size: 18px;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 2px;
 }
