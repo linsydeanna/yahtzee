@@ -39,6 +39,13 @@ var gameState = defaultGameState
 function updateCurrentScoreSelection(prevState, action) {
   console.log('action ', action);
   switch (action.type) {
+    case ('removeCurrentScoreSelection'):
+      return Object.assign({}, prevState, {
+        currentScoreSelection: {
+          combinationName: '',
+          value: null
+        }
+      })
     case ('selectOnes'):
       return Object.assign({}, prevState, {
         currentScoreSelection: {
@@ -215,6 +222,12 @@ function selectScoreArea(combinationName) {
   }
 }
 
+function removeCurrentScoreSelection() {
+  return {
+    type: 'removeCurrentScoreSelection'
+  }
+}
+
 
 
 // UI elements
@@ -354,19 +367,36 @@ function removeDiceListeners() {
 
 // update UI
 
-function updateUIButtons() {
+function updateUIButtons() { // checks current state and updates accordingly
   buttonRollCount.innerHTML = gameState.rollsRemaining
 
-  if (gameState.rollsRemaining < 3) scoreButton.classList.remove('button-invisible')
+  var turnStart = gameState.rollsRemaining == 3
+  var turnMiddle = gameState.rollsRemaining == 2 || gameState.rollsRemaining == 1
+  var turnEnd = gameState.rollsRemaining == 0
+  var scoreCombinationSelected = gameState.currentScoreSelection.value !== null
 
-  if (gameState.rollsRemaining == 0) {
-    rollButton.classList.add('button-invisible')
-    scoreButton.classList.add('button-wide')
+  if (turnMiddle && scoreCombinationSelected) { // display both roll button and score button
+    scoreButton.classList.remove('button-invisible')
+    rollButton.classList.remove('button-invisible')
   }
 
-  if (gameState.rollsRemaining == 3) {
+  if (turnStart || !scoreCombinationSelected) { // only display roll button
     rollButton.classList.remove('button-invisible')
     scoreButton.classList.add('button-invisible')
+  }
+
+  if (turnEnd && !scoreCombinationSelected) { // only display disabled score button
+    rollButton.classList.add('button-invisible')
+    scoreButton.classList.remove('button-invisible')
+    scoreButton.classList.add('button-wide')
+    scoreButton.disabled = true
+  }
+
+  if (turnEnd && scoreCombinationSelected) { // only display score button
+    rollButton.classList.add('button-invisible')
+    scoreButton.classList.remove('button-invisible')
+    scoreButton.classList.add('button-wide')
+    scoreButton.disabled = false
   }
 
 }
@@ -439,6 +469,7 @@ function listenForScoreSelection() {
         selectScoreArea(combinationName)
       )
       updateUIScoreSheet(combinationName)
+      updateUIButtons()
     }
   }
   for (var i = 0; i < combinations.length; i++) {
@@ -460,6 +491,12 @@ rollButton.addEventListener('click', function() {
     listenForDieSelection()
     listenForScoreSelection()
   }
+
+  // These two blocks are order dependent
+
+  gameState = updateCurrentScoreSelection(gameState, removeCurrentScoreSelection())
+  updateUIScoreSheet(gameState.currentScoreSelection.combinationName) // NEEDSFIX remove parameter
+
   gameState = updateGameValues(gameState, decrementRolls())
   updateUIButtons()
 })
