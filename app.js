@@ -1,179 +1,195 @@
 // default game state
 
-var defaultGameState = {
+var defaultState = {
   currentScoreSelection: {
     combinationName: '',
     value: null
   },
   diceValues: [],
-  ones: null,
-  twos: null,
-  threes: null,
-  fours: null,
-  fives: null,
-  sixes: null,
-  bonus: null,
-  threeOfAKind: null,
-  fourOfAKind: null,
-  fullHouse: null,
-  smallStraight: null,
-  largeStraight: null,
-  yahtzee: null,
-  chance: null,
   rollsRemaining: 3,
-  turnCount: 13,
-  leftScore: 0,
-  rightScore: 0
+  scoreSheet: {
+    left: {
+      ones: null,
+      twos: null,
+      threes: null,
+      fours: null,
+      fives: null,
+      sixes: null
+    },
+    right: {
+      threeOfAKind: null,
+      fourOfAKind: null,
+      fullHouse: null,
+      smallStraight: null,
+      largeStraight: null,
+      yahtzee: null,
+      chance: null
+    }
+  },
+  turnCount: 13
 }
 
 
 
 // game state
 
-var gameState = defaultGameState
+var gameState = gameStateReducer()
 
 
 
 // reducers
 
-function updateCurrentScoreSelection(prevState, action) {
+function gameStateReducer(prevState = defaultState, action = {}) {
+  // console.log('prevState ', prevState);
+  return {
+    currentScoreSelection: currentScoreSelection(prevState.currentScoreSelection, action, prevState.diceValues),
+    diceValues: diceValues(prevState.diceValues, action),
+    rollsRemaining: rollsRemaining(prevState.rollsRemaining, action),
+    scoreSheet: scoreSheet(prevState.scoreSheet, action, prevState.currentScoreSelection),
+    turnCount: turnCount(prevState.turnCount, action)
+  }
+}
+
+function currentScoreSelection(prevState = currentScoreSelectionDefaultState, action, diceValues) {
+  // console.log('prevState ', prevState)
   console.log('action ', action);
   switch (action.type) {
     case ('removeCurrentScoreSelection'):
-      return Object.assign({}, prevState, {
-        currentScoreSelection: {
-          combinationName: '',
-          value: null
-        }
-      })
+      return {
+        combinationName: '',
+        value: null
+      }
     case ('selectOnes'):
-      return Object.assign({}, prevState, {
-        currentScoreSelection: {
-          combinationName: action.combinationName,
-          value: getSumOfNumber(prevState.diceValues, 1)
-        }
-      })
+      return {
+        combinationName: action.combinationName,
+        value: getSumOfNumber(diceValues, 1)
+      }
     case ('selectTwos'):
-      return Object.assign({}, prevState, {
-        currentScoreSelection: {
-          combinationName: action.combinationName,
-          value: getSumOfNumber(prevState.diceValues, 2)
-        }
-      })
+      return {
+        combinationName: action.combinationName,
+        value: getSumOfNumber(diceValues, 2)
+      }
     case ('selectThrees'):
-      return Object.assign({}, prevState, {
-        currentScoreSelection: {
-          combinationName: action.combinationName,
-          value: getSumOfNumber(prevState.diceValues, 3)
-        }
-      })
+      return {
+        combinationName: action.combinationName,
+        value: getSumOfNumber(diceValues, 3)
+      }
     case ('selectFours'):
-      return Object.assign({}, prevState, {
-        currentScoreSelection: {
-          combinationName: action.combinationName,
-          value: getSumOfNumber(prevState.diceValues, 4)
-        }
-      })
+      return {
+        combinationName: action.combinationName,
+        value: getSumOfNumber(diceValues, 4)
+      }
     case ('selectFives'):
-      return Object.assign({}, prevState, {
-        currentScoreSelection: {
-          combinationName: action.combinationName,
-          value: getSumOfNumber(prevState.diceValues, 5)
-        }
-      })
+      return {
+        combinationName: action.combinationName,
+        value: getSumOfNumber(diceValues, 5)
+      }
     case ('selectSixes'):
-      return Object.assign({}, prevState, {
-        currentScoreSelection: {
-          combinationName: action.combinationName,
-          value: getSumOfNumber(prevState.diceValues, 6)
-        }
-      })
+      return {
+        combinationName: action.combinationName,
+        value: getSumOfNumber(diceValues, 6)
+      }
     case ('selectThreeOfAKind'):
-      return Object.assign({}, prevState, {
-        currentScoreSelection: {
-          combinationName: action.combinationName,
-          value: isNumberOfAKind(prevState.diceValues, 3) ?
-            getSumOfAllDice(prevState.diceValues) :
-            0
-        }
-      })
+      return {
+        combinationName: action.combinationName,
+        value: isNumberOfAKind(diceValues, 3) ?
+          getSumOfAllDice(diceValues) :
+          0
+      }
     case ('selectFourOfAKind'):
-      return Object.assign({}, prevState, {
-        currentScoreSelection: {
-          combinationName: action.combinationName,
-          value: isNumberOfAKind(prevState.diceValues, 4) ?
-            getSumOfAllDice(prevState.diceValues) :
-            0
-        }
-      })
+      return {
+        combinationName: action.combinationName,
+        value: isNumberOfAKind(diceValues, 4) ?
+          getSumOfAllDice(diceValues) :
+          0
+      }
     case ('selectChance'):
-      return Object.assign({}, prevState, {
-        currentScoreSelection: {
-          combinationName: action.combinationName,
-          value: getSumOfAllDice(prevState.diceValues)
-        }
-      })
+      return {
+        combinationName: action.combinationName,
+        value: getSumOfAllDice(diceValues)
+      }
     case ('selectFullHouse'):
-      return Object.assign({}, prevState, {
-        currentScoreSelection: {
-          combinationName: action.combinationName,
-          value: isFullHouse(prevState.diceValues) ? 25 : 0
-        }
-      })
+      return {
+        combinationName: action.combinationName,
+        value: isFullHouse(diceValues) ? 25 : 0
+      }
     case ('selectSmallStraight'):
-      return Object.assign({}, prevState, {
-        currentScoreSelection: {
-          combinationName: action.combinationName,
-          value: isSmallStraight(prevState.diceValues) ?
-            30 :
-            0
-        }
-      })
+      return {
+        combinationName: action.combinationName,
+        value: isSmallStraight(diceValues) ?
+          30 :
+          0
+      }
     case ('selectLargeStraight'):
-      return Object.assign({}, prevState, {
-        currentScoreSelection: {
-          combinationName: action.combinationName,
-          value: prevState.diceValues.join('') === '12345' || prevState.diceValues.join('') === '23456' ?
-            40 :
-            0
-        }
-      })
+      return {
+        combinationName: action.combinationName,
+        value: diceValues.sort().join('') === '12345' || diceValues.sort().join('') === '23456' ?
+          40 :
+          0
+      }
     case ('selectYahtzee'):
-      return Object.assign({}, prevState, {
-        currentScoreSelection: {
-          combinationName: action.combinationName,
-          value: prevState.diceValues.every(die => die === dice[0]) ? 50 : 0 // ES6
-        }
-      })
+      return {
+        combinationName: action.combinationName,
+        value: diceValues.every(die => die === dice[0]) ? 50 : 0
+      }
     default:
       return prevState
   }
 }
 
-function updateGameValues(prevState, action) {
+function diceValues(prevState, action) {
+  console.log('action ', action);
+  switch (action.type) {
+    case ('updateDiceValues'):
+      return [...action.newValues]
+    default:
+      return prevState
+  }
+}
+
+function rollsRemaining(prevState, action) {
   // console.log('prevState ', prevState)
   console.log('action ', action)
   switch (action.type) {
-    case ('decrementRolls'):
-      return Object.assign({}, prevState, {
-        rollsRemaining: prevState.rollsRemaining - 1
-      })
+    case ('decrementRolls'): // NEEDSFIX remove parens
+      return prevState - 1
     case ('resetRolls'):
-      return Object.assign({}, prevState, {
-        rollsRemaining: 3
-      })
+      return 3
+    default:
+      return prevState
+  }
+}
+
+function scoreSheet(prevState, action, { combinationName, value }) {
+  console.log('action ', action);
+  switch (action.type) {
+    case ('markScoreLeft'):
+      return {
+        ...prevState,
+        left: {
+          ...prevState.left,
+          [`${combinationName}`]: value
+        }
+      }
+    case ('markScoreRight'):
+      return {
+        ...prevState,
+        right: {
+          ...prevState.right,
+          [`${combinationName}`]: value
+        }
+      }
+    default:
+      return prevState
+  }
+}
+
+function turnCount(prevState = 13, action) {
+  // console.log('prevState ', prevState)
+  console.log('action ', action)
+  switch (action.type) {
     case ('decrementTurnCount'):
-      return Object.assign({}, prevState, {
-        turnCount: prevState.turnCount - 1
-      })
-    case ('updateDiceValues'):
-      return Object.assign({}, prevState, {
-        diceValues: action.newValues
-      })
-    case ('markScore'):
-      return Object.assign({}, prevState, {
-        [`${prevState.currentScoreSelection.combinationName}`]: prevState.currentScoreSelection.value
-      })
+      return prevState - 1
     default:
       return prevState
   }
@@ -202,8 +218,15 @@ function decrementTurnCount() {
 }
 
 function markScore() {
+  const isLeftScore = combinationName =>
+    combinationName === 'ones' ||
+    combinationName === 'twos' ||
+    combinationName === 'threes' ||
+    combinationName === 'fours' ||
+    combinationName === 'fives' ||
+    combinationName === 'sixes'
   return {
-    type: 'markScore'
+    type: isLeftScore(gameState.currentScoreSelection.combinationName) ? 'markScoreLeft' : 'markScoreRight'
   }
 }
 
@@ -235,7 +258,7 @@ function removeCurrentScoreSelection() {
 var scoreButton = document.getElementById("score-button")
 var rollButton = document.getElementById("roll-button")
 var buttonRollCount = document.getElementById("rolls-remaining")
-var turnCount = document.getElementById("turn-count")
+var turnCountEl = document.getElementById("turn-count")
 var dice = document.getElementsByClassName('die')
 
 var combinations = [
@@ -345,23 +368,13 @@ function getSumOfAllDice(diceValues) {
   return diceValues.reduce(function(a, b) { return a + b }, 0)
 }
 
-function removeScoreSelectionListeners() {
-  for (var i = 0; i < combinations.length; i++) {
-    var oldElement = document.getElementById(combinations[i].id)
-    var newElement = oldElement.cloneNode(true)
-    oldElement.parentNode.replaceChild(newElement, oldElement)
-  }
-}
+// function totalLeft() {
 
-function removeDiceListeners() {
-  for (var i = 1; i < 6; i++) {
-    var die = document.getElementById("die-position-" + i + "")
-    var oldElement = die
-    var newElement = oldElement.cloneNode(true)
-    oldElement.parentNode.replaceChild(newElement, oldElement)
-    die = newElement // mutated
-  }
-}
+// }
+
+// function totalRight() {
+
+// }
 
 
 
@@ -433,14 +446,19 @@ function unselectAllDice() {
 }
 
 function updateUITurnCount() {
-  turnCount.innerHTML = gameState.turnCount
+  turnCountEl.innerHTML = gameState.turnCount
 }
 
 function updateUIScoreSheet(combination) {
+  const scoreSheetCombinations = {
+    ...gameState.scoreSheet.left,
+    ...gameState.scoreSheet.right
+  }
   for (i = 0; i < combinations.length; i++) {
     var element = document.getElementById(combinations[i].id)
-    var scored = gameState[combinations[i].name]
-    if (combination === combinations[i].name) {
+    var combinationName = combinations[i].name
+    var scored = scoreSheetCombinations[combinationName] !== null
+    if (combination === combinationName) {
       element.innerHTML = gameState.currentScoreSelection.value // add value to score area
     } else if (!scored) {
       element.innerHTML = "" // clear previously selected score area
@@ -464,7 +482,7 @@ function listenForDieSelection() {
 function listenForScoreSelection() {
   function updateScoreSelectionAndUI(combinationName) {
     return function() {
-      gameState = updateCurrentScoreSelection(
+      gameState = gameStateReducer(
         gameState,
         selectScoreArea(combinationName)
       )
@@ -472,10 +490,14 @@ function listenForScoreSelection() {
       updateUIButtons()
     }
   }
+  const scoreSheetCombinations = {
+    ...gameState.scoreSheet.left,
+    ...gameState.scoreSheet.right
+  }
   for (var i = 0; i < combinations.length; i++) {
     var element = document.getElementById(combinations[i].id)
     var combinationName = combinations[i].name
-    var scored = gameState[combinationName]
+    var scored = scoreSheetCombinations[combinationName] !== null
     if (!scored) {
       element.addEventListener('click', updateScoreSelectionAndUI(combinationName))
     }
@@ -483,7 +505,7 @@ function listenForScoreSelection() {
 }
 
 rollButton.addEventListener('click', function() {
-  gameState = updateGameValues(gameState, updateDiceValues(getNewDiceValues()))
+  gameState = gameStateReducer(gameState, updateDiceValues(getNewDiceValues()))
   updateUIDice()
   var firstRoll = gameState.rollsRemaining == 3
   if (firstRoll) {
@@ -494,17 +516,17 @@ rollButton.addEventListener('click', function() {
 
   // These two blocks are order dependent
 
-  gameState = updateCurrentScoreSelection(gameState, removeCurrentScoreSelection())
+  gameState = gameStateReducer(gameState, removeCurrentScoreSelection())
   updateUIScoreSheet(gameState.currentScoreSelection.combinationName) // NEEDSFIX remove parameter
 
-  gameState = updateGameValues(gameState, decrementRolls())
+  gameState = gameStateReducer(gameState, decrementRolls())
   updateUIButtons()
 })
 
 scoreButton.addEventListener('click', function() {
-  gameState = updateGameValues(gameState, markScore())
-  gameState = updateGameValues(gameState, resetRolls())
-  gameState = updateGameValues(gameState, decrementTurnCount())
+  gameState = gameStateReducer(gameState, markScore())
+  gameState = gameStateReducer(gameState, resetRolls())
+  gameState = gameStateReducer(gameState, decrementTurnCount())
   rollDiceOut()
   unselectAllDice()
   updateUIButtons()
@@ -512,3 +534,21 @@ scoreButton.addEventListener('click', function() {
   removeScoreSelectionListeners()
   removeDiceListeners()
 })
+
+function removeScoreSelectionListeners() {
+  for (var i = 0; i < combinations.length; i++) {
+    var oldElement = document.getElementById(combinations[i].id)
+    var newElement = oldElement.cloneNode(true)
+    oldElement.parentNode.replaceChild(newElement, oldElement)
+  }
+}
+
+function removeDiceListeners() {
+  for (var i = 1; i < 6; i++) {
+    var die = document.getElementById("die-position-" + i + "")
+    var oldElement = die
+    var newElement = oldElement.cloneNode(true)
+    oldElement.parentNode.replaceChild(newElement, oldElement)
+    die = newElement // mutated
+  }
+}
