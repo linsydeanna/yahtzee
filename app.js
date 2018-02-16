@@ -130,7 +130,7 @@ function currentScoreSelection(prevState = currentScoreSelectionDefaultState, ac
     case ('selectYahtzee'):
       return {
         combinationName: action.combinationName,
-        value: diceValues.every(die => die === dice[0]) ? 50 : 0
+        value: diceValues.every(die => die === diceValues[0]) ? 50 : 0
       }
     default:
       return prevState
@@ -324,8 +324,6 @@ function getNewDiceValues() {
   var values = gameState.diceValues.slice()
   for (var i = 1; i < 6; i++) {
     var die = document.getElementById("die-position-" + i + "")
-    console.log('for die in position ', i, ' classes are ', die.classList);
-    // console.log('die.className !== die-kept', die.className !== 'die-kept');
     if (die.className !== 'die-kept') {
       var newDieNumber = Math.floor(Math.random() * 6) + 1
       var index = i - 1
@@ -379,14 +377,6 @@ function getSumOfAllDice(diceValues) {
   var values = diceValues.slice()
   return values.reduce(function(a, b) { return a + b }, 0)
 }
-
-// function totalLeft() {
-
-// }
-
-// function totalRight() {
-
-// }
 
 
 
@@ -461,23 +451,38 @@ function updateUITurnCount() {
   turnCountEl.innerHTML = gameState.turnCount
 }
 
-function updateBonus() {
-  var bonus = document.getElementById('bonus')
-  console.log('gameState.scoreSheet.left ', gameState.scoreSheet.left);
+function getTotal(scoreSheetSide) {
+  const scoreValues = gameState.scoreSheet[`${scoreSheetSide}`]
+  console.log('scoreValues ', scoreValues)
+  return Object.values(scoreValues).reduce((acc, val) => acc + val)
 }
 
-function updateLeftTotal() {
+function getBonus() {
+  console.log("getBonus runs with leftTotal of ", getTotal('left'))
+  return getTotal('left') >= 63 ? 35 : 0
+}
+
+function updateUIBonus() {
+  var bonus = document.getElementById('bonus')
+  if (getTotal('left') >= 63) bonus.innerHTML = 35
+}
+
+function updateUILeftTotal() {
   var leftTotalEl = document.getElementById('leftTotal')
-  var leftScores = gameState.scoreSheet.left
-  var leftTotal = Object.values(leftScores).reduce((acc, val) => acc + val)
+  var leftTotal = getTotal('left') + getBonus()
+  console.log('UI updated with leftTotal of ', leftTotal);
   leftTotalEl.innerHTML = leftTotal
 }
 
-function updateRightTotal() {
+function updateUIRightTotal() {
   var rightTotalEl = document.getElementById('rightTotal')
-  var rightScores = gameState.scoreSheet.right
-  var rightTotal = Object.values(rightScores).reduce((acc, val) => acc + val)
+  var rightTotal = getTotal('right')
   rightTotalEl.innerHTML = rightTotal
+}
+
+function updateUICurrentScore() {
+  var currentScore = document.getElementById('current-score')
+  currentScore.innerHTML = getTotal('left') + getBonus() + getTotal('right')
 }
 
 function updateUIScoreSheet(combination) {
@@ -558,8 +563,11 @@ scoreButton.addEventListener('click', function() {
   gameState = gameStateReducer(gameState, markScore())
   gameState = gameStateReducer(gameState, resetRolls())
   gameState = gameStateReducer(gameState, decrementTurnCount())
-  updateLeftTotal()
-  updateRightTotal()
+  console.log('gameState in scoreButton', gameState);
+  updateUIBonus()
+  updateUILeftTotal()
+  updateUIRightTotal()
+  updateUICurrentScore()
   rollDiceOut()
   unselectAllDice()
   updateUIButtons()
