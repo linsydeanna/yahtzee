@@ -52,7 +52,7 @@ function gameStateReducer(prevState = defaultState, action = {}) {
 
 function currentScoreSelection(prevState = currentScoreSelectionDefaultState, action, diceValues) {
   // console.log('prevState ', prevState)
-  console.log('action ', action);
+  // console.log('action ', action);
   switch (action.type) {
     case ('removeCurrentScoreSelection'):
       return {
@@ -123,7 +123,7 @@ function currentScoreSelection(prevState = currentScoreSelectionDefaultState, ac
     case ('selectLargeStraight'):
       return {
         combinationName: action.combinationName,
-        value: diceValues.sort().join('') === '12345' || diceValues.sort().join('') === '23456' ?
+        value: isLargeStraight(diceValues) ?
           40 :
           0
       }
@@ -138,7 +138,7 @@ function currentScoreSelection(prevState = currentScoreSelectionDefaultState, ac
 }
 
 function diceValues(prevState, action) {
-  console.log('action ', action);
+  if (action.type === 'updateDiceValues') console.log('action ', action);
   switch (action.type) {
     case ('updateDiceValues'):
       return [...action.newValues]
@@ -149,7 +149,7 @@ function diceValues(prevState, action) {
 
 function rollsRemaining(prevState, action) {
   // console.log('prevState ', prevState)
-  console.log('action ', action)
+  // console.log('action ', action)
   switch (action.type) {
     case ('decrementRolls'): // NEEDSFIX remove parens
       return prevState - 1
@@ -161,7 +161,7 @@ function rollsRemaining(prevState, action) {
 }
 
 function scoreSheet(prevState, action, { combinationName, value }) {
-  console.log('action ', action);
+  // console.log('action ', action);
   switch (action.type) {
     case ('markScoreLeft'):
       return {
@@ -186,7 +186,7 @@ function scoreSheet(prevState, action, { combinationName, value }) {
 
 function turnCount(prevState = 13, action) {
   // console.log('prevState ', prevState)
-  console.log('action ', action)
+  // console.log('action ', action)
   switch (action.type) {
     case ('decrementTurnCount'):
       return prevState - 1
@@ -321,22 +321,25 @@ var combinations = [
 // helpers
 
 function getNewDiceValues() {
-  var diceValues = gameState.diceValues.slice()
+  var values = gameState.diceValues.slice()
   for (var i = 1; i < 6; i++) {
     var die = document.getElementById("die-position-" + i + "")
+    console.log('for die in position ', i, ' classes are ', die.classList);
+    // console.log('die.className !== die-kept', die.className !== 'die-kept');
     if (die.className !== 'die-kept') {
       var newDieNumber = Math.floor(Math.random() * 6) + 1
       var index = i - 1
-      diceValues[index] = newDieNumber
+      values[index] = newDieNumber
     }
   }
-  return diceValues
+  return values
 }
 
 function isNumberOfAKind(diceValues, number) {
+  var values = diceValues.slice()
   var isCombination
   for (var i = 0; i < 4; i++) {
-    if (diceValues.filter(function(die) { return die == diceValues[i] }).length >= number) {
+    if (values.filter(function(die) { return die == values[i] }).length >= number) {
       isCombination = true
     }
   }
@@ -352,20 +355,29 @@ function isFullHouse(diceValues) {
 }
 
 function isSmallStraight(diceValues) {
-  var values = diceValues.filter(function(die, index) { // remove duplicates, sort, and convert to string
-    return diceValues.indexOf(die) == index;
+  var diceValuesArray = diceValues.slice()
+  var values = diceValuesArray.filter(function(die, index) { // remove duplicates, sort, and convert to string
+    return diceValuesArray.indexOf(die) == index;
   }).sort().join('').toString()
   return values.includes('1234') || values.includes('2345') || values.includes('3456')
 }
 
+function isLargeStraight(diceValues) {
+  var values = diceValues.slice()
+  return values.sort().join('') === '12345' || values.sort().join('') === '23456'
+}
+
+
 function getSumOfNumber(diceValues, n) {
-  return diceValues
+  var values = diceValues.slice()
+  return values
     .filter(function(die) { return die == n })
     .reduce(function(a, b) { return a + b }, 0)
 }
 
 function getSumOfAllDice(diceValues) {
-  return diceValues.reduce(function(a, b) { return a + b }, 0)
+  var values = diceValues.slice()
+  return values.reduce(function(a, b) { return a + b }, 0)
 }
 
 // function totalLeft() {
@@ -440,13 +452,32 @@ function updateUIDice() {
 
 function unselectAllDice() {
   for (var i = 1; i < 6; i++) {
-    var die = document.getElementById("die-position-" + i + "")
+    var die = document.getElementById("die-position-" + i + "") // NEEDSFIX make all single quote
     die.classList.remove('die-kept')
   }
 }
 
 function updateUITurnCount() {
   turnCountEl.innerHTML = gameState.turnCount
+}
+
+function updateBonus() {
+  var bonus = document.getElementById('bonus')
+  console.log('gameState.scoreSheet.left ', gameState.scoreSheet.left);
+}
+
+function updateLeftTotal() {
+  var leftTotalEl = document.getElementById('leftTotal')
+  var leftScores = gameState.scoreSheet.left
+  var leftTotal = Object.values(leftScores).reduce((acc, val) => acc + val)
+  leftTotalEl.innerHTML = leftTotal
+}
+
+function updateRightTotal() {
+  var rightTotalEl = document.getElementById('rightTotal')
+  var rightScores = gameState.scoreSheet.right
+  var rightTotal = Object.values(rightScores).reduce((acc, val) => acc + val)
+  rightTotalEl.innerHTML = rightTotal
 }
 
 function updateUIScoreSheet(combination) {
@@ -527,6 +558,8 @@ scoreButton.addEventListener('click', function() {
   gameState = gameStateReducer(gameState, markScore())
   gameState = gameStateReducer(gameState, resetRolls())
   gameState = gameStateReducer(gameState, decrementTurnCount())
+  updateLeftTotal()
+  updateRightTotal()
   rollDiceOut()
   unselectAllDice()
   updateUIButtons()
