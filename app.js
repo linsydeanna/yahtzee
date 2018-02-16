@@ -162,23 +162,24 @@ function rollsRemaining(prevState, action) {
 
 function scoreSheet(prevState, action, { combinationName, value }) {
   // console.log('action ', action);
+  console.log('new state ', Object.assign({}, prevState, {
+    left: Object.assign({}, prevState.left, {
+      [`${combinationName}`]: value
+    })
+  }));
   switch (action.type) {
     case ('markScoreLeft'):
-      return {
-        ...prevState,
-        left: {
-          ...prevState.left,
+      return Object.assign({}, prevState, {
+        left: Object.assign({}, prevState.left, {
           [`${combinationName}`]: value
-        }
-      }
+        })
+      })
     case ('markScoreRight'):
-      return {
-        ...prevState,
-        right: {
-          ...prevState.right,
+      return Object.assign({}, prevState, {
+        right: Object.assign({}, prevState.right, {
           [`${combinationName}`]: value
-        }
-      }
+        })
+      })
     default:
       return prevState
   }
@@ -486,10 +487,12 @@ function updateUICurrentScore() {
 }
 
 function updateUIScoreSheet(combination) {
-  const scoreSheetCombinations = {
-    ...gameState.scoreSheet.left,
-    ...gameState.scoreSheet.right
-  }
+  const scoreSheetCombinations = Object.assign(
+    {},
+    gameState.scoreSheet.left,
+    gameState.scoreSheet.right
+  )
+
   for (i = 0; i < combinations.length; i++) {
     var element = document.getElementById(combinations[i].id)
     var combinationName = combinations[i].name
@@ -526,10 +529,11 @@ function listenForScoreSelection() {
       updateUIButtons()
     }
   }
-  const scoreSheetCombinations = {
-    ...gameState.scoreSheet.left,
-    ...gameState.scoreSheet.right
-  }
+  const scoreSheetCombinations = Object.assign(
+    {},
+    gameState.scoreSheet.left,
+    gameState.scoreSheet.right
+  )
   for (var i = 0; i < combinations.length; i++) {
     var element = document.getElementById(combinations[i].id)
     var combinationName = combinations[i].name
@@ -563,7 +567,6 @@ scoreButton.addEventListener('click', function() {
   gameState = gameStateReducer(gameState, markScore())
   gameState = gameStateReducer(gameState, resetRolls())
   gameState = gameStateReducer(gameState, decrementTurnCount())
-  console.log('gameState in scoreButton', gameState);
   updateUIBonus()
   updateUILeftTotal()
   updateUIRightTotal()
@@ -590,6 +593,6 @@ function removeDiceListeners() {
     var oldElement = die
     var newElement = oldElement.cloneNode(true)
     oldElement.parentNode.replaceChild(newElement, oldElement)
-    die = newElement // mutated
+    die = newElement
   }
 }
