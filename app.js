@@ -465,8 +465,10 @@ function updateUIScoreSheet(combination) {
     const scored = scoreSheetCombinations[combinationName] !== null
     if (combination === combinationName) {
       element.innerHTML = gameState.currentScoreSelection.value // add value to score area
+      element.classList.remove('unmarked') // remove hover style
     } else if (!scored) {
-      element.innerHTML = "" // clear previously selected score area
+      element.innerHTML = '' // clear previously selected score area
+      if (!element.className.includes('unmarked')) element.classList.add('unmarked') // add hover style
     }
   }
 }
