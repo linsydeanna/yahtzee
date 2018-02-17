@@ -75,27 +75,14 @@ header {
 
 
 
-/* turns remaining section */
-
-.turns-section {
-  align-items: center;
-  color: #191923;
-  display: flex;
-  font-size: 20px;
-  height: 5vh;
-  justify-content: center;
-}
-
-
-
 /* score sheet section */
 
 .score-sheet {
   border-top: 1px solid #AFADAE;
   border-bottom: 1px solid #AFADAE;
   display: grid;
-  height: 48vh;
-  font-size: 18px;
+  height: 53vh;
+  font-size: 16px;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 2px;
 }
@@ -106,7 +93,7 @@ header {
 
 .score-sheet-half {
   display: grid;
-  grid-template-columns: 5fr 1fr;
+  grid-template-columns: 4fr 1fr;
   grid-gap: 2px;
 }
 
@@ -119,12 +106,29 @@ header {
   padding-left: 10px;
 }
 
+.bonus {
+  align-items: center;
+  background-color: #AFADAE;
+  border-bottom: 1px solid #AFADAE;
+  border-right: 1px solid #FFFFFF;
+  display: flex;
+  justify-content: center;
+}
+
 .total {
   align-items: center;
   background-color: #AFADAE;
   border-right: 1px solid #FFFFFF;
   display: flex;
   padding-left: 10px;
+}
+
+.side-total {
+  align-items: center;
+  background-color: #AFADAE;
+  border-right: 1px solid #FFFFFF;
+  display: flex;
+  justify-content: center;
 }
 
 .score-area {
@@ -162,6 +166,7 @@ img {
 }
 
 .dice {
+  align-items: center;
   display: flex;
   justify-content: center;
   justify-content: space-between;

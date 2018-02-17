@@ -1,6 +1,6 @@
 // default game state
 
-var defaultState = {
+const defaultState = {
   currentScoreSelection: {
     combinationName: '',
     value: null
@@ -25,34 +25,29 @@ var defaultState = {
       yahtzee: null,
       chance: null
     }
-  },
-  turnCount: 13
+  }
 }
 
 
 
 // game state
 
-var gameState = gameStateReducer()
+let gameState = gameStateReducer()
 
 
 
 // reducers
 
 function gameStateReducer(prevState = defaultState, action = {}) {
-  // console.log('prevState ', prevState);
   return {
     currentScoreSelection: currentScoreSelection(prevState.currentScoreSelection, action, prevState.diceValues),
     diceValues: diceValues(prevState.diceValues, action),
     rollsRemaining: rollsRemaining(prevState.rollsRemaining, action),
-    scoreSheet: scoreSheet(prevState.scoreSheet, action, prevState.currentScoreSelection),
-    turnCount: turnCount(prevState.turnCount, action)
+    scoreSheet: scoreSheet(prevState.scoreSheet, action, prevState.currentScoreSelection)
   }
 }
 
 function currentScoreSelection(prevState = currentScoreSelectionDefaultState, action, diceValues) {
-  // console.log('prevState ', prevState)
-  // console.log('action ', action);
   switch (action.type) {
     case ('removeCurrentScoreSelection'):
       return {
@@ -148,8 +143,8 @@ function diceValues(prevState, action) {
 }
 
 function rollsRemaining(prevState, action) {
-  // console.log('prevState ', prevState)
-  // console.log('action ', action)
+  if (action.type === 'decrementRolls') console.log('action ', action);
+  if (action.type === 'resetRolls') console.log('action ', action);
   switch (action.type) {
     case ('decrementRolls'): // NEEDSFIX remove parens
       return prevState - 1
@@ -161,12 +156,8 @@ function rollsRemaining(prevState, action) {
 }
 
 function scoreSheet(prevState, action, { combinationName, value }) {
-  // console.log('action ', action);
-  console.log('new state ', Object.assign({}, prevState, {
-    left: Object.assign({}, prevState.left, {
-      [`${combinationName}`]: value
-    })
-  }));
+  if (action.type === 'markScoreLeft') console.log('action ', action);
+  if (action.type === 'markScoreRight') console.log('action ', action);
   switch (action.type) {
     case ('markScoreLeft'):
       return Object.assign({}, prevState, {
@@ -185,17 +176,6 @@ function scoreSheet(prevState, action, { combinationName, value }) {
   }
 }
 
-function turnCount(prevState = 13, action) {
-  // console.log('prevState ', prevState)
-  // console.log('action ', action)
-  switch (action.type) {
-    case ('decrementTurnCount'):
-      return prevState - 1
-    default:
-      return prevState
-  }
-}
-
 
 
 // action creators
@@ -209,12 +189,6 @@ function decrementRolls() {
 function resetRolls() {
   return {
     type: 'resetRolls'
-  }
-}
-
-function decrementTurnCount() {
-  return {
-    type: 'decrementTurnCount'
   }
 }
 
@@ -256,13 +230,12 @@ function removeCurrentScoreSelection() {
 
 // UI elements
 
-var scoreButton = document.getElementById("score-button")
-var rollButton = document.getElementById("roll-button")
-var buttonRollCount = document.getElementById("rolls-remaining")
-var turnCountEl = document.getElementById("turn-count")
-var dice = document.getElementsByClassName('die')
+let scoreButton = document.getElementById("score-button")
+let rollButton = document.getElementById("roll-button")
+let buttonRollCount = document.getElementById("rolls-remaining")
+let dice = document.getElementsByClassName('die')
 
-var combinations = [
+const combinations = [
   {
     name: 'ones',
     id: 'ones-score'
@@ -322,9 +295,9 @@ var combinations = [
 // helpers
 
 function getNewDiceValues() {
-  var values = gameState.diceValues.slice()
+  let values = gameState.diceValues.slice()
   for (var i = 1; i < 6; i++) {
-    var die = document.getElementById("die-position-" + i + "")
+    const die = document.getElementById("die-position-" + i + "")
     if (die.className !== 'die-kept') {
       var newDieNumber = Math.floor(Math.random() * 6) + 1
       var index = i - 1
@@ -335,8 +308,8 @@ function getNewDiceValues() {
 }
 
 function isNumberOfAKind(diceValues, number) {
-  var values = diceValues.slice()
-  var isCombination
+  let values = diceValues.slice()
+  let isCombination
   for (var i = 0; i < 4; i++) {
     if (values.filter(function(die) { return die == values[i] }).length >= number) {
       isCombination = true
@@ -346,7 +319,7 @@ function isNumberOfAKind(diceValues, number) {
 }
 
 function isFullHouse(diceValues) {
-  count = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 }
+  let count = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 }
   for (var i = 0; i < diceValues.length; i++) {
     count[diceValues[i]]++
   }
@@ -354,28 +327,28 @@ function isFullHouse(diceValues) {
 }
 
 function isSmallStraight(diceValues) {
-  var diceValuesArray = diceValues.slice()
-  var values = diceValuesArray.filter(function(die, index) { // remove duplicates, sort, and convert to string
+  const diceValuesArray = diceValues.slice()
+  const values = diceValuesArray.filter(function(die, index) { // remove duplicates, sort, and convert to string
     return diceValuesArray.indexOf(die) == index;
   }).sort().join('').toString()
   return values.includes('1234') || values.includes('2345') || values.includes('3456')
 }
 
 function isLargeStraight(diceValues) {
-  var values = diceValues.slice()
+  let values = diceValues.slice()
   return values.sort().join('') === '12345' || values.sort().join('') === '23456'
 }
 
 
 function getSumOfNumber(diceValues, n) {
-  var values = diceValues.slice()
+  const values = diceValues.slice()
   return values
     .filter(function(die) { return die == n })
     .reduce(function(a, b) { return a + b }, 0)
 }
 
 function getSumOfAllDice(diceValues) {
-  var values = diceValues.slice()
+  const values = diceValues.slice()
   return values.reduce(function(a, b) { return a + b }, 0)
 }
 
@@ -386,10 +359,10 @@ function getSumOfAllDice(diceValues) {
 function updateUIButtons() { // checks current state and updates accordingly
   buttonRollCount.innerHTML = gameState.rollsRemaining
 
-  var turnStart = gameState.rollsRemaining == 3
-  var turnMiddle = gameState.rollsRemaining == 2 || gameState.rollsRemaining == 1
-  var turnEnd = gameState.rollsRemaining == 0
-  var scoreCombinationSelected = gameState.currentScoreSelection.value !== null
+  const turnStart = gameState.rollsRemaining == 3
+  const turnMiddle = gameState.rollsRemaining == 2 || gameState.rollsRemaining == 1
+  const turnEnd = gameState.rollsRemaining == 0
+  const scoreCombinationSelected = gameState.currentScoreSelection.value !== null
 
   if (turnMiddle && scoreCombinationSelected) { // display both roll button and score button
     scoreButton.classList.remove('button-invisible')
@@ -435,54 +408,47 @@ function rollDiceOut() {
 
 function updateUIDice() {
   for (var i = 1; i < 6; i++) {
-    var die = document.getElementById("die-position-" + i + "")
-    var index = i - 1
+    let die = document.getElementById("die-position-" + i + "")
+    const index = i - 1
     die.src = "images/" + gameState.diceValues[index] + ".svg"
   }
 }
 
 function unselectAllDice() {
   for (var i = 1; i < 6; i++) {
-    var die = document.getElementById("die-position-" + i + "") // NEEDSFIX make all single quote
+    let die = document.getElementById("die-position-" + i + "") // NEEDSFIX make all single quote
     die.classList.remove('die-kept')
   }
 }
 
-function updateUITurnCount() {
-  turnCountEl.innerHTML = gameState.turnCount
-}
-
 function getTotal(scoreSheetSide) {
   const scoreValues = gameState.scoreSheet[`${scoreSheetSide}`]
-  console.log('scoreValues ', scoreValues)
   return Object.values(scoreValues).reduce((acc, val) => acc + val)
 }
 
 function getBonus() {
-  console.log("getBonus runs with leftTotal of ", getTotal('left'))
   return getTotal('left') >= 63 ? 35 : 0
 }
 
 function updateUIBonus() {
-  var bonus = document.getElementById('bonus')
+  let bonus = document.getElementById('bonus')
   if (getTotal('left') >= 63) bonus.innerHTML = 35
 }
 
 function updateUILeftTotal() {
-  var leftTotalEl = document.getElementById('leftTotal')
-  var leftTotal = getTotal('left') + getBonus()
-  console.log('UI updated with leftTotal of ', leftTotal);
+  let leftTotalEl = document.getElementById('leftTotal')
+  const leftTotal = getTotal('left') + getBonus()
   leftTotalEl.innerHTML = leftTotal
 }
 
 function updateUIRightTotal() {
-  var rightTotalEl = document.getElementById('rightTotal')
-  var rightTotal = getTotal('right')
+  let rightTotalEl = document.getElementById('rightTotal')
+  const rightTotal = getTotal('right')
   rightTotalEl.innerHTML = rightTotal
 }
 
 function updateUICurrentScore() {
-  var currentScore = document.getElementById('current-score')
+  let currentScore = document.getElementById('current-score')
   currentScore.innerHTML = getTotal('left') + getBonus() + getTotal('right')
 }
 
@@ -494,9 +460,9 @@ function updateUIScoreSheet(combination) {
   )
 
   for (i = 0; i < combinations.length; i++) {
-    var element = document.getElementById(combinations[i].id)
-    var combinationName = combinations[i].name
-    var scored = scoreSheetCombinations[combinationName] !== null
+    let element = document.getElementById(combinations[i].id)
+    const combinationName = combinations[i].name
+    const scored = scoreSheetCombinations[combinationName] !== null
     if (combination === combinationName) {
       element.innerHTML = gameState.currentScoreSelection.value // add value to score area
     } else if (!scored) {
@@ -511,7 +477,7 @@ function updateUIScoreSheet(combination) {
 
 function listenForDieSelection() {
   for (var i = 1; i < 6; i++) {
-    var die = document.getElementById("die-position-" + i + "")
+    let die = document.getElementById("die-position-" + i + "")
     die.addEventListener('click', function() {
       event.target.classList.toggle('die-kept', !event.target.className.includes('die-kept'))
     })
@@ -535,9 +501,9 @@ function listenForScoreSelection() {
     gameState.scoreSheet.right
   )
   for (var i = 0; i < combinations.length; i++) {
-    var element = document.getElementById(combinations[i].id)
-    var combinationName = combinations[i].name
-    var scored = scoreSheetCombinations[combinationName] !== null
+    let element = document.getElementById(combinations[i].id)
+    const combinationName = combinations[i].name
+    const scored = scoreSheetCombinations[combinationName] !== null
     if (!scored) {
       element.addEventListener('click', updateScoreSelectionAndUI(combinationName))
     }
@@ -547,7 +513,7 @@ function listenForScoreSelection() {
 rollButton.addEventListener('click', function() {
   gameState = gameStateReducer(gameState, updateDiceValues(getNewDiceValues()))
   updateUIDice()
-  var firstRoll = gameState.rollsRemaining == 3
+  const firstRoll = gameState.rollsRemaining == 3
   if (firstRoll) {
     rollDiceIn()
     listenForDieSelection()
@@ -566,7 +532,6 @@ rollButton.addEventListener('click', function() {
 scoreButton.addEventListener('click', function() {
   gameState = gameStateReducer(gameState, markScore())
   gameState = gameStateReducer(gameState, resetRolls())
-  gameState = gameStateReducer(gameState, decrementTurnCount())
   updateUIBonus()
   updateUILeftTotal()
   updateUIRightTotal()
@@ -574,24 +539,23 @@ scoreButton.addEventListener('click', function() {
   rollDiceOut()
   unselectAllDice()
   updateUIButtons()
-  updateUITurnCount()
   removeScoreSelectionListeners()
   removeDiceListeners()
 })
 
 function removeScoreSelectionListeners() {
   for (var i = 0; i < combinations.length; i++) {
-    var oldElement = document.getElementById(combinations[i].id)
-    var newElement = oldElement.cloneNode(true)
+    let oldElement = document.getElementById(combinations[i].id)
+    const newElement = oldElement.cloneNode(true)
     oldElement.parentNode.replaceChild(newElement, oldElement)
   }
 }
 
 function removeDiceListeners() {
   for (var i = 1; i < 6; i++) {
-    var die = document.getElementById("die-position-" + i + "")
-    var oldElement = die
-    var newElement = oldElement.cloneNode(true)
+    let die = document.getElementById("die-position-" + i + "")
+    let oldElement = die
+    const newElement = oldElement.cloneNode(true)
     oldElement.parentNode.replaceChild(newElement, oldElement)
     die = newElement
   }
