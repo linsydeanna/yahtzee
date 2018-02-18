@@ -235,6 +235,11 @@ let rollButton = document.getElementById("roll-button")
 let buttonRollCount = document.getElementById("rolls-remaining")
 let dice = document.getElementsByClassName('die')
 let startGameButton = document.getElementById("start-game")
+let gameInstructions = document.getElementById('game-instructions')
+let scoreSheetEl = document.getElementById('score-sheet')
+let currentScoreSection = document.getElementById('current-score-section')
+let diceSection = document.getElementById('dice')
+let gameOver = document.getElementById('game-over')
 
 const combinations = [
   {
@@ -351,6 +356,17 @@ function getSumOfNumber(diceValues, n) {
 function getSumOfAllDice(diceValues) {
   const values = diceValues.slice()
   return values.reduce(function(a, b) { return a + b }, 0)
+}
+
+function checkForGameOver() {
+  const scoreSheetCombinations = Object.assign(
+    {},
+    gameState.scoreSheet.left,
+    gameState.scoreSheet.right
+  )
+  console.log('Object.values(scoreSheetCombinations) ', Object.values(scoreSheetCombinations));
+  console.log('!Object.values(scoreSheetCombinations).some(score => score === null) ', !Object.values(scoreSheetCombinations).some(score => score === null));
+  return !Object.values(scoreSheetCombinations).some(score => score === null)
 }
 
 
@@ -476,15 +492,34 @@ function updateUIScoreSheet(combination) {
 }
 
 function removeGameInstructions() {
-  let gameInstructions = document.getElementById('game-instructions')
-  let scoreSheet = document.getElementById('score-sheet')
-  let currentScoreSection = document.getElementById('current-score-section')
-  let diceSection = document.getElementById('dice')
-
   gameInstructions.classList.add('game-instructions-inactive')
-  scoreSheet.classList.remove('score-sheet-invisible')
+  scoreSheetEl.classList.remove('score-sheet-invisible')
   currentScoreSection.classList.remove('current-score-invisible')
   diceSection.classList.remove('dice-invisible')
+}
+
+function displayGameOverUI() {
+  gameOver.classList.remove('game-over-invisible')
+  scoreSheetEl.classList.add('score-sheet-invisible')
+  currentScoreSection.classList.add('current-score-invisible')
+  diceSection.classList.add('dice-invisible')
+}
+
+function removeGameOverUI() {
+  gameOver.classList.add('game-over-invisible')
+  scoreSheetEl.classList.remove('score-sheet-invisible')
+  currentScoreSection.classList.remove('current-score-invisible')
+  diceSection.classList.remove('dice-invisible')
+}
+
+function resetTotals() {
+  let leftTotalEl = document.getElementById('leftTotal')
+  let rightTotalEl = document.getElementById('rightTotal')
+  let currentScore = document.getElementById('current-score')
+
+  leftTotalEl.innerHTML = 0
+  rightTotalEl.innerHTML = 0
+  currentScore.innerHTML = 0
 }
 
 
@@ -527,8 +562,15 @@ function listenForScoreSelection() {
 }
 
 rollButton.addEventListener('click', function() {
+  const newGame = gameState.rollsRemaining === 3 && (gameState.currentScoreSelection.value === null || checkForGameOver())
+  console.log('newGame ', newGame);
+  if (newGame) {
+    removeGameInstructions()
+    removeGameOverUI()
+    resetTotals()
+    gameState = gameStateReducer()
+  }
 
-  if (gameState.currentScoreSelection.value === null) removeGameInstructions()
 
   gameState = gameStateReducer(gameState, updateDiceValues(getNewDiceValues()))
   updateUIDice()
@@ -560,6 +602,12 @@ scoreButton.addEventListener('click', function() {
   updateUIButtons()
   removeScoreSelectionListeners()
   removeDiceListeners()
+  const gameOver = checkForGameOver()
+  if (gameOver) {
+    displayGameOverUI()
+    let finalScore = document.getElementById('final-score')
+    finalScore.innerHTML = getTotal('left') + getBonus() + getTotal('right')
+  }
 })
 
 function removeScoreSelectionListeners() {

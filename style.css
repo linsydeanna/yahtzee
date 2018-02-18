@@ -235,6 +235,28 @@ header {
 
 
 
+/* game over section */
+
+.game-over-invisible {
+  display: none;
+}
+
+.game-over {
+  height: 75vh;
+  margin: 0 auto;
+  padding-top: 10px;
+  width: 85%;
+}
+
+.game-over h2 {
+  margin-bottom: 15px;
+}
+
+.final-score {
+  color: #BF1363;
+}
+
+
 /* dice section */
 
 .die {
