@@ -228,7 +228,7 @@ function removeCurrentScoreSelection() {
 let scoreButton = document.getElementById('score-button')
 let rollButton = document.getElementById('roll-button')
 let buttonRollCount = document.getElementById('rolls-remaining')
-let dice = document.getElementsByClassName('die')
+var dice = document.getElementsByClassName('die') // safari issue https://stackoverflow.com/questions/40091136/cant-create-duplicate-variable-that-shadows-a-global-property
 let startGameButton = document.getElementById('start-game')
 let gameInstructions = document.getElementById('game-instructions')
 let scoreSheetEl = document.getElementById('score-sheet')
