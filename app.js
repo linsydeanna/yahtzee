@@ -375,7 +375,7 @@ function updateUIButtons() { // checks current state and updates accordingly
   const scoreCombinationSelected = gameState.currentScoreSelection.value !== null
 
   if (turnMiddle && scoreCombinationSelected) { // display both roll button and score button
-    scoreButton.classList.remove('button-invisible')
+    scoreButton.classList.remove('button-invisible', 'button-wide')
     rollButton.classList.remove('button-invisible', 'button-wide')
   }
 
