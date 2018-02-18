@@ -234,6 +234,7 @@ let scoreButton = document.getElementById("score-button")
 let rollButton = document.getElementById("roll-button")
 let buttonRollCount = document.getElementById("rolls-remaining")
 let dice = document.getElementsByClassName('die')
+let startGameButton = document.getElementById("start-game")
 
 const combinations = [
   {
@@ -366,11 +367,12 @@ function updateUIButtons() { // checks current state and updates accordingly
 
   if (turnMiddle && scoreCombinationSelected) { // display both roll button and score button
     scoreButton.classList.remove('button-invisible')
-    rollButton.classList.remove('button-invisible')
+    rollButton.classList.remove('button-invisible', 'button-wide')
   }
 
   if (turnStart || !scoreCombinationSelected) { // only display roll button
     rollButton.classList.remove('button-invisible')
+    rollButton.classList.add('button-wide')
     scoreButton.classList.add('button-invisible')
   }
 
@@ -473,6 +475,18 @@ function updateUIScoreSheet(combination) {
   }
 }
 
+function removeGameInstructions() {
+  let gameInstructions = document.getElementById('game-instructions')
+  let scoreSheet = document.getElementById('score-sheet')
+  let currentScoreSection = document.getElementById('current-score-section')
+  let diceSection = document.getElementById('dice')
+
+  gameInstructions.classList.add('game-instructions-inactive')
+  scoreSheet.classList.remove('score-sheet-invisible')
+  currentScoreSection.classList.remove('current-score-invisible')
+  diceSection.classList.remove('dice-invisible')
+}
+
 
 
 // click handlers
@@ -513,6 +527,9 @@ function listenForScoreSelection() {
 }
 
 rollButton.addEventListener('click', function() {
+
+  if (gameState.currentScoreSelection.value === null) removeGameInstructions()
+
   gameState = gameStateReducer(gameState, updateDiceValues(getNewDiceValues()))
   updateUIDice()
   const firstRoll = gameState.rollsRemaining == 3
@@ -522,7 +539,7 @@ rollButton.addEventListener('click', function() {
     listenForScoreSelection()
   }
 
-  // These two blocks are order dependent
+  // 544-548 are order dependent
 
   gameState = gameStateReducer(gameState, removeCurrentScoreSelection())
   updateUIScoreSheet(gameState.currentScoreSelection.combinationName) // NEEDSFIX remove parameter
