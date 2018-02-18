@@ -147,6 +147,7 @@ header {
 }
 
 .bonus {
+  align-items: center;
   background-color: #DCDCDD;
   border-bottom: 1px solid #AFADAE;
   display: flex;
