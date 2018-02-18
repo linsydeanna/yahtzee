@@ -520,7 +520,7 @@ function resetTotals() {
 function listenForDieSelection() {
   for (var i = 1; i < 6; i++) {
     let die = document.getElementById('die-position-' + i + '')
-    die.addEventListener('click', function() {
+    die.addEventListener('click', function(event) {
       event.target.classList.toggle('die-kept', !event.target.className.includes('die-kept'))
     })
   }

@@ -222,6 +222,10 @@ header {
   .game-instructions p {
     font-size: 13px;
   }
+
+  .game-instructions h2 {
+    font-size: 18px;
+  }
 }
 
 .game-instructions img {
@@ -294,7 +298,7 @@ img {
 }
 
 .die-animate-roll-in {
-  animation: roll-in 2s;
+  animation: roll-in 1500ms;
 }
 
 @keyframes roll-in {
@@ -307,7 +311,7 @@ img {
 }
 
 .die-animate-roll-out {
-  animation: roll-out 1500ms;
+  animation: roll-out 1200ms;
 }
 
 @keyframes roll-out {
@@ -332,6 +336,7 @@ img {
 }
 
 .roll-score-buttons button {
+  border: 1px solid #AFADAE;
   border-radius: 5px;
   font-size: 18px;
   height: 65%;
@@ -354,6 +359,10 @@ img {
 
 .button-invisible {
   display: none;
+}
+
+.roll-button {
+  background-color: #FBFBFB;
 }
 
 .roll-button:hover {
