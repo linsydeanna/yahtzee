@@ -206,7 +206,7 @@ function updateDiceValues(newValues) {
 }
 
 function selectScoreArea(combinationName) {
-  var type = 'select' + combinationName.charAt(0).toUpperCase() + combinationName.slice(1);
+  let type = 'select' + combinationName.charAt(0).toUpperCase() + combinationName.slice(1);
   return {
     type: type,
     combinationName: combinationName
@@ -295,11 +295,11 @@ const combinations = [
 
 function getNewDiceValues() {
   let values = gameState.diceValues.slice();
-  for (var i = 1; i < 6; i++) {
+  for (let i = 1; i < 6; i++) {
     const die = document.getElementById('die-position-' + i + '');
     if (die.className !== 'die-kept') {
-      var newDieNumber = Math.floor(Math.random() * 6) + 1;
-      var index = i - 1;
+	    let newDieNumber = Math.floor(Math.random() * 6) + 1;
+	    let index = i - 1;
       values[index] = newDieNumber
     }
   }
@@ -309,7 +309,7 @@ function getNewDiceValues() {
 function isNumberOfAKind(diceValues, number) {
   let values = diceValues.slice();
   let isCombination;
-  for (var i = 0; i < 4; i++) {
+  for (let i = 0; i < 4; i++) {
     if (values.filter(function(die) { return die == values[i] }).length >= number) {
       isCombination = true
     }
@@ -319,7 +319,7 @@ function isNumberOfAKind(diceValues, number) {
 
 function isFullHouse(diceValues) {
   let count = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
-  for (var i = 0; i < diceValues.length; i++) {
+  for (let i = 0; i < diceValues.length; i++) {
     count[diceValues[i]]++
   }
   return Object.values(count).filter(function(c) { return c != 0 }).sort().join('').toString() === '23'
@@ -356,7 +356,7 @@ function checkForGameOver() {
     {},
     gameState.scoreSheet.left,
     gameState.scoreSheet.right
-  )
+  );
   return !Object.values(scoreSheetCombinations).some(score => score === null)
 }
 
@@ -416,7 +416,7 @@ function rollDiceOut() {
 }
 
 function updateUIDice() {
-  for (var i = 1; i < 6; i++) {
+  for (let i = 1; i < 6; i++) {
     let die = document.getElementById('die-position-' + i + '');
     const index = i - 1;
     die.src = 'images/' + gameState.diceValues[index] + '.svg'
@@ -424,7 +424,7 @@ function updateUIDice() {
 }
 
 function unselectAllDice() {
-  for (var i = 1; i < 6; i++) {
+  for (let i = 1; i < 6; i++) {
     let die = document.getElementById('die-position-' + i + '');
     die.classList.remove('die-kept')
   }
@@ -516,7 +516,7 @@ function resetTotals() {
 // click handlers
 
 function listenForDieSelection() {
-  for (var i = 1; i < 6; i++) {
+  for (let i = 1; i < 6; i++) {
     let die = document.getElementById('die-position-' + i + '');
     die.addEventListener('click', function(event) {
       event.target.classList.toggle('die-kept', !event.target.className.includes('die-kept'))
@@ -540,7 +540,7 @@ function listenForScoreSelection() {
     gameState.scoreSheet.left,
     gameState.scoreSheet.right
   );
-  for (var i = 0; i < combinations.length; i++) {
+  for (let i = 0; i < combinations.length; i++) {
     let element = document.getElementById(combinations[i].id);
     const combinationName = combinations[i].name;
     const scored = scoreSheetCombinations[combinationName] !== null;
@@ -595,10 +595,10 @@ scoreButton.addEventListener('click', function() {
     let finalScore = document.getElementById('final-score');
     finalScore.innerHTML = getTotal('left') + getBonus() + getTotal('right')
   }
-})
+});
 
 function removeScoreSelectionListeners() {
-  for (var i = 0; i < combinations.length; i++) {
+  for (let i = 0; i < combinations.length; i++) {
     let oldElement = document.getElementById(combinations[i].id);
     const newElement = oldElement.cloneNode(true);
     oldElement.parentNode.replaceChild(newElement, oldElement)
@@ -606,7 +606,7 @@ function removeScoreSelectionListeners() {
 }
 
 function removeDiceListeners() {
-  for (var i = 1; i < 6; i++) {
+  for (let i = 1; i < 6; i++) {
     let die = document.getElementById('die-position-' + i + '');
     let oldElement = die;
     const newElement = oldElement.cloneNode(true);
