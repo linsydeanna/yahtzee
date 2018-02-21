@@ -28,15 +28,11 @@ const defaultState = {
       chance: null
     }
   }
-}
-
-
+};
 
 // game state
 
-let gameState = gameStateReducer()
-
-
+let gameState = gameStateReducer();
 
 // reducers
 
