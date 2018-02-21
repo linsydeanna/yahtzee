@@ -467,7 +467,7 @@ function updateUIScoreSheet(combination) {
     gameState.scoreSheet.left,
     gameState.scoreSheet.right
   );
-  for (i = 0; i < combinations.length; i++) {
+  for (let i = 0; i < combinations.length; i++) {
     let element = document.getElementById(combinations[i].id);
     const combinationName = combinations[i].name;
     const scored = scoreSheetCombinations[combinationName] !== null;
