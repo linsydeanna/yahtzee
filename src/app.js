@@ -310,7 +310,7 @@ function isNumberOfAKind(diceValues, number) {
   let values = diceValues.slice();
   let isCombination;
   for (let i = 0; i < 4; i++) {
-    if (values.filter(function(die) { return die == values[i] }).length >= number) {
+    if (values.filter(function(die) { return die === values[i] }).length >= number) {
       isCombination = true
     }
   }
@@ -322,14 +322,14 @@ function isFullHouse(diceValues) {
   for (let i = 0; i < diceValues.length; i++) {
     count[diceValues[i]]++
   }
-  return Object.values(count).filter(function(c) { return c != 0 }).sort().join('').toString() === '23'
+  return Object.values(count).filter(function(c) { return c !== 0 }).sort().join('').toString() === '23'
 }
 
 function isSmallStraight(diceValues) {
   const diceValuesArray = diceValues.slice();
   const values = diceValuesArray.filter(function(die, index) { // remove duplicates, sort, and convert to string
-    return diceValuesArray.indexOf(die) == index;
-  }).sort().join('').toString()
+    return diceValuesArray.indexOf(die) === index;
+  }).sort().join('').toString();
   return values.includes('1234') || values.includes('2345') || values.includes('3456')
 }
 
@@ -342,7 +342,7 @@ function isLargeStraight(diceValues) {
 function getSumOfNumber(diceValues, n) {
   const values = diceValues.slice();
   return values
-    .filter(function(die) { return die == n })
+    .filter(function(die) { return die === n })
     .reduce(function(a, b) { return a + b }, 0)
 }
 
@@ -367,9 +367,9 @@ function checkForGameOver() {
 function updateUIButtons() { // checks current state and updates accordingly
   buttonRollCount.innerHTML = gameState.rollsRemaining;
 
-  const turnStart = gameState.rollsRemaining == 3;
-  const turnMiddle = gameState.rollsRemaining == 2 || gameState.rollsRemaining == 1;
-  const turnEnd = gameState.rollsRemaining == 0;
+  const turnStart = gameState.rollsRemaining === 3;
+  const turnMiddle = gameState.rollsRemaining === 2 || gameState.rollsRemaining === 1;
+  const turnEnd = gameState.rollsRemaining === 0;
   const scoreCombinationSelected = gameState.currentScoreSelection.value !== null;
 
   if (turnMiddle && scoreCombinationSelected) { // display both roll button and score button
@@ -441,7 +441,7 @@ function getBonus() {
 
 function updateUIBonus() {
   let bonus = document.getElementById('bonus');
-  if (getTotal('left') >= 63) bonus.innerHTML = 35
+  if (getTotal('left') >= 63) bonus.innerHTML = 35;
 }
 
 function updateUILeftTotal() {
@@ -561,7 +561,7 @@ rollButton.addEventListener('click', function() {
 
   gameState = gameStateReducer(gameState, updateDiceValues(getNewDiceValues()));
   updateUIDice();
-  const firstRoll = gameState.rollsRemaining == 3;
+  const firstRoll = gameState.rollsRemaining === 3;
   if (firstRoll) {
     rollDiceIn();
     listenForDieSelection();
