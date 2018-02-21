@@ -1,3 +1,5 @@
+"use strict";
+
 // default game state
 
 const defaultState = {
