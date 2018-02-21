@@ -53,80 +53,80 @@ function currentScoreSelection(prevState = currentScoreSelectionDefaultState, ac
       return {
         combinationName: '',
         value: null
-      }
+      };
     case 'selectOnes':
       return {
         combinationName: action.combinationName,
         value: getSumOfNumber(diceValues, 1)
-      }
+      };
     case 'selectTwos':
       return {
         combinationName: action.combinationName,
         value: getSumOfNumber(diceValues, 2)
-      }
+      };
     case 'selectThrees':
       return {
         combinationName: action.combinationName,
         value: getSumOfNumber(diceValues, 3)
-      }
+      };
     case 'selectFours':
       return {
         combinationName: action.combinationName,
         value: getSumOfNumber(diceValues, 4)
-      }
+      };
     case 'selectFives':
       return {
         combinationName: action.combinationName,
         value: getSumOfNumber(diceValues, 5)
-      }
+      };
     case 'selectSixes':
       return {
         combinationName: action.combinationName,
         value: getSumOfNumber(diceValues, 6)
-      }
+      };
     case 'selectThreeOfAKind':
       return {
         combinationName: action.combinationName,
         value: isNumberOfAKind(diceValues, 3) ?
           getSumOfAllDice(diceValues) :
           0
-      }
+      };
     case 'selectFourOfAKind':
       return {
         combinationName: action.combinationName,
         value: isNumberOfAKind(diceValues, 4) ?
           getSumOfAllDice(diceValues) :
           0
-      }
+      };
     case 'selectChance':
       return {
         combinationName: action.combinationName,
         value: getSumOfAllDice(diceValues)
-      }
+      };
     case 'selectFullHouse':
       return {
         combinationName: action.combinationName,
         value: isFullHouse(diceValues) ? 25 : 0
-      }
+      };
     case 'selectSmallStraight':
       return {
         combinationName: action.combinationName,
         value: isSmallStraight(diceValues) ?
           30 :
           0
-      }
+      };
     case 'selectLargeStraight':
       return {
         combinationName: action.combinationName,
         value: isLargeStraight(diceValues) ?
           40 :
           0
-      }
+      };
     case 'selectYahtzee':
       return {
         combinationName: action.combinationName,
         value: diceValues.every(die => die === diceValues[0]) ? 50 : 0
-      }
+      };
     default:
       return prevState
   }
@@ -135,7 +135,7 @@ function currentScoreSelection(prevState = currentScoreSelectionDefaultState, ac
 function diceValues(prevState, action) {
   switch (action.type) {
     case 'updateDiceValues':
-      return [...action.newValues]
+      return [...action.newValues];
     default:
       return prevState
   }
@@ -144,9 +144,9 @@ function diceValues(prevState, action) {
 function rollsRemaining(prevState, action) {
   switch (action.type) {
     case 'decrementRolls':
-      return prevState - 1
+      return prevState - 1;
     case 'resetRolls':
-      return 3
+      return 3;
     default:
       return prevState
   }
@@ -159,13 +159,13 @@ function scoreSheet(prevState, action, { combinationName, value }) {
         left: Object.assign({}, prevState.left, {
           [`${combinationName}`]: value
         })
-      })
+      });
     case 'markScoreRight':
       return Object.assign({}, prevState, {
         right: Object.assign({}, prevState.right, {
           [`${combinationName}`]: value
         })
-      })
+      });
     default:
       return prevState
   }
@@ -194,7 +194,7 @@ function markScore() {
     combinationName === 'threes' ||
     combinationName === 'fours' ||
     combinationName === 'fives' ||
-    combinationName === 'sixes'
+    combinationName === 'sixes';
   return {
     type: isLeftScore(gameState.currentScoreSelection.combinationName) ? 'markScoreLeft' : 'markScoreRight'
   }
@@ -208,7 +208,7 @@ function updateDiceValues(newValues) {
 }
 
 function selectScoreArea(combinationName) {
-  var type = 'select' + combinationName.charAt(0).toUpperCase() + combinationName.slice(1)
+  var type = 'select' + combinationName.charAt(0).toUpperCase() + combinationName.slice(1);
   return {
     type: type,
     combinationName: combinationName
@@ -225,16 +225,16 @@ function removeCurrentScoreSelection() {
 
 // UI elements
 
-let scoreButton = document.getElementById('score-button')
-let rollButton = document.getElementById('roll-button')
-let buttonRollCount = document.getElementById('rolls-remaining')
-var dice = document.getElementsByClassName('die') // safari issue https://stackoverflow.com/questions/40091136/cant-create-duplicate-variable-that-shadows-a-global-property
-let startGameButton = document.getElementById('start-game')
-let gameInstructions = document.getElementById('game-instructions')
-let scoreSheetEl = document.getElementById('score-sheet')
-let currentScoreSection = document.getElementById('current-score-section')
-let diceSection = document.getElementById('dice')
-let gameOver = document.getElementById('game-over')
+let scoreButton = document.getElementById('score-button');
+let rollButton = document.getElementById('roll-button');
+let buttonRollCount = document.getElementById('rolls-remaining');
+var dice = document.getElementsByClassName('die'); // safari issue https://stackoverflow.com/questions/40091136/cant-create-duplicate-variable-that-shadows-a-global-property
+let startGameButton = document.getElementById('start-game');
+let gameInstructions = document.getElementById('game-instructions');
+let scoreSheetEl = document.getElementById('score-sheet');
+let currentScoreSection = document.getElementById('current-score-section');
+let diceSection = document.getElementById('dice');
+let gameOver = document.getElementById('game-over');
 
 const combinations = [
   {
@@ -289,19 +289,19 @@ const combinations = [
     name: 'yahtzee',
     id: 'yahtzee-score'
   },
-]
+];
 
 
 
 // helpers
 
 function getNewDiceValues() {
-  let values = gameState.diceValues.slice()
+  let values = gameState.diceValues.slice();
   for (var i = 1; i < 6; i++) {
-    const die = document.getElementById('die-position-' + i + '')
+    const die = document.getElementById('die-position-' + i + '');
     if (die.className !== 'die-kept') {
-      var newDieNumber = Math.floor(Math.random() * 6) + 1
-      var index = i - 1
+      var newDieNumber = Math.floor(Math.random() * 6) + 1;
+      var index = i - 1;
       values[index] = newDieNumber
     }
   }
@@ -309,8 +309,8 @@ function getNewDiceValues() {
 }
 
 function isNumberOfAKind(diceValues, number) {
-  let values = diceValues.slice()
-  let isCombination
+  let values = diceValues.slice();
+  let isCombination;
   for (var i = 0; i < 4; i++) {
     if (values.filter(function(die) { return die == values[i] }).length >= number) {
       isCombination = true
@@ -320,7 +320,7 @@ function isNumberOfAKind(diceValues, number) {
 }
 
 function isFullHouse(diceValues) {
-  let count = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 }
+  let count = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
   for (var i = 0; i < diceValues.length; i++) {
     count[diceValues[i]]++
   }
@@ -328,7 +328,7 @@ function isFullHouse(diceValues) {
 }
 
 function isSmallStraight(diceValues) {
-  const diceValuesArray = diceValues.slice()
+  const diceValuesArray = diceValues.slice();
   const values = diceValuesArray.filter(function(die, index) { // remove duplicates, sort, and convert to string
     return diceValuesArray.indexOf(die) == index;
   }).sort().join('').toString()
@@ -336,20 +336,20 @@ function isSmallStraight(diceValues) {
 }
 
 function isLargeStraight(diceValues) {
-  let values = diceValues.slice()
+  let values = diceValues.slice();
   return values.sort().join('') === '12345' || values.sort().join('') === '23456'
 }
 
 
 function getSumOfNumber(diceValues, n) {
-  const values = diceValues.slice()
+  const values = diceValues.slice();
   return values
     .filter(function(die) { return die == n })
     .reduce(function(a, b) { return a + b }, 0)
 }
 
 function getSumOfAllDice(diceValues) {
-  const values = diceValues.slice()
+  const values = diceValues.slice();
   return values.reduce(function(a, b) { return a + b }, 0)
 }
 
@@ -367,35 +367,35 @@ function checkForGameOver() {
 // update UI
 
 function updateUIButtons() { // checks current state and updates accordingly
-  buttonRollCount.innerHTML = gameState.rollsRemaining
+  buttonRollCount.innerHTML = gameState.rollsRemaining;
 
-  const turnStart = gameState.rollsRemaining == 3
-  const turnMiddle = gameState.rollsRemaining == 2 || gameState.rollsRemaining == 1
-  const turnEnd = gameState.rollsRemaining == 0
-  const scoreCombinationSelected = gameState.currentScoreSelection.value !== null
+  const turnStart = gameState.rollsRemaining == 3;
+  const turnMiddle = gameState.rollsRemaining == 2 || gameState.rollsRemaining == 1;
+  const turnEnd = gameState.rollsRemaining == 0;
+  const scoreCombinationSelected = gameState.currentScoreSelection.value !== null;
 
   if (turnMiddle && scoreCombinationSelected) { // display both roll button and score button
-    scoreButton.classList.remove('button-invisible', 'button-wide')
+    scoreButton.classList.remove('button-invisible', 'button-wide');
     rollButton.classList.remove('button-invisible', 'button-wide')
   }
 
   if (turnStart || !scoreCombinationSelected) { // only display roll button
-    rollButton.classList.remove('button-invisible')
-    rollButton.classList.add('button-wide')
+    rollButton.classList.remove('button-invisible');
+    rollButton.classList.add('button-wide');
     scoreButton.classList.add('button-invisible')
   }
 
   if (turnEnd && !scoreCombinationSelected) { // only display disabled score button
-    rollButton.classList.add('button-invisible')
-    scoreButton.classList.remove('button-invisible')
-    scoreButton.classList.add('button-wide')
+    rollButton.classList.add('button-invisible');
+    scoreButton.classList.remove('button-invisible');
+    scoreButton.classList.add('button-wide');
     scoreButton.disabled = true
   }
 
   if (turnEnd && scoreCombinationSelected) { // only display score button
-    rollButton.classList.add('button-invisible')
-    scoreButton.classList.remove('button-invisible')
-    scoreButton.classList.add('button-wide')
+    rollButton.classList.add('button-invisible');
+    scoreButton.classList.remove('button-invisible');
+    scoreButton.classList.add('button-wide');
     scoreButton.disabled = false
   }
 
@@ -403,37 +403,37 @@ function updateUIButtons() { // checks current state and updates accordingly
 
 function rollDiceIn() {
   for (i = 0; i < dice.length; i++) {
-    dice[i].classList.remove('die-animate-roll-out')
-    dice[i].classList.add('die-animate-roll-in')
+    dice[i].classList.remove('die-animate-roll-out');
+    dice[i].classList.add('die-animate-roll-in');
     dice[i].classList.remove('die-start')
   }
 }
 
 function rollDiceOut() {
   for (i = 0; i < dice.length; i++) {
-    dice[i].classList.remove('die-animate-roll-in')
-    dice[i].classList.add('die-animate-roll-out')
-    dice[i].classList.add('die-start')
+    dice[i].classList.remove('die-animate-roll-in');
+    dice[i].classList.add('die-animate-roll-out');
+    dice[i].classList.add('die-start');
   }
 }
 
 function updateUIDice() {
   for (var i = 1; i < 6; i++) {
-    let die = document.getElementById('die-position-' + i + '')
-    const index = i - 1
+    let die = document.getElementById('die-position-' + i + '');
+    const index = i - 1;
     die.src = 'images/' + gameState.diceValues[index] + '.svg'
   }
 }
 
 function unselectAllDice() {
   for (var i = 1; i < 6; i++) {
-    let die = document.getElementById('die-position-' + i + '')
+    let die = document.getElementById('die-position-' + i + '');
     die.classList.remove('die-kept')
   }
 }
 
 function getTotal(scoreSheetSide) {
-  const scoreValues = gameState.scoreSheet[`${scoreSheetSide}`]
+  const scoreValues = gameState.scoreSheet[`${scoreSheetSide}`];
   return Object.values(scoreValues).reduce((acc, val) => acc + val)
 }
 
@@ -442,24 +442,24 @@ function getBonus() {
 }
 
 function updateUIBonus() {
-  let bonus = document.getElementById('bonus')
+  let bonus = document.getElementById('bonus');
   if (getTotal('left') >= 63) bonus.innerHTML = 35
 }
 
 function updateUILeftTotal() {
-  let leftTotalEl = document.getElementById('leftTotal')
-  const leftTotal = getTotal('left') + getBonus()
+  let leftTotalEl = document.getElementById('leftTotal');
+  const leftTotal = getTotal('left') + getBonus();
   leftTotalEl.innerHTML = leftTotal
 }
 
 function updateUIRightTotal() {
-  let rightTotalEl = document.getElementById('rightTotal')
-  const rightTotal = getTotal('right')
+  let rightTotalEl = document.getElementById('rightTotal');
+  const rightTotal = getTotal('right');
   rightTotalEl.innerHTML = rightTotal
 }
 
 function updateUICurrentScore() {
-  let currentScore = document.getElementById('current-score')
+  let currentScore = document.getElementById('current-score');
   currentScore.innerHTML = getTotal('left') + getBonus() + getTotal('right')
 }
 
@@ -468,49 +468,49 @@ function updateUIScoreSheet(combination) {
     {},
     gameState.scoreSheet.left,
     gameState.scoreSheet.right
-  )
+  );
   for (i = 0; i < combinations.length; i++) {
-    let element = document.getElementById(combinations[i].id)
-    const combinationName = combinations[i].name
-    const scored = scoreSheetCombinations[combinationName] !== null
+    let element = document.getElementById(combinations[i].id);
+    const combinationName = combinations[i].name;
+    const scored = scoreSheetCombinations[combinationName] !== null;
     if (combination === combinationName) {
-      element.innerHTML = gameState.currentScoreSelection.value // add value to score area
+      element.innerHTML = gameState.currentScoreSelection.value; // add value to score area
       element.classList.remove('unmarked') // remove hover style
     } else if (!scored) {
-      element.innerHTML = '' // clear previously selected score area
+      element.innerHTML = ''; // clear previously selected score area
       if (!element.className.includes('unmarked')) element.classList.add('unmarked') // add hover style
     }
   }
 }
 
 function removeGameInstructions() {
-  gameInstructions.classList.add('game-instructions-inactive')
-  scoreSheetEl.classList.remove('score-sheet-invisible')
-  currentScoreSection.classList.remove('current-score-invisible')
+  gameInstructions.classList.add('game-instructions-inactive');
+  scoreSheetEl.classList.remove('score-sheet-invisible');
+  currentScoreSection.classList.remove('current-score-invisible');
   diceSection.classList.remove('dice-invisible')
 }
 
 function displayGameOverUI() {
-  gameOver.classList.remove('game-over-invisible')
-  scoreSheetEl.classList.add('score-sheet-invisible')
-  currentScoreSection.classList.add('current-score-invisible')
-  diceSection.classList.add('dice-invisible')
+  gameOver.classList.remove('game-over-invisible');
+  scoreSheetEl.classList.add('score-sheet-invisible');
+  currentScoreSection.classList.add('current-score-invisible');
+  diceSection.classList.add('dice-invisible');
 }
 
 function removeGameOverUI() {
-  gameOver.classList.add('game-over-invisible')
-  scoreSheetEl.classList.remove('score-sheet-invisible')
-  currentScoreSection.classList.remove('current-score-invisible')
-  diceSection.classList.remove('dice-invisible')
+  gameOver.classList.add('game-over-invisible');
+  scoreSheetEl.classList.remove('score-sheet-invisible');
+  currentScoreSection.classList.remove('current-score-invisible');
+  diceSection.classList.remove('dice-invisible');
 }
 
 function resetTotals() {
-  let leftTotalEl = document.getElementById('leftTotal')
-  let rightTotalEl = document.getElementById('rightTotal')
-  let currentScore = document.getElementById('current-score')
-  leftTotalEl.innerHTML = 0
-  rightTotalEl.innerHTML = 0
-  currentScore.innerHTML = 0
+  let leftTotalEl = document.getElementById('leftTotal');
+  let rightTotalEl = document.getElementById('rightTotal');
+  let currentScore = document.getElementById('current-score');
+  leftTotalEl.innerHTML = 0;
+  rightTotalEl.innerHTML = 0;
+  currentScore.innerHTML = 0;
 }
 
 
@@ -519,7 +519,7 @@ function resetTotals() {
 
 function listenForDieSelection() {
   for (var i = 1; i < 6; i++) {
-    let die = document.getElementById('die-position-' + i + '')
+    let die = document.getElementById('die-position-' + i + '');
     die.addEventListener('click', function(event) {
       event.target.classList.toggle('die-kept', !event.target.className.includes('die-kept'))
     })
@@ -532,8 +532,8 @@ function listenForScoreSelection() {
       gameState = gameStateReducer(
         gameState,
         selectScoreArea(combinationName)
-      )
-      updateUIScoreSheet(combinationName)
+      );
+      updateUIScoreSheet(combinationName);
       updateUIButtons()
     }
   }
@@ -541,11 +541,11 @@ function listenForScoreSelection() {
     {},
     gameState.scoreSheet.left,
     gameState.scoreSheet.right
-  )
+  );
   for (var i = 0; i < combinations.length; i++) {
-    let element = document.getElementById(combinations[i].id)
-    const combinationName = combinations[i].name
-    const scored = scoreSheetCombinations[combinationName] !== null
+    let element = document.getElementById(combinations[i].id);
+    const combinationName = combinations[i].name;
+    const scored = scoreSheetCombinations[combinationName] !== null;
     if (!scored) {
       element.addEventListener('click', updateScoreSelectionAndUI(combinationName))
     }
@@ -553,66 +553,66 @@ function listenForScoreSelection() {
 }
 
 rollButton.addEventListener('click', function() {
-  const newGame = gameState.rollsRemaining === 3 && (gameState.currentScoreSelection.value === null || checkForGameOver())
+  const newGame = gameState.rollsRemaining === 3 && (gameState.currentScoreSelection.value === null || checkForGameOver());
   if (newGame) {
-    removeGameInstructions()
-    removeGameOverUI()
-    resetTotals()
+    removeGameInstructions();
+    removeGameOverUI();
+    resetTotals();
     gameState = gameStateReducer()
   }
 
-  gameState = gameStateReducer(gameState, updateDiceValues(getNewDiceValues()))
-  updateUIDice()
-  const firstRoll = gameState.rollsRemaining == 3
+  gameState = gameStateReducer(gameState, updateDiceValues(getNewDiceValues()));
+  updateUIDice();
+  const firstRoll = gameState.rollsRemaining == 3;
   if (firstRoll) {
-    rollDiceIn()
-    listenForDieSelection()
-    listenForScoreSelection()
+    rollDiceIn();
+    listenForDieSelection();
+    listenForScoreSelection();
   }
 
-  gameState = gameStateReducer(gameState, removeCurrentScoreSelection())
-  updateUIScoreSheet(gameState.currentScoreSelection.combinationName)
+  gameState = gameStateReducer(gameState, removeCurrentScoreSelection());
+  updateUIScoreSheet(gameState.currentScoreSelection.combinationName);
 
-  gameState = gameStateReducer(gameState, decrementRolls())
+  gameState = gameStateReducer(gameState, decrementRolls());
   updateUIButtons()
-})
+});
 
 scoreButton.addEventListener('click', function() {
-  gameState = gameStateReducer(gameState, markScore())
-  gameState = gameStateReducer(gameState, resetRolls())
+  gameState = gameStateReducer(gameState, markScore());
+  gameState = gameStateReducer(gameState, resetRolls());
 
-  updateUIBonus()
-  updateUILeftTotal()
-  updateUIRightTotal()
-  updateUICurrentScore()
-  rollDiceOut()
-  unselectAllDice()
-  updateUIButtons()
-  removeScoreSelectionListeners()
-  removeDiceListeners()
+  updateUIBonus();
+  updateUILeftTotal();
+  updateUIRightTotal();
+  updateUICurrentScore();
+  rollDiceOut();
+  unselectAllDice();
+  updateUIButtons();
+  removeScoreSelectionListeners();
+  removeDiceListeners();
 
-  const gameOver = checkForGameOver()
+  const gameOver = checkForGameOver();
   if (gameOver) {
-    displayGameOverUI()
-    let finalScore = document.getElementById('final-score')
+    displayGameOverUI();
+    let finalScore = document.getElementById('final-score');
     finalScore.innerHTML = getTotal('left') + getBonus() + getTotal('right')
   }
 })
 
 function removeScoreSelectionListeners() {
   for (var i = 0; i < combinations.length; i++) {
-    let oldElement = document.getElementById(combinations[i].id)
-    const newElement = oldElement.cloneNode(true)
+    let oldElement = document.getElementById(combinations[i].id);
+    const newElement = oldElement.cloneNode(true);
     oldElement.parentNode.replaceChild(newElement, oldElement)
   }
 }
 
 function removeDiceListeners() {
   for (var i = 1; i < 6; i++) {
-    let die = document.getElementById('die-position-' + i + '')
-    let oldElement = die
-    const newElement = oldElement.cloneNode(true)
-    oldElement.parentNode.replaceChild(newElement, oldElement)
-    die = newElement
+    let die = document.getElementById('die-position-' + i + '');
+    let oldElement = die;
+    const newElement = oldElement.cloneNode(true);
+    oldElement.parentNode.replaceChild(newElement, oldElement);
+    die = newElement;
   }
 }
