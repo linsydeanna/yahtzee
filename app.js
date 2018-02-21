@@ -400,7 +400,7 @@ function updateUIButtons() { // checks current state and updates accordingly
 }
 
 function rollDiceIn() {
-  for (i = 0; i < dice.length; i++) {
+  for (let i = 0; i < dice.length; i++) {
     dice[i].classList.remove('die-animate-roll-out');
     dice[i].classList.add('die-animate-roll-in');
     dice[i].classList.remove('die-start')
@@ -408,7 +408,7 @@ function rollDiceIn() {
 }
 
 function rollDiceOut() {
-  for (i = 0; i < dice.length; i++) {
+  for (let i = 0; i < dice.length; i++) {
     dice[i].classList.remove('die-animate-roll-in');
     dice[i].classList.add('die-animate-roll-out');
     dice[i].classList.add('die-start');
