@@ -1,4 +1,4 @@
-#YAHTZEE
+# YAHTZEE
 
 Based on the [classic game](https://en.wikipedia.org/wiki/Yahtzee) from Milton Bradley
 
