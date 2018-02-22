@@ -3,6 +3,7 @@
     "lite-server": "^2.3.0"
   },
   "scripts": {
-    "dev": "lite-server"
+    "dev": "lite-server",
+    "build": "cp -R src/ docs/"
   }
 }
