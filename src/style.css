@@ -377,3 +377,101 @@ img {
 .score-button:hover {
   background-color: #AE125A;
 }
+
+.score-controls {
+  padding: 1em 0;
+}
+
+.score-form-style {
+  display: flex;
+  flex-direction: row;
+}
+
+.score-form-style label {
+  padding: 0.5em;
+}
+
+.score-form-style input {
+  margin: 0.5em 0;
+  padding: 0.5em;
+  width: 100%;
+
+  outline: none;
+}
+
+.score-form-style button {
+  margin: 1em;
+  padding: 0.5em;
+}
+
+.save-button {
+  padding: 1em;
+  background-color: #FBFBFB;
+  font-size: 0.75em;
+  cursor: pointer;
+}
+
+.save-button:hover {
+  background-color: #F5F5F5;
+}
+
+#leader-board {
+  margin: 1em 0;
+}
+
+#leader-board-headers {
+  display: flex;
+  padding: 0.75em;
+  font-size: 0.75em;
+  background: #AE125A;
+}
+
+#leader-board-body {}
+
+.leader-board-row {
+  display: flex;
+  background: lightblue;
+}
+
+.leader-board-row span {
+  flex: 1;
+  background: #FBFBFB;
+  padding: 0.75em;
+  font-size: 0.75em;
+}
+
+.leader-board-header {
+  flex: 1;
+  color: #FBFBFB;
+}
+
+.form-radio-field {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-radio-field label {
+  flex: 5;
+  display: flex;
+  justify-content: flex-end;
+}
+.form-radio-field input {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form-group-A, .form-group-B {
+  flex: 1;
+}
+
+.form-group-B {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#form-message {
+  padding: 1em;
+}
