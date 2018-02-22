@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link type="text/css" rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css?family=Work+Sans" rel="stylesheet">
+  <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="../images/favicon.png" />
+  <title>Yahtzee</title>
+</head>
+
+<body>
+  <div class="game-container">
+    <header>
+      <h1>YAHTZEE</h1>
+    </header>
+    <main>
+      <section id="current-score-section" class="current-score-section current-score-invisible">
+        <div>
+          <p id="current-score" class="current-score">
+            0
+          </p>
+          <p class="current-score-text">
+            Current Score
+          </p>
+        </div>
+      </section>
+      <section id="score-sheet" class="score-sheet score-sheet-invisible">
+        <div class="score-sheet-half score-sheet-left">
+          <div class="combination">Ones</div>
+          <div id="ones-score" class="score-area unmarked ones"></div>
+          <div class="combination">Twos</div>
+          <div id="twos-score" class="score-area unmarked twos"></div>
+          <div class="combination">Threes</div>
+          <div id="threes-score" class="score-area unmarked threes"></div>
+          <div class="combination">Fours</div>
+          <div id="fours-score" class="score-area unmarked fours"></div>
+          <div class="combination">Fives</div>
+          <div id="fives-score" class="score-area unmarked fives"></div>
+          <div class="combination">Sixes</div>
+          <div id="sixes-score" class="score-area unmarked sixes"></div>
+          <div class="bonus-text">Bonus</div>
+          <div id="bonus" class="bonus"></div>
+          <div class="total">Total</div>
+          <div id="leftTotal" class="side-total">0</div>
+        </div>
+        <div class="score-sheet-half">
+          <div class="combination">Three of a Kind</div>
+          <div id="three-of-a-kind-score" class="score-area unmarked"></div>
+          <div class="combination">Four of a Kind</div>
+          <div id="four-of-a-kind-score" class="score-area unmarked"></div>
+          <div class="combination">Full House
+            <p class="combination-info">set of 2, set of 3</p>
+          </div>
+          <div id="full-house-score" class="score-area unmarked"></div>
+          <div class="combination">Small Straight
+            <p class="combination-info">run of 4</p>
+          </div>
+          <div id="small-straight-score" class="score-area unmarked"></div>
+          <div class="combination">Large Straight
+            <p class="combination-info">run of 5</p>
+          </div>
+          <div id="large-straight-score" class="score-area unmarked"></div>
+          <div class="combination">Yahtzee
+            <p class="combination-info">5 of a kind</p>
+          </div>
+          <div id="yahtzee-score" class="score-area unmarked"></div>
+          <div class="combination">Chance</div>
+          <div id="chance-score" class="score-area unmarked"></div>
+          <div class="total">Total</div>
+          <div id="rightTotal" class="side-total">0</div>
+        </div>
+      </section>
+      <section id="game-instructions" class="game-instructions game-instructions-active">
+        <h2>How To Play</h2>
+        <p>Score as many points as you can by rolling for the combinations on the score sheet.</p>
+        <p>You get
+          <strong>three </strong>rolls to achieve a combination.</p>
+        <p>Select the dice that you want to keep and re-roll.</p>
+        <img src="../images/roll-dice.gif" alt="">
+        <p>Select a combination to score!</p>
+        <img src="../images/score.gif" alt="">
+        <p>Roll a
+          <span class="yahtzee">Yahtzee</span> and score 50 points!
+          <span>
+            <i class="em em-confetti_ball"></i>
+          </span>
+        </p>
+        <p>Start by rolling the dice!
+          <span>
+            <i class="em em-point_down"></i>
+          </span>
+        </p>
+      </section>
+      <section id="game-over" class="game-over game-over-invisible">
+        <h2>You scored
+          <span id="final-score" class="final-score"></span>
+        </h2>
+        <h2>Nice job!</h2>
+        <div id="score-controls" class="score-controls">
+          <form id="score-form" class="score-form-style">
+            <div class="form-group-A">
+              <label for="username">
+                Username:
+                <input id="username" name="username" />
+              </label>
+              <label for="song">
+                Fave Song:
+                <input id="song" name="song"/>
+              </label>
+            </div>
+            <div class="form-group-B">
+              <div class="form-radio-field">
+                <label for="isNewUser">
+                  New Player
+                </label>
+                <input type="radio" id="isNewUser" value="new" name="typeUser">
+              </div>
+              <div class="form-radio-field">
+                <label for="isExistingPlayer">
+                  Existing Player
+                </label>
+                <input type="radio" id="isExistingPlayer" value="existing" name="typeUser">
+              </div>
+              <button type="submit" id="save-button" class="button save-button">Save Score</button>
+            </div>
+          </form>
+          <div id="form-message">
+          </div>
+        </div>
+        <div id="leader-board">
+          <div id="leader-board-headers">
+            <span class="leader-board-header">Player</span>
+            <span class="leader-board-header">High Score</span>
+          </div>
+          <div id="leader-board-body">
+          </div>
+        </div>
+        <p>Roll to play again
+          <span>
+            <i class="em em-point_down"></i>
+          </span>
+        </p>
+      </section>
+      <section id="dice" class="dice dice-invisible">
+        <div class="die die-start die-1">
+          <img src="../images/2.svg" id="die-position-1" alt="die">
+        </div>
+        <div class="die die-start die-2">
+          <img src="../images/4.svg" id="die-position-2" alt="die">
+        </div>
+        <div class="die die-start die-3">
+          <img src="../images/6.svg" id="die-position-3" alt="die">
+        </div>
+        <div class="die die-start die-4">
+          <img src="../images/1.svg" id="die-position-4" alt="die">
+        </div>
+        <div class="die die-start die-5">
+          <img src="../images/5.svg" id="die-position-5" alt="die">
+        </div>
+      </section>
+      <section class="roll-score-buttons">
+        <button type="button" id="roll-button" class="button button-wide roll-button">
+          Roll
+          <span id="rolls-remaining" class="rolls-remaining">3</span>
+        </button>
+        <button type="button" class="button button-invisible score-button" id="score-button">Score</button>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+
+</html>
