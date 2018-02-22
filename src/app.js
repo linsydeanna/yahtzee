@@ -707,7 +707,6 @@ function sendData() {
 
 	  let requestType = "";
 
-	  // Set up our request
 	  if (userTypeValue === "new") {
 		  requestType = "user";
 	  } else if (userTypeValue === "existing") {
@@ -720,8 +719,6 @@ function sendData() {
 	  XHR.open("POST", request);
 	  XHR.setRequestHeader("Content-Type", "application/json");
 	  XHR.send(JSON.stringify(user));
-
-	  // The data sent is what the user provided in the form
 
   } else {
     formMessage.innerText = `Invalid form.`;
