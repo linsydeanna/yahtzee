@@ -233,6 +233,13 @@ let scoreSheetEl = document.getElementById('score-sheet');
 let currentScoreSection = document.getElementById('current-score-section');
 let diceSection = document.getElementById('dice');
 let gameOver = document.getElementById('game-over');
+let finalScore = document.getElementById('final-score');
+let leaderBoardBody = document.getElementById("leader-board-body");
+let formMessage = document.getElementById("form-message");
+
+// Flags
+
+let scoreSubmitted = false;
 
 const combinations = [
   {
@@ -493,6 +500,8 @@ function displayGameOverUI() {
   scoreSheetEl.classList.add('score-sheet-invisible');
   currentScoreSection.classList.add('current-score-invisible');
   diceSection.classList.add('dice-invisible');
+
+  refreshBoard();
 }
 
 function removeGameOverUI() {
@@ -556,7 +565,8 @@ rollButton.addEventListener('click', function() {
     removeGameInstructions();
     removeGameOverUI();
     resetTotals();
-    gameState = gameStateReducer()
+    gameState = gameStateReducer();
+    scoreSubmitted = false;
   }
 
   gameState = gameStateReducer(gameState, updateDiceValues(getNewDiceValues()));
@@ -592,7 +602,6 @@ scoreButton.addEventListener('click', function() {
   const gameOver = checkForGameOver();
   if (gameOver) {
     displayGameOverUI();
-    let finalScore = document.getElementById('final-score');
     finalScore.innerHTML = getTotal('left') + getBonus() + getTotal('right')
   }
 });
@@ -614,3 +623,145 @@ function removeDiceListeners() {
     die = newElement;
   }
 }
+
+const username = document.getElementById("username");
+const song = document.getElementById("song");
+
+function getScores() {
+  return new Promise((resolve, reject) => {
+
+	  let XHR = new XMLHttpRequest();
+
+	  XHR.addEventListener("load", function(event) {
+		  resolve(event.target.responseText);
+	  });
+
+	  XHR.addEventListener("error", function(event) {
+		  alert('Oups! Something goes wrong.');
+		  reject(event);
+	  });
+
+	  XHR.open("GET", "https://wt-9247ad9527b09dac68774fb59a2c93f6-0.run.webtask.io/scores/users");
+	  XHR.setRequestHeader("Content-Type", "application/json");
+	  // The data sent is what the user provided in the form
+	  XHR.send();
+
+  });
+}
+
+function isValidUser(user) {
+  return user.length > 0;
+}
+
+function isValidSong(song) {
+  return song.length > 0;
+}
+
+function isValidType(userType) {
+  return !!userType;
+}
+
+function sendData() {
+
+  if (scoreSubmitted) {
+    formMessage.innerText = "Your score was already saved.";
+    return;
+  }
+
+	const userType = document.querySelector('input[name="typeUser"]:checked');
+
+  if (
+    isValidUser(username.value) &&
+    isValidSong(song.value) &&
+    isValidType(userType) &&
+    !scoreSubmitted
+  ) {
+	  let XHR = new XMLHttpRequest();
+
+	  const userTypeValue = userType.value;
+
+	  const user = {
+		  "username":username.value,
+		  "song":song.value,
+		  "score":finalScore.innerText
+	  };
+
+	  // Define what happens on successful data submission
+	  XHR.addEventListener("load", function(event) {
+	    const status = event.target.status;
+	    const response = event.target.responseText;
+
+	    if (status !== 200) {
+	      formMessage.innerText = response;
+      } else {
+		    formMessage.innerText = response;
+		    scoreSubmitted = true;
+		    refreshBoard();
+      }
+	  });
+
+	  // Define what happens in case of error
+	  XHR.addEventListener("error", function(event) {
+	  	alert('Oups! Something goes wrong.');
+	  });
+
+	  let requestType = "";
+
+	  // Set up our request
+	  if (userTypeValue === "new") {
+		  requestType = "user";
+	  } else if (userTypeValue === "existing") {
+		  requestType = "score";
+	  }
+
+	  let request = "https://wt-9247ad9527b09dac68774fb59a2c93f6-0.run.webtask.io/scores/";
+	  request += requestType;
+
+	  XHR.open("POST", request);
+	  XHR.setRequestHeader("Content-Type", "application/json");
+	  XHR.send(JSON.stringify(user));
+
+	  // The data sent is what the user provided in the form
+
+  } else {
+    formMessage.innerText = `Invalid form.`;
+  }
+}
+
+function refreshBoard() {
+	getScores()
+		.then((data) => {
+			const usersData = JSON.parse(data);
+
+			usersData.sort((userA, userB) => {
+			  const scoreA = userA.highScore;
+			  const scoreB = userB.highScore;
+
+			  return scoreB - scoreA;
+      });
+
+			while(leaderBoardBody.firstChild) {
+				leaderBoardBody.removeChild(leaderBoardBody.firstChild);
+			}
+
+			usersData.map(user => {
+				let row = document.createElement('div');
+				row.className = 'leader-board-row';
+				let username = document.createElement('span');
+				let highScore = document.createElement('span');
+				username.innerText = user.username;
+				highScore.innerText = user.highScore;
+				row.appendChild(username);
+				row.appendChild(highScore);
+				leaderBoardBody.appendChild(row);
+			});
+		})
+}
+
+let form = document.getElementById("score-form");
+
+form.addEventListener("submit", function (event) {
+	event.preventDefault();
+
+	sendData();
+});
