@@ -30,9 +30,13 @@ const defaultState = {
   }
 };
 
+
+
 // game state
 
 let gameState = gameStateReducer();
+
+
 
 // reducers
 
@@ -305,8 +309,8 @@ function getNewDiceValues() {
   for (let i = 1; i < 6; i++) {
     const die = document.getElementById('die-position-' + i + '');
     if (die.className !== 'die-kept') {
-	    let newDieNumber = Math.floor(Math.random() * 6) + 1;
-	    let index = i - 1;
+      let newDieNumber = Math.floor(Math.random() * 6) + 1;
+      let index = i - 1;
       values[index] = newDieNumber
     }
   }
@@ -630,21 +634,21 @@ const song = document.getElementById("song");
 function getScores() {
   return new Promise((resolve, reject) => {
 
-	  let XHR = new XMLHttpRequest();
+    let XHR = new XMLHttpRequest();
 
-	  XHR.addEventListener("load", function(event) {
-		  resolve(event.target.responseText);
-	  });
+    XHR.addEventListener("load", function(event) {
+      resolve(event.target.responseText);
+    });
 
-	  XHR.addEventListener("error", function(event) {
-		  alert('Oups! Something goes wrong.');
-		  reject(event);
-	  });
+    XHR.addEventListener("error", function(event) {
+      alert('Oups! Something goes wrong.');
+      reject(event);
+    });
 
-	  XHR.open("GET", "https://wt-9247ad9527b09dac68774fb59a2c93f6-0.run.webtask.io/scores/users");
-	  XHR.setRequestHeader("Content-Type", "application/json");
-	  // The data sent is what the user provided in the form
-	  XHR.send();
+    XHR.open("GET", "https://wt-9247ad9527b09dac68774fb59a2c93f6-0.run.webtask.io/scores/users");
+    XHR.setRequestHeader("Content-Type", "application/json");
+    // The data sent is what the user provided in the form
+    XHR.send();
 
   });
 }
@@ -668,7 +672,7 @@ function sendData() {
     return;
   }
 
-	const userType = document.querySelector('input[name="typeUser"]:checked');
+  const userType = document.querySelector('input[name="typeUser"]:checked');
 
   if (
     isValidUser(username.value) &&
@@ -676,49 +680,49 @@ function sendData() {
     isValidType(userType) &&
     !scoreSubmitted
   ) {
-	  let XHR = new XMLHttpRequest();
+    let XHR = new XMLHttpRequest();
 
-	  const userTypeValue = userType.value;
+    const userTypeValue = userType.value;
 
-	  const user = {
-		  "username":username.value,
-		  "song":song.value,
-		  "score":finalScore.innerText
-	  };
+    const user = {
+      "username": username.value,
+      "song": song.value,
+      "score": finalScore.innerText
+    };
 
-	  // Define what happens on successful data submission
-	  XHR.addEventListener("load", function(event) {
-	    const status = event.target.status;
-	    const response = event.target.responseText;
+    // Define what happens on successful data submission
+    XHR.addEventListener("load", function(event) {
+      const status = event.target.status;
+      const response = event.target.responseText;
 
-	    if (status !== 200) {
-	      formMessage.innerText = response;
+      if (status !== 200) {
+        formMessage.innerText = response;
       } else {
-		    formMessage.innerText = response;
-		    scoreSubmitted = true;
-		    refreshBoard();
+        formMessage.innerText = response;
+        scoreSubmitted = true;
+        refreshBoard();
       }
-	  });
+    });
 
-	  // Define what happens in case of error
-	  XHR.addEventListener("error", function(event) {
-	  	alert('Oups! Something goes wrong.');
-	  });
+    // Define what happens in case of error
+    XHR.addEventListener("error", function(event) {
+      alert('Oups! Something goes wrong.');
+    });
 
-	  let requestType = "";
+    let requestType = "";
 
-	  if (userTypeValue === "new") {
-		  requestType = "user";
-	  } else if (userTypeValue === "existing") {
-		  requestType = "score";
-	  }
+    if (userTypeValue === "new") {
+      requestType = "user";
+    } else if (userTypeValue === "existing") {
+      requestType = "score";
+    }
 
-	  let request = "https://wt-9247ad9527b09dac68774fb59a2c93f6-0.run.webtask.io/scores/";
-	  request += requestType;
+    let request = "https://wt-9247ad9527b09dac68774fb59a2c93f6-0.run.webtask.io/scores/";
+    request += requestType;
 
-	  XHR.open("POST", request);
-	  XHR.setRequestHeader("Content-Type", "application/json");
-	  XHR.send(JSON.stringify(user));
+    XHR.open("POST", request);
+    XHR.setRequestHeader("Content-Type", "application/json");
+    XHR.send(JSON.stringify(user));
 
   } else {
     formMessage.innerText = `Invalid form.`;
@@ -726,39 +730,39 @@ function sendData() {
 }
 
 function refreshBoard() {
-	getScores()
-		.then((data) => {
-			const usersData = JSON.parse(data);
+  getScores()
+    .then((data) => {
+      const usersData = JSON.parse(data);
 
-			usersData.sort((userA, userB) => {
-			  const scoreA = userA.highScore;
-			  const scoreB = userB.highScore;
+      usersData.sort((userA, userB) => {
+        const scoreA = userA.highScore;
+        const scoreB = userB.highScore;
 
-			  return scoreB - scoreA;
+        return scoreB - scoreA;
       });
 
-			while(leaderBoardBody.firstChild) {
-				leaderBoardBody.removeChild(leaderBoardBody.firstChild);
-			}
+      while (leaderBoardBody.firstChild) {
+        leaderBoardBody.removeChild(leaderBoardBody.firstChild);
+      }
 
-			usersData.map(user => {
-				let row = document.createElement('div');
-				row.className = 'leader-board-row';
-				let username = document.createElement('span');
-				let highScore = document.createElement('span');
-				username.innerText = user.username;
-				highScore.innerText = user.highScore;
-				row.appendChild(username);
-				row.appendChild(highScore);
-				leaderBoardBody.appendChild(row);
-			});
-		})
+      usersData.map(user => {
+        let row = document.createElement('div');
+        row.className = 'leader-board-row';
+        let username = document.createElement('span');
+        let highScore = document.createElement('span');
+        username.innerText = user.username;
+        highScore.innerText = user.highScore;
+        row.appendChild(username);
+        row.appendChild(highScore);
+        leaderBoardBody.appendChild(row);
+      });
+    })
 }
 
 let form = document.getElementById("score-form");
 
-form.addEventListener("submit", function (event) {
-	event.preventDefault();
+form.addEventListener("submit", function(event) {
+  event.preventDefault();
 
-	sendData();
+  sendData();
 });

@@ -5,5 +5,10 @@
   "scripts": {
     "dev": "lite-server",
     "build": "cp -R src/ docs/"
+  },
+  "dependencies": {
+    "husky": "^0.14.3",
+    "prettier": "^1.10.2",
+    "pretty-quick": "^1.4.1"
   }
 }
