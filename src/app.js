@@ -778,14 +778,11 @@ function refreshBoard() {
     });
 
     const scores = usersData.map(record => parseInt(record.highScore));
-    console.log("scores ", scores);
     const lowestScore = scores[4];
-    console.log("lowestScore ", lowestScore);
 
     let topFiveMessage = document.getElementById("top-five-message");
     let scoreForm = document.getElementById("score-controls");
 
-    // if higher than the lowest score
     if (finalScore.innerText >= lowestScore) {
       topFiveMessage.innerHTML =
         "You made it into the top five! Add your Twitter handle to the leaderboard, champ.";
@@ -797,7 +794,6 @@ function refreshBoard() {
     }
 
     while (leaderBoardBody.firstChild) {
-      console.log("leaderBoardBody.firstChild ", leaderBoardBody.firstChild);
       leaderBoardBody.removeChild(leaderBoardBody.firstChild);
     }
 
