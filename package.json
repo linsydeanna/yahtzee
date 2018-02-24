@@ -4,7 +4,8 @@
   },
   "scripts": {
     "dev": "lite-server",
-    "build": "cp -R src/ docs/"
+    "build": "cp -R src/ docs/",
+    "precommit": "pretty-quick --staged"
   },
   "dependencies": {
     "husky": "^0.14.3",
