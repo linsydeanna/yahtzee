@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css?family=Work+Sans" rel="stylesheet">
   <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
   <link rel="icon" type="image/png" href="images/favicon.png" />
-  <base href="https://linsydeanna.github.io/yahtzee/">
+  <base href="http://localhost:8000/">
   <title>Yahtzee</title>
 </head>
 
@@ -97,16 +97,16 @@
         </p>
       </section>
       <section id="game-over" class="game-over game-over-invisible">
-        <h2>You scored
+        <h2 class="you-scored">You scored
           <span id="final-score" class="final-score"></span>
         </h2>
-        <h2>Nice job!</h2>
-        <div id="score-controls" class="score-controls">
+        <h4 id="top-five-message" class="top-five-message"></h4>
+        <div id="score-controls" class="score-controls score-form-invisible">
           <form id="score-form" class="score-form-style">
             <div class="form-group-A">
               <label for="username">
-                Username:
-                <input id="username" name="username" />
+                Twitter handle:
+                <input id="username" name="username" placeholder="@mytwitterhandle" />
               </label>
               <label for="song">
                 Fave Song:
@@ -135,7 +135,7 @@
         <div id="leader-board">
           <div id="leader-board-headers">
             <span class="leader-board-header">Player</span>
-            <span class="leader-board-header">High Score</span>
+            <span class="leader-board-header">Score</span>
           </div>
           <div id="leader-board-body">
           </div>
