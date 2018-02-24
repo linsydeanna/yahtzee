@@ -12,20 +12,20 @@ const defaultState = {
   scoreSheet: {
     left: {
       ones: null,
-      twos: null,
-      threes: null,
-      fours: null,
-      fives: null,
-      sixes: null
+      twos: 0,
+      threes: 0,
+      fours: 0,
+      fives: 0,
+      sixes: 0
     },
     right: {
-      threeOfAKind: null,
-      fourOfAKind: null,
-      fullHouse: null,
-      smallStraight: null,
-      largeStraight: null,
-      yahtzee: null,
-      chance: null
+      threeOfAKind: 0,
+      fourOfAKind: 0,
+      fullHouse: 0,
+      smallStraight: 0,
+      largeStraight: 0,
+      yahtzee: 0,
+      chance: 150
     }
   }
 };
@@ -231,7 +231,7 @@ function removeCurrentScoreSelection() {
 let scoreButton = document.getElementById("score-button");
 let rollButton = document.getElementById("roll-button");
 let buttonRollCount = document.getElementById("rolls-remaining");
-var dice = document.getElementsByClassName("die"); // using var because of safari issue https://stackoverflow.com/questions/40091136/cant-create-duplicate-variable-that-shadows-a-global-property
+var dice = document.getElementsByClassName("die"); // var used because of safari issue https://stackoverflow.com/questions/40091136/cant-create-duplicate-variable-that-shadows-a-global-property
 let startGameButton = document.getElementById("start-game");
 let gameInstructions = document.getElementById("game-instructions");
 let scoreSheetEl = document.getElementById("score-sheet");
@@ -663,6 +663,8 @@ function removeDiceListeners() {
   }
 }
 
+// API requests for leaderboard
+
 const username = document.getElementById("username");
 const song = document.getElementById("song");
 
@@ -675,7 +677,7 @@ function getScores() {
     });
 
     XHR.addEventListener("error", function(event) {
-      alert("Oups! Something goes wrong.");
+      alert("Oops! Something went wrong.");
       reject(event);
     });
 
@@ -741,7 +743,7 @@ function sendData() {
 
     // Define what happens in case of error
     XHR.addEventListener("error", function(event) {
-      alert("Oups! Something goes wrong.");
+      alert("Oops! Something went wrong.");
     });
 
     let requestType = "";
@@ -760,7 +762,7 @@ function sendData() {
     XHR.setRequestHeader("Content-Type", "application/json");
     XHR.send(JSON.stringify(user));
   } else {
-    formMessage.innerText = `Invalid form.`;
+    formMessage.innerText = `Whoops! Make sure to fill out all fields!`;
   }
 }
 
@@ -775,11 +777,33 @@ function refreshBoard() {
       return scoreB - scoreA;
     });
 
+    const scores = usersData.map(record => parseInt(record.highScore));
+    console.log("scores ", scores);
+    const lowestScore = scores[4];
+    console.log("lowestScore ", lowestScore);
+
+    let topFiveMessage = document.getElementById("top-five-message");
+    let scoreForm = document.getElementById("score-controls");
+
+    // if higher than the lowest score
+    if (finalScore.innerText >= lowestScore) {
+      topFiveMessage.innerHTML =
+        "You made it into the top five! Add your Twitter handle to the leaderboard, champ.";
+      scoreForm.classList.remove("score-form-invisible");
+    } else {
+      topFiveMessage.innerHTML =
+        "Nice job! You didn't make the top five but you can always play again!";
+      scoreForm.classList.add("score-form-display-none");
+    }
+
     while (leaderBoardBody.firstChild) {
+      console.log("leaderBoardBody.firstChild ", leaderBoardBody.firstChild);
       leaderBoardBody.removeChild(leaderBoardBody.firstChild);
     }
 
-    usersData.map(user => {
+    const newTopFive = usersData.slice(0, 5);
+
+    newTopFive.map(user => {
       let row = document.createElement("div");
       row.className = "leader-board-row";
       let username = document.createElement("span");
