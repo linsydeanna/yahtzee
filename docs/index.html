@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css?family=Work+Sans" rel="stylesheet">
   <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
   <link rel="icon" type="image/png" href="images/favicon.png" />
+  <base href="http://localhost:8000/">
   <title>Yahtzee</title>
 </head>
 
@@ -96,10 +97,49 @@
         </p>
       </section>
       <section id="game-over" class="game-over game-over-invisible">
-        <h2>You scored
+        <h2 class="you-scored">You scored
           <span id="final-score" class="final-score"></span>
         </h2>
-        <h2>Nice job!</h2>
+        <h4 id="top-five-message" class="top-five-message"></h4>
+        <div id="score-controls" class="score-controls score-form-invisible">
+          <form id="score-form" class="score-form-style">
+            <div class="form-group-A">
+              <label for="username">
+                Twitter handle:
+                <input id="username" name="username" placeholder="@mytwitterhandle" />
+              </label>
+              <label for="song">
+                Fave Song:
+                <input id="song" name="song" />
+              </label>
+            </div>
+            <div class="form-group-B">
+              <div class="form-radio-field">
+                <label for="isNewUser">
+                  New Player
+                </label>
+                <input type="radio" id="isNewUser" value="new" name="typeUser">
+              </div>
+              <div class="form-radio-field">
+                <label for="isExistingPlayer">
+                  Existing Player
+                </label>
+                <input type="radio" id="isExistingPlayer" value="existing" name="typeUser">
+              </div>
+              <button type="submit" id="save-button" class="button save-button">Save Score</button>
+            </div>
+          </form>
+          <div id="form-message">
+          </div>
+        </div>
+        <div id="leader-board">
+          <div id="leader-board-headers">
+            <span class="leader-board-header">Player</span>
+            <span class="leader-board-header">Score</span>
+          </div>
+          <div id="leader-board-body">
+          </div>
+        </div>
         <p>Roll to play again
           <span>
             <i class="em em-point_down"></i>
