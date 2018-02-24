@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css?family=Work+Sans" rel="stylesheet">
   <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
   <link rel="icon" type="image/png" href="images/favicon.png" />
+  <base href="http://localhost:8000/">
   <title>Yahtzee</title>
 </head>
 
@@ -100,6 +101,45 @@
           <span id="final-score" class="final-score"></span>
         </h2>
         <h2>Nice job!</h2>
+        <div id="score-controls" class="score-controls">
+          <form id="score-form" class="score-form-style">
+            <div class="form-group-A">
+              <label for="username">
+                Username:
+                <input id="username" name="username" />
+              </label>
+              <label for="song">
+                Fave Song:
+                <input id="song" name="song"/>
+              </label>
+            </div>
+            <div class="form-group-B">
+              <div class="form-radio-field">
+                <label for="isNewUser">
+                  New Player
+                </label>
+                <input type="radio" id="isNewUser" value="new" name="typeUser">
+              </div>
+              <div class="form-radio-field">
+                <label for="isExistingPlayer">
+                  Existing Player
+                </label>
+                <input type="radio" id="isExistingPlayer" value="existing" name="typeUser">
+              </div>
+              <button type="submit" id="save-button" class="button save-button">Save Score</button>
+            </div>
+          </form>
+          <div id="form-message">
+          </div>
+        </div>
+        <div id="leader-board">
+          <div id="leader-board-headers">
+            <span class="leader-board-header">Player</span>
+            <span class="leader-board-header">High Score</span>
+          </div>
+          <div id="leader-board-body">
+          </div>
+        </div>
         <p>Roll to play again
           <span>
             <i class="em em-point_down"></i>
