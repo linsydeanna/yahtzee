@@ -771,7 +771,6 @@ function sendData() {
 function refreshBoard() {
   getScores().then(data => {
     const usersData = JSON.parse(data);
-    console.log("usersData ", usersData);
 
     usersData.sort((userA, userB) => {
       const scoreA = userA.highScore;
