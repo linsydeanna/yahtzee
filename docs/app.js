@@ -547,13 +547,15 @@ function removeGameOverUI() {
   diceSection.classList.remove("dice-invisible");
 }
 
-function resetTotals() {
+function resetBonusAndTotals() {
   let leftTotalEl = document.getElementById("leftTotal");
   let rightTotalEl = document.getElementById("rightTotal");
   let currentScore = document.getElementById("current-score");
+  let bonus = document.getElementById("bonus");
   leftTotalEl.innerHTML = 0;
   rightTotalEl.innerHTML = 0;
   currentScore.innerHTML = 0;
+  bonus.innerHTML = "";
 }
 
 // click handlers
@@ -603,7 +605,7 @@ rollButton.addEventListener("click", function() {
   if (newGame) {
     removeGameInstructions();
     removeGameOverUI();
-    resetTotals();
+    resetBonusAndTotals();
     gameState = gameStateReducer();
     scoreSubmitted = false;
   }
