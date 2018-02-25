@@ -788,7 +788,7 @@ function refreshBoard() {
 
     if (finalScore.innerText >= lowestScore) {
       topFiveMessage.innerHTML =
-        "You made it into the top five! Add your Twitter handle to the leaderboard, champ.";
+        "You made it into the top five scores! Add your Twitter handle to the leaderboard, champ.";
       scoreForm.classList.remove("score-form-invisible");
     } else {
       topFiveMessage.innerHTML =
