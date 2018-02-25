@@ -25,7 +25,7 @@ button:focus {
 }
 
 .game-container {
-  height: 95vh;
+  height: 100vh;
   margin: 0 auto;
   position: relative;
   width: 55vh;
@@ -41,6 +41,7 @@ button:focus {
 
 main {
   background-color: #f0edee;
+  height: 88vh;
   overflow: hidden;
 }
 
@@ -81,13 +82,22 @@ header {
   font-size: 20px;
 }
 
+@media (max-height: 610px) {
+  .current-score {
+    font-size: 20px;
+  }
+  .score-sheet {
+    font-size: 16px;
+  }
+}
+
 /* score sheet section */
 
 .score-sheet {
   border-top: 1px solid #afadae;
   border-bottom: 1px solid #afadae;
   display: grid;
-  height: 53vh;
+  height: 58vh;
   font-size: 16px;
   grid-template-columns: repeat(2, 1fr);
 }
@@ -98,7 +108,7 @@ header {
   }
 }
 
-@media (max-height: 600px) {
+@media (max-height: 610px) {
   .score-sheet {
     font-size: 13px;
   }
@@ -129,7 +139,7 @@ header {
 }
 
 .combination-info {
-  font-size: 11px;
+  font-size: 10px;
   font-style: italic;
 }
 
@@ -187,7 +197,7 @@ header {
 }
 
 .game-instructions-active {
-  height: 75vh;
+  height: 80vh;
   margin: 0 auto;
   padding-top: 10px;
   width: 85%;
@@ -240,7 +250,7 @@ header {
 }
 
 .game-over {
-  height: 75vh;
+  height: 80vh;
   margin: 0 auto;
   padding-top: 10px;
   width: 85%;
@@ -371,6 +381,12 @@ img {
   color: #ffffff;
 }
 
+.score-button:disabled,
+.score-button:disabled:hover {
+  background-color: #fbfbfb;
+  color: #dcdcdd;
+}
+
 .score-button:hover {
   background-color: #ae125a;
 }
@@ -448,10 +464,9 @@ img {
 
 .leader-board-row {
   display: flex;
-  background: lightblue;
 }
 
-.leader-board-row span {
+.leader-board-row .leader-board-item {
   flex: 1;
   background: #fbfbfb;
   padding: 0.75em;

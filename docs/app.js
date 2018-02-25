@@ -12,20 +12,20 @@ const defaultState = {
   scoreSheet: {
     left: {
       ones: null,
-      twos: 0,
-      threes: 0,
-      fours: 0,
-      fives: 0,
-      sixes: 0
+      twos: null,
+      threes: null,
+      fours: null,
+      fives: null,
+      sixes: null
     },
     right: {
-      threeOfAKind: 0,
-      fourOfAKind: 0,
-      fullHouse: 0,
-      smallStraight: 0,
-      largeStraight: 0,
-      yahtzee: 0,
-      chance: 0
+      threeOfAKind: null,
+      fourOfAKind: null,
+      fullHouse: null,
+      smallStraight: null,
+      largeStraight: null,
+      yahtzee: null,
+      chance: null
     }
   }
 };
@@ -771,6 +771,7 @@ function sendData() {
 function refreshBoard() {
   getScores().then(data => {
     const usersData = JSON.parse(data);
+    console.log("usersData ", usersData);
 
     usersData.sort((userA, userB) => {
       const scoreA = userA.highScore;
@@ -791,7 +792,7 @@ function refreshBoard() {
       scoreForm.classList.remove("score-form-invisible");
     } else {
       topFiveMessage.innerHTML =
-        "Nice job! You didn't make the top five but you can always play again!";
+        "Nice job! You didn't make the top five or beat your own top score but you can always play again!";
       scoreForm.classList.add("score-form-display-none");
     }
 
@@ -800,14 +801,28 @@ function refreshBoard() {
     }
 
     const newTopFive = usersData.slice(0, 5);
+    console.log("newTopFive ", newTopFive);
 
     newTopFive.map(user => {
+      const handle = user.username.slice(1);
+
       let row = document.createElement("div");
       row.className = "leader-board-row";
+
+      let linkToTwitter = document.createElement("a");
+      linkToTwitter.className = "leader-board-item";
+      linkToTwitter.target = "_blank";
+      linkToTwitter.href = "https://twitter.com/" + handle;
+
       let username = document.createElement("span");
       let highScore = document.createElement("span");
+      highScore.className = "leader-board-item";
+
       username.innerText = user.username;
       highScore.innerText = user.highScore;
+
+      row.appendChild(linkToTwitter);
+      linkToTwitter.appendChild(username);
       row.appendChild(highScore);
       leaderBoardBody.appendChild(row);
     });
