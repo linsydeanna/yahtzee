@@ -12,20 +12,20 @@ const defaultState = {
   scoreSheet: {
     left: {
       ones: null,
-      twos: 0,
-      threes: 0,
-      fours: 0,
-      fives: 0,
-      sixes: 0
+      twos: null,
+      threes: null,
+      fours: null,
+      fives: null,
+      sixes: null
     },
     right: {
-      threeOfAKind: 0,
-      fourOfAKind: 0,
-      fullHouse: 0,
-      smallStraight: 0,
-      largeStraight: 0,
-      yahtzee: 0,
-      chance: 20
+      threeOfAKind: null,
+      fourOfAKind: null,
+      fullHouse: null,
+      smallStraight: null,
+      largeStraight: null,
+      yahtzee: null,
+      chance: null
     }
   }
 };
