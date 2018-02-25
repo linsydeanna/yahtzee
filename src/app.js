@@ -12,20 +12,20 @@ const defaultState = {
   scoreSheet: {
     left: {
       ones: null,
-      twos: null,
-      threes: null,
-      fours: null,
-      fives: null,
-      sixes: null
+      twos: 0,
+      threes: 0,
+      fours: 0,
+      fives: 0,
+      sixes: 0
     },
     right: {
-      threeOfAKind: null,
-      fourOfAKind: null,
-      fullHouse: null,
-      smallStraight: null,
-      largeStraight: null,
-      yahtzee: null,
-      chance: null
+      threeOfAKind: 0,
+      fourOfAKind: 0,
+      fullHouse: 0,
+      smallStraight: 0,
+      largeStraight: 0,
+      yahtzee: 0,
+      chance: 20
     }
   }
 };
@@ -780,7 +780,7 @@ function refreshBoard() {
     });
 
     const scores = usersData.map(record => parseInt(record.highScore));
-    const lowestScore = scores[4];
+    const lowestScore = scores[4] || 0; // if there is not 5 scores yet, just use zero as the lowest score
 
     let topFiveMessage = document.getElementById("top-five-message");
     let scoreForm = document.getElementById("score-controls");
@@ -800,7 +800,6 @@ function refreshBoard() {
     }
 
     const newTopFive = usersData.slice(0, 5);
-    console.log("newTopFive ", newTopFive);
 
     newTopFive.map(user => {
       const handle = user.username.slice(1);
