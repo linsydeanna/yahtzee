@@ -12,20 +12,20 @@ const defaultState = {
   scoreSheet: {
     left: {
       ones: null,
-      twos: null,
-      threes: null,
-      fours: null,
-      fives: null,
-      sixes: null
+      twos: 0,
+      threes: 0,
+      fours: 0,
+      fives: 0,
+      sixes: 0
     },
     right: {
-      threeOfAKind: null,
-      fourOfAKind: null,
-      fullHouse: null,
-      smallStraight: null,
-      largeStraight: null,
-      yahtzee: null,
-      chance: null
+      threeOfAKind: 0,
+      fourOfAKind: 0,
+      fullHouse: 0,
+      smallStraight: 0,
+      largeStraight: 0,
+      yahtzee: 0,
+      chance: 0
     }
   }
 };
@@ -547,13 +547,15 @@ function removeGameOverUI() {
   diceSection.classList.remove("dice-invisible");
 }
 
-function resetTotals() {
+function resetBonusAndTotals() {
   let leftTotalEl = document.getElementById("leftTotal");
   let rightTotalEl = document.getElementById("rightTotal");
   let currentScore = document.getElementById("current-score");
+  let bonus = document.getElementById("bonus");
   leftTotalEl.innerHTML = 0;
   rightTotalEl.innerHTML = 0;
   currentScore.innerHTML = 0;
+  bonus.innerHTML = "";
 }
 
 // click handlers
@@ -603,7 +605,7 @@ rollButton.addEventListener("click", function() {
   if (newGame) {
     removeGameInstructions();
     removeGameOverUI();
-    resetTotals();
+    resetBonusAndTotals();
     gameState = gameStateReducer();
     scoreSubmitted = false;
   }
@@ -800,13 +802,25 @@ function refreshBoard() {
     const newTopFive = usersData.slice(0, 5);
 
     newTopFive.map(user => {
+      const handle = user.username.slice(1);
+
       let row = document.createElement("div");
       row.className = "leader-board-row";
+
+      let linkToTwitter = document.createElement("a");
+      linkToTwitter.className = "leader-board-item";
+      linkToTwitter.target = "_blank";
+      linkToTwitter.href = "https://twitter.com/" + handle;
+
       let username = document.createElement("span");
       let highScore = document.createElement("span");
+      highScore.className = "leader-board-item";
+
       username.innerText = user.username;
       highScore.innerText = user.highScore;
-      row.appendChild(username);
+
+      row.appendChild(linkToTwitter);
+      linkToTwitter.appendChild(username);
       row.appendChild(highScore);
       leaderBoardBody.appendChild(row);
     });

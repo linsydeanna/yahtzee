@@ -12,20 +12,20 @@ const defaultState = {
   scoreSheet: {
     left: {
       ones: null,
-      twos: null,
-      threes: null,
-      fours: null,
-      fives: null,
-      sixes: null
+      twos: 0,
+      threes: 0,
+      fours: 0,
+      fives: 0,
+      sixes: 0
     },
     right: {
-      threeOfAKind: null,
-      fourOfAKind: null,
-      fullHouse: null,
-      smallStraight: null,
-      largeStraight: null,
-      yahtzee: null,
-      chance: null
+      threeOfAKind: 0,
+      fourOfAKind: 0,
+      fullHouse: 0,
+      smallStraight: 0,
+      largeStraight: 0,
+      yahtzee: 0,
+      chance: 0
     }
   }
 };
@@ -808,7 +808,6 @@ function refreshBoard() {
       let highScore = document.createElement("span");
       username.innerText = user.username;
       highScore.innerText = user.highScore;
-      row.appendChild(username);
       row.appendChild(highScore);
       leaderBoardBody.appendChild(row);
     });
